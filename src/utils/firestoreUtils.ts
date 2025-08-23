@@ -69,9 +69,9 @@ export function cleanRestaurantForFirestore(restaurant: FoodCard): any {
     (cleaned as any).userRatingsTotal = restaurant.userRatingsTotal;
   }
 
-  if (restaurant.menu) {
-    (cleaned as any).menu = removeUndefinedValues(restaurant.menu);
-  }
+  // if (restaurant.menu) {
+  //   (cleaned as any).menu = removeUndefinedValues(restaurant.menu);
+  // }
 
   return cleaned;
 }

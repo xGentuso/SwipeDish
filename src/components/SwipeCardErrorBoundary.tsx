@@ -25,7 +25,7 @@ export class SwipeCardErrorBoundary extends Component<Props, State> {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Log swipe-specific errors
     logger.error('SwipeCard Error Boundary triggered', 'SWIPE_CARD_ERROR', {
       error: error.message,
@@ -65,7 +65,7 @@ export class SwipeCardErrorBoundary extends Component<Props, State> {
     this.setState({ hasError: false, error: undefined });
   };
 
-  render() {
+  override render() {
     if (this.state.hasError) {
       return (
         <View style={styles.container}>

@@ -45,7 +45,8 @@ jobs:
         uses: github/codeql-action/analyze@v2
         
       - name: Run ESLint Security Plugin
-        run: npx eslint . --ext .ts,.tsx,.js,.jsx -f json -o eslint-results.json --rule "security/detect-object-injection: error"
+        run: |
+          npx eslint . --ext .ts,.tsx,.js,.jsx -f json -o eslint-results.json --rule "security/detect-object-injection: error"
         continue-on-error: true
         
       - name: Upload ESLint results to GitHub Advanced Security

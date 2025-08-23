@@ -19,7 +19,8 @@
       "bundleIdentifier": "com.swipedish.app",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "We use your location to show nearby restaurants and improve recommendations.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "We use your location to show nearby restaurants and improve recommendations."
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "We use your location to show nearby restaurants and improve recommendations.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {

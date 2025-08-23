@@ -156,7 +156,7 @@ class PerformanceService {
         endpoint,
         method,
         status_code: statusCode,
-        success: statusCode < 400,
+        success: statusCode < 400 ? 'true' : 'false',
       },
     });
   }
@@ -281,13 +281,23 @@ class PerformanceService {
         averages[metric.name] = 0;
         counts[metric.name] = 0;
       }
-      averages[metric.name] += metric.value;
-      counts[metric.name] += 1;
+      if (averages[metric.name] !== undefined) {
+        averages[metric.name] += metric.value;
+      } else {
+        averages[metric.name] = metric.value;
+      }
+      if (counts[metric.name] !== undefined) {
+        counts[metric.name] += 1;
+      } else {
+        counts[metric.name] = 1;
+      }
     });
 
     // Calculate final averages
     Object.keys(averages).forEach(name => {
-      averages[name] = averages[name] / counts[name];
+      if (averages[name] !== undefined && counts[name] !== undefined) {
+        averages[name] = averages[name] / counts[name];
+      }
     });
 
     return {
@@ -321,13 +331,13 @@ class PerformanceService {
     }
 
     // Check average response times
-    if (summary.averages.api_response_time > this.config.PERFORMANCE_THRESHOLDS.API_RESPONSE * 0.8) {
+    if (summary.averages.api_response_time && summary.averages.api_response_time > this.config.PERFORMANCE_THRESHOLDS.API_RESPONSE * 0.8) {
       if (status === 'good') status = 'warning';
       issues.push('API response times are elevated');
       recommendations.push('Consider optimizing API calls or checking network connectivity');
     }
 
-    if (summary.averages.screen_load_time > this.config.PERFORMANCE_THRESHOLDS.SCREEN_LOAD * 0.8) {
+    if (summary.averages.screen_load_time && summary.averages.screen_load_time > this.config.PERFORMANCE_THRESHOLDS.SCREEN_LOAD * 0.8) {
       if (status === 'good') status = 'warning';
       issues.push('Screen load times are elevated');
       recommendations.push('Consider optimizing component rendering or data loading');

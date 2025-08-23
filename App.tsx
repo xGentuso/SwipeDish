@@ -35,7 +35,7 @@ function AppContent() {
         // Track app launch
         analyticsService.trackEvent(AnalyticsEvent.APP_LAUNCHED, {
           platform: deviceInfo.platform,
-          version: deviceInfo.appVersion || 'unknown',
+          version: deviceInfo.version || 'unknown',
         });
         
         // Simple performance monitoring
@@ -80,7 +80,8 @@ function AppContent() {
           setTimeout(() => reject(new Error('Permission request timeout')), 5000)
         );
         
-        const { status } = await Promise.race([permissionPromise, timeoutPromise]);
+        const result = await Promise.race([permissionPromise, timeoutPromise]) as any;
+        const { status } = result;
         
         if (status === 'granted') {
           logger.info('Location permission granted', 'LOCATION');
@@ -93,11 +94,11 @@ function AppContent() {
             setTimeout(() => reject(new Error('Location request timeout')), 10000)
           );
           
-          const location = await Promise.race([locationPromise, locationTimeoutPromise]);
+          const locationResult = await Promise.race([locationPromise, locationTimeoutPromise]) as any;
           
           const userLocation = {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude
+            latitude: locationResult.coords.latitude,
+            longitude: locationResult.coords.longitude
           };
           
           setUserLocation(userLocation);

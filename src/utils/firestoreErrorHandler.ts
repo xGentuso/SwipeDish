@@ -3,10 +3,10 @@
  * Provides consistent error handling for Firestore operations
  */
 
-interface FirestoreError {
-  code: string;
-  message: string;
-}
+// interface FirestoreError {
+//   code: string;
+//   message: string;
+// }
 
 export class FirestoreErrorHandler {
   /**
@@ -59,7 +59,7 @@ export class FirestoreErrorHandler {
   static async executeWithRetry<T>(
     operation: () => Promise<T>,
     maxRetries: number = 3,
-    operationName: string = 'operation'
+    _operationName: string = 'operation'
   ): Promise<T> {
     let lastError: any;
     
@@ -99,7 +99,7 @@ export class FirestoreErrorHandler {
   /**
    * Log Firestore errors consistently
    */
-  static logError(error: any, context: string): void {
+  static logError(error: any, _context: string): void {
     if (this.isIndexError(error)) {
       // Log index creation message
     } else {
@@ -109,7 +109,7 @@ export class FirestoreErrorHandler {
 
   static async retryOperation<T>(
     operation: () => Promise<T>,
-    operationName: string,
+    _operationName: string,
     maxRetries: number = 3,
     baseDelay: number = 1000
   ): Promise<T> {
@@ -126,7 +126,7 @@ export class FirestoreErrorHandler {
         }
         
         // Check if error is retryable
-        if (!this.isRetryableError(error)) {
+        if (!this.isNetworkError(error)) {
           break;
         }
         
@@ -141,7 +141,7 @@ export class FirestoreErrorHandler {
     throw lastError;
   }
 
-  static handleIndexError(error: any, context: string): void {
+  static handleIndexError(error: any, _context: string): void {
     if (this.isIndexError(error)) {
       // Log index creation message
     }

@@ -74,6 +74,9 @@ export class GeocodingService {
       }
 
       const result = data[0];
+      if (!result) {
+        return null;
+      }
       return {
         latitude: parseFloat(result.lat),
         longitude: parseFloat(result.lon),

@@ -21,6 +21,6 @@ export const cleanRestaurantData = (restaurant: FoodCard): FoodCard => {
     location: restaurant.location || undefined,
     externalLinks: restaurant.externalLinks || {},
     services: restaurant.services || {},
-    isOpen: restaurant.isOpen,
+    isOpen: restaurant.isOpen ?? false,
   };
 };

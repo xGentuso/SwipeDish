@@ -208,12 +208,12 @@ export const useAppStore = create<AppState>((set, get) => ({
         timeoutPromise
       ]);
       
-      analyticsService.setUserId(user.id);
-      logger.setUserId(user.id);
+      analyticsService.setUserId((user as any).id);
+      logger.setUserId((user as any).id);
       analyticsService.trackEvent(AnalyticsEvent.USER_LOGIN, { method: 'email' });
-      logger.info('Email sign in successful', 'AUTH', { userId: user.id });
+      logger.info('Email sign in successful', 'AUTH', { userId: (user as any).id });
       
-      set({ user, isLoading: false });
+      set({ user: user as any, isLoading: false });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Email sign in failed';
       logger.error('Email sign in failed', 'AUTH', { error: errorMessage });
@@ -234,12 +234,12 @@ export const useAppStore = create<AppState>((set, get) => ({
       
       const user = await AuthService.signUpWithEmail(email, password, displayName);
       
-      analyticsService.setUserId(user.id);
-      logger.setUserId(user.id);
+      analyticsService.setUserId((user as any).id);
+      logger.setUserId((user as any).id);
       analyticsService.trackEvent(AnalyticsEvent.USER_LOGIN, { method: 'email_signup' });
-      logger.info('Email sign up successful', 'AUTH', { userId: user.id });
+      logger.info('Email sign up successful', 'AUTH', { userId: (user as any).id });
       
-      set({ user, isLoading: false });
+      set({ user: user as any, isLoading: false });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Email sign up failed';
       logger.error('Email sign up failed', 'AUTH', { error: errorMessage });
@@ -260,12 +260,12 @@ export const useAppStore = create<AppState>((set, get) => ({
       
       const user = await AuthService.signInWithGoogle();
       
-      analyticsService.setUserId(user.id);
-      logger.setUserId(user.id);
+      analyticsService.setUserId((user as any).id);
+      logger.setUserId((user as any).id);
       analyticsService.trackEvent(AnalyticsEvent.USER_LOGIN, { method: 'google' });
-      logger.info('Google sign in successful', 'AUTH', { userId: user.id });
+      logger.info('Google sign in successful', 'AUTH', { userId: (user as any).id });
       
-      set({ user, isLoading: false });
+      set({ user: user as any, isLoading: false });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Google sign in failed';
       logger.error('Google sign in failed', 'AUTH', { error: errorMessage });
@@ -441,14 +441,14 @@ export const useAppStore = create<AppState>((set, get) => ({
       
       analyticsService.trackEvent(analyticsEvent, {
         cardId,
-        restaurantName: currentCard?.title,
+        restaurantName: currentCard?.title || null,
         roomId: currentRoom.id,
         cardIndex: currentCardIndex,
       });
 
       logger.info(`Swipe ${action}`, 'SWIPE', { 
         cardId, 
-        restaurantName: currentCard?.title, 
+        restaurantName: currentCard?.title || null, 
         roomId: currentRoom.id 
       });
 
@@ -467,7 +467,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         analyticsService.trackEvent(AnalyticsEvent.MATCH_CREATED, {
           matchId: match.id,
           cardId,
-          restaurantName: currentCard?.title,
+          restaurantName: currentCard?.title || null,
           roomId: currentRoom.id,
         });
         logger.logMatchOperation('created', match.id, { cardId, restaurantName: currentCard?.title });
@@ -786,8 +786,8 @@ export const useAppStore = create<AppState>((set, get) => ({
     try {
       // For now, save to localStorage for persistence
       // In the future, this would save to Firestore
-      const preferencesKey = `userPreferences_${userId}`;
-      const preferencesData = JSON.stringify(state.userPreferences);
+      // const preferencesKey = `userPreferences_${userId}`;
+      // const preferencesData = JSON.stringify(state.userPreferences);
       
       // In React Native, we'll use AsyncStorage (but for now, just log)
       // await AsyncStorage.setItem(preferencesKey, preferencesData);

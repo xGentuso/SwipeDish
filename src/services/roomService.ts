@@ -47,12 +47,14 @@ export class RoomService {
         name: name.trim(),
         pin,
         createdBy,
-        displayName: displayName.trim(),
-        createdAt: serverTimestamp(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        currentCardIndex: 0,
         members: [{
           userId: createdBy,
           displayName: displayName.trim(),
-          joinedAt: serverTimestamp()
+          joinedAt: new Date(),
+          isActive: true
         }],
         isActive: true
       };
@@ -75,7 +77,7 @@ export class RoomService {
     }
   }
 
-  static async joinRoom(pin: string, userId: string, displayName: string): Promise<Room> {
+  static async joinRoom(pin: string, userId: string, displayName: string): Promise<Room | null> {
     try {
       // Validate inputs
       if (!InputValidation.validateRoomPin(pin)) {
@@ -104,28 +106,31 @@ export class RoomService {
 
       const roomDoc = querySnapshot.docs[0];
       const room = roomDoc.data() as Room;
-      room.id = roomDoc.id;
+      if (room) {
+        room.id = roomDoc.id;
 
-      // Check if user is already a member
-      const isMember = room.members.some(member => member.userId === userId);
-      
-      if (!isMember) {
-        const newMember: RoomMember = {
-          userId,
-          displayName,
-          joinedAt: new Date(),
-          isActive: true,
-        };
+        // Check if user is already a member
+        const isMember = room.members.some(member => member.userId === userId);
+        
+        if (!isMember) {
+          const newMember: RoomMember = {
+            userId,
+            displayName,
+            joinedAt: new Date(),
+            isActive: true,
+          };
 
-        await updateDoc(doc(db, 'rooms', room.id), {
-          members: [...room.members, newMember],
-          updatedAt: serverTimestamp(),
-        });
+          await updateDoc(doc(db, 'rooms', room.id), {
+            members: [...room.members, newMember],
+            updatedAt: serverTimestamp(),
+          });
 
-        room.members.push(newMember);
+          room.members.push(newMember);
+        }
+
+        return room;
       }
-
-      return room;
+      return null;
     } catch (error) {
       if (error instanceof ValidationError) {
         throw error; // Safe to show validation errors to users
@@ -140,8 +145,10 @@ export class RoomService {
       const roomDoc = await getDoc(doc(db, 'rooms', roomId));
       if (roomDoc.exists()) {
         const room = roomDoc.data() as Room;
-        room.id = roomDoc.id;
-        return room;
+        if (room) {
+          room.id = roomDoc.id;
+          return room;
+        }
       }
       return null;
     } catch (error) {

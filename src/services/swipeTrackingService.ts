@@ -301,9 +301,13 @@ export class SwipeTrackingService {
         if (!cuisineStats[swipe.cuisine]) {
           cuisineStats[swipe.cuisine] = { likes: 0, total: 0 };
         }
-        cuisineStats[swipe.cuisine].total++;
+        if (cuisineStats[swipe.cuisine]) {
+          cuisineStats[swipe.cuisine].total++;
+        }
         if (swipe.action === 'like' || swipe.action === 'superlike') {
-          cuisineStats[swipe.cuisine].likes++;
+          if (cuisineStats[swipe.cuisine]) {
+            cuisineStats[swipe.cuisine].likes++;
+          }
           likeCount++;
         }
 
@@ -311,9 +315,13 @@ export class SwipeTrackingService {
         if (!priceStats[swipe.priceRange]) {
           priceStats[swipe.priceRange] = { likes: 0, total: 0 };
         }
-        priceStats[swipe.priceRange].total++;
+        if (priceStats[swipe.priceRange]) {
+          priceStats[swipe.priceRange].total++;
+        }
         if (swipe.action === 'like' || swipe.action === 'superlike') {
-          priceStats[swipe.priceRange].likes++;
+          if (priceStats[swipe.priceRange]) {
+            priceStats[swipe.priceRange].likes++;
+          }
         }
 
         // Time pattern analysis

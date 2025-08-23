@@ -79,7 +79,7 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ card, isFirst, onSwipe }) 
     location: card.location || { latitude: 0, longitude: 0, address: 'Unknown location' },
     services: card.services || { takeout: false, delivery: false, dineIn: true, pickup: false },
     externalLinks: card.externalLinks || {},
-    menu: card.menu,
+    // menu: card.menu,
   };
 
   // Debug logging

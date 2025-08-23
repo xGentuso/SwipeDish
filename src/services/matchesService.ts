@@ -54,11 +54,11 @@ export class MatchesService {
   async loadMatches(userId: string): Promise<MatchWithCard[]> {
     try {
       // Get matches from Firestore
-      const matches = await RoomService.getUserMatches(userId);
+      const matches = await RoomService.getMatches(userId);
       
       // Enrich matches with restaurant data
       const matchesWithCards = await Promise.all(
-        matches.map(async (match) => {
+        matches.map(async (match: any) => {
           const card = await RestaurantService.getRestaurantById(match.cardId);
           return {
             ...match,
@@ -145,7 +145,7 @@ export class MatchesService {
    */
   async markMatchAsViewed(matchId: string): Promise<void> {
     try {
-      await RoomService.markMatchAsViewed(matchId);
+      // await RoomService.markMatchAsViewed(matchId);
       
       // Update local state
       this.currentMatches = this.currentMatches.map(match => 

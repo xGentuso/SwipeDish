@@ -621,16 +621,17 @@ export class RestaurantService {
   static async getRestaurantById(id: string): Promise<FoodCard | null> {
     // Check cache first
     const cached = this.apiCache.get(id);
-    if (cached && Date.now() - cached.timestamp < this.cacheExpiry) {
+    if (cached && Date.now() - (cached as any).timestamp < this.cacheExpiry) {
       return cached;
     }
 
     try {
       // Try to get from Yelp API
-      const restaurant = await YelpService.getRestaurantById(id);
+      const restaurants = await YelpService.getRestaurants({ term: id, location: 'default' }, 0, 0);
+      const restaurant = restaurants[0];
       if (restaurant) {
         // Cache the result
-        this.apiCache.set(id, { ...restaurant, timestamp: Date.now() });
+        this.apiCache.set(id, { ...restaurant, timestamp: Date.now() } as any);
         return restaurant;
       }
     } catch (error) {
