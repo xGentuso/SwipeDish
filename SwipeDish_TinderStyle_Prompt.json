@@ -1,0 +1,118 @@
+{
+  "projectName": "SwipeDish",
+  "description": "SwipeDish is a Tinder-style mobile app for deciding what to eat with friends or partners. Users swipe on food or restaurant options, and in group rooms, a match is made when everyone swipes right on the same card.",
+  "architecture": {
+    "frontend": {
+      "framework": "React Native",
+      "tooling": "Expo",
+      "language": "TypeScript",
+      "navigation": "React Navigation (Bottom Tabs + Stack)",
+      "animation": [
+        "Reanimated v3",
+        "Gesture Handler"
+      ],
+      "components": [
+        "Styled Components",
+        "Lottie"
+      ],
+      "stateManagement": "Zustand or Context API"
+    },
+    "backend": {
+      "platform": "Firebase",
+      "services": [
+        "Auth (Anonymous & Phone)",
+        "Firestore (Realtime Database)",
+        "Cloud Functions (optional matching logic)"
+      ]
+    },
+    "apis": {
+      "googlePlaces": true,
+      "maps": "Google Maps SDK",
+      "optional": [
+        "UberEats or OpenTable integration"
+      ]
+    },
+    "ci_cd": {
+      "buildTool": "EAS (Expo Application Services)",
+      "testing": "Jest + Testing Library",
+      "deployment": [
+        "App Store",
+        "Google Play"
+      ]
+    }
+  },
+  "navigationStructure": [
+    {
+      "tab": "Home",
+      "icon": "flame",
+      "screen": "SwipeDeck"
+    },
+    {
+      "tab": "Explore",
+      "icon": "grid",
+      "screen": "Categories"
+    },
+    {
+      "tab": "Matches",
+      "icon": "messageCircle",
+      "screen": "MatchedRoom"
+    },
+    {
+      "tab": "Profile",
+      "icon": "user",
+      "screen": "UserSettings"
+    }
+  ],
+  "swipeMechanics": {
+    "style": "Tinder-style stack with swipe left/right",
+    "animationFramework": "Reanimated",
+    "cardTypes": [
+      "Restaurant",
+      "Food Dish",
+      "Deal"
+    ],
+    "interaction": {
+      "swipeRight": "Like",
+      "swipeLeft": "Pass",
+      "matchTrigger": "All users in room swipe right on same card"
+    }
+  },
+  "roomSystem": {
+    "joinByPin": true,
+    "realTimeSync": true,
+    "matchDetection": "On swipe submit \u2192 check Firestore",
+    "groupFlow": [
+      "Create or join a room",
+      "Swipe individually",
+      "If all users match, show MatchScreen",
+      "Allow rematch or explore directions/delivery"
+    ]
+  },
+  "uiStyle": {
+    "theme": "Dark Mode First",
+    "colors": {
+      "primary": "#FF4D5A",
+      "secondary": "#00C2D1",
+      "background": "#121212",
+      "text": "#FFFFFF",
+      "success": "#00D26A",
+      "accent": "#FFD6D6"
+    },
+    "fonts": "SF Pro Rounded or Inter",
+    "icons": "Lucide or Feather",
+    "interactionFeedback": "Haptic, animations, and visual confirmation"
+  },
+  "premiumModel": {
+    "free": "Basic swiping, limited rooms",
+    "paid": "Unlimited rooms, premium filters, exclusive cards",
+    "tools": "RevenueCat or Firebase for IAP"
+  },
+  "initialMilestones": [
+    "Set up Expo RN + Navigation",
+    "Implement Firebase login & Firestore setup",
+    "Design SwipeDeck with animated cards",
+    "Build Room Join/Create logic",
+    "Detect group matches in Firestore",
+    "Style app to match polished Tinder feel"
+  ]
+}

@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() { return request.auth != null; }
+    
+    function isRoomMember(roomId) {
+      return request.auth != null && 
+        exists(/databases/$(database)/documents/rooms/$(roomId));
+    }
+
+    // Users: anyone can create their own document during signup, only the owner can read/update
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Rooms: only members can read/write room data
+    match /rooms/{roomId} {
+      allow read: if isRoomMember(roomId);
+      allow create: if isSignedIn() && request.auth.uid == request.resource.data.createdBy;
+      allow update: if isRoomMember(roomId);
+      allow delete: if isSignedIn() && request.auth.uid == resource.data.createdBy;
+    }
+
+    // Swipes are append-only from room members only
+    match /swipes/{docId} {
+      allow read: if isSignedIn() && isRoomMember(resource.data.roomId);
+      allow create: if isSignedIn() && isRoomMember(request.resource.data.roomId) && 
+                    request.auth.uid == request.resource.data.userId;
+      allow update, delete: if false;
+    }
+
+    // Matches can only be read by room members; created by app logic
+    match /matches/{docId} {
+      allow read: if isSignedIn() && isRoomMember(resource.data.roomId);
+      allow create: if isSignedIn() && isRoomMember(request.resource.data.roomId);
+      allow update, delete: if false;
+    }
+
+    // Favorites: users can manage their own favorites
+    match /favorites/{docId} {
+      allow read, write: if isSignedIn() && request.auth.uid == resource.data.userId;
+      allow create: if isSignedIn() && request.auth.uid == request.resource.data.userId;
+    }
+    
+  }
+}
+
+

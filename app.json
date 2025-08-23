@@ -1,29 +1,54 @@
 {
   "expo": {
-    "name": "temp-swipe-dish",
-    "slug": "temp-swipe-dish",
+    "name": "SwipeDish",
+    "slug": "swipedish",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#121212"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.swipedish.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "We use your location to show nearby restaurants and improve recommendations.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "We use your location to show nearby restaurants and improve recommendations."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#121212"
       },
-      "edgeToEdgeEnabled": true
+      "package": "com.swipedish.app",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "firebase": {
+        "apiKey": "PLACEHOLDER_REMOVED_FOR_SECURITY",
+        "authDomain": "PLACEHOLDER_REMOVED_FOR_SECURITY",
+        "projectId": "PLACEHOLDER_REMOVED_FOR_SECURITY",
+        "storageBucket": "PLACEHOLDER_REMOVED_FOR_SECURITY",
+        "messagingSenderId": "PLACEHOLDER_REMOVED_FOR_SECURITY",
+        "appId": "PLACEHOLDER_REMOVED_FOR_SECURITY",
+        "measurementId": "PLACEHOLDER_REMOVED_FOR_SECURITY"
+      }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
