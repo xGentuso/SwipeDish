@@ -56,98 +56,48 @@ export class PreferencesService {
   /**
    * Filter and prioritize restaurants based on user preferences
    */
-  static filterRestaurantsByPreferences(
-    restaurants: FoodCard[],
-    preferences: UserPreferences
-  ): FoodCard[] {
-    console.log('🔄 PreferencesService: Filtering restaurants with preferences:', preferences);
-    
-    // First, apply strict filtering for dietary restrictions and basic criteria
-    const strictlyFiltered = restaurants.filter(restaurant => {
-      // Check dietary restrictions (strict filtering)
-      if (preferences.dietaryRestrictions.length > 0) {
-        if (!this.restaurantMeetsDietaryRestrictions(restaurant, preferences.dietaryRestrictions)) {
-          return false;
-        }
-      }
+  static filterRestaurantsByPreferences(restaurants: FoodCard[], preferences: UserPreferences): FoodCard[] {
+    if (!preferences || restaurants.length === 0) {
+      return restaurants;
+    }
 
-      // Check distance (strict filtering)
-      if (preferences.maxDistance > 0) {
-        if (restaurant.distance && restaurant.distance > preferences.maxDistance) {
-          return false;
-        }
-      }
+    // Strict filtering based on preferences
+    const strictlyFiltered = restaurants.filter(restaurant => 
+      this.isRestaurantPreferred(restaurant, preferences)
+    );
 
-      // Check rating (strict filtering)
-      if (preferences.minRating > 0) {
-        if (restaurant.rating && restaurant.rating < preferences.minRating) {
-          return false;
-        }
-      }
+    // If we have enough strictly filtered results, return them
+    if (strictlyFiltered.length >= 5) {
+      return strictlyFiltered;
+    }
 
-      return true;
-    });
-
-    console.log(`✅ PreferencesService: Strictly filtered ${restaurants.length} restaurants to ${strictlyFiltered.length}`);
-
-    // Now apply preference-based prioritization
-    const prioritized = this.prioritizeByPreferences(strictlyFiltered, preferences);
-    
-    console.log(`✅ PreferencesService: Prioritized ${strictlyFiltered.length} restaurants to ${prioritized.length} based on preferences`);
+    // Otherwise, prioritize by preferences but include all restaurants
+    const prioritized = this.prioritizeByPreferences(restaurants, preferences);
     return prioritized;
   }
 
   /**
    * Prioritize restaurants based on preferences (reduces frequency of non-preferred options)
    */
-  private static prioritizeByPreferences(
-    restaurants: FoodCard[],
-    preferences: UserPreferences
-  ): FoodCard[] {
-    if (restaurants.length === 0) return restaurants;
-
-    // Separate restaurants into preferred and non-preferred
-    const preferred: FoodCard[] = [];
-    const nonPreferred: FoodCard[] = [];
-
-    restaurants.forEach(restaurant => {
-      const isPreferred = this.isRestaurantPreferred(restaurant, preferences);
-      if (isPreferred) {
-        preferred.push(restaurant);
-      } else {
-        nonPreferred.push(restaurant);
-      }
-    });
-
-    console.log(`📊 PreferencesService: ${preferred.length} preferred, ${nonPreferred.length} non-preferred restaurants`);
-
-    // If no preferences are set, return all restaurants
-    if (preferences.cuisinePreferences.length === 0 && preferences.priceRange.length === 0) {
+  private static prioritizeByPreferences(restaurants: FoodCard[], preferences: UserPreferences): FoodCard[] {
+    if (!preferences || restaurants.length === 0) {
       return restaurants;
     }
 
-    // If we have preferred restaurants, prioritize them heavily
-    if (preferred.length > 0) {
-      // Include 80% preferred restaurants and 20% non-preferred restaurants
-      const preferredCount = Math.min(preferred.length, Math.ceil(restaurants.length * 0.8));
-      const nonPreferredCount = Math.min(nonPreferred.length, Math.ceil(restaurants.length * 0.2));
+    const { preferred, nonPreferred } = restaurants.reduce(
+      (acc, restaurant) => {
+        if (this.isRestaurantPreferred(restaurant, preferences)) {
+          acc.preferred.push(restaurant);
+        } else {
+          acc.nonPreferred.push(restaurant);
+        }
+        return acc;
+      },
+      { preferred: [] as FoodCard[], nonPreferred: [] as FoodCard[] }
+    );
 
-      // Shuffle both arrays for variety
-      const shuffledPreferred = this.shuffleArray([...preferred]);
-      const shuffledNonPreferred = this.shuffleArray([...nonPreferred]);
-
-      // Combine with heavy preference weighting
-      const result = [
-        ...shuffledPreferred.slice(0, preferredCount),
-        ...shuffledNonPreferred.slice(0, nonPreferredCount)
-      ];
-
-      // Shuffle the final result to avoid clustering
-      return this.shuffleArray(result);
-    }
-
-    // If no preferred restaurants found, return all non-preferred (but this shouldn't happen often)
-    return nonPreferred;
+    // Return preferred restaurants first, then non-preferred
+    return [...preferred, ...nonPreferred];
   }
 
   /**

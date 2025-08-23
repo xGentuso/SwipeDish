@@ -103,10 +103,10 @@ class LoggingService {
 
     switch (logEntry.level) {
       case LogLevel.DEBUG:
-        console.debug(message, logEntry.data || '');
+        // Production logging - no console output
         break;
       case LogLevel.INFO:
-        console.info(message, logEntry.data || '');
+        // Production logging - no console output
         break;
       case LogLevel.WARN:
         console.warn(message, logEntry.data || '');

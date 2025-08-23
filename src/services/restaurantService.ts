@@ -580,7 +580,6 @@ export class RestaurantService {
         limit: 50
       });
       if (yelpRestaurants && yelpRestaurants.length > 0) {
-        console.log(`RestaurantService: Found ${yelpRestaurants.length} restaurants from Yelp API`);
         
         // Apply filters if provided
         let filteredRestaurants = yelpRestaurants;
@@ -606,17 +605,13 @@ export class RestaurantService {
         return filteredRestaurants;
       }
     } catch (error) {
-      console.log('RestaurantService: Yelp API failed, using fallback data');
-      
       // If it's a rate limit error, try to get cached results
       if (error instanceof Error && error.message.includes('429')) {
-        console.log('RestaurantService: Rate limit detected, checking cache...');
         // The YelpService should have already tried cache, but we can add additional fallback here
       }
     }
 
     // Fallback to sample data for development
-    console.log('RestaurantService: Using fallback restaurant data');
     return fallbackRestaurants;
   }
 
@@ -639,7 +634,7 @@ export class RestaurantService {
         return restaurant;
       }
     } catch (error) {
-      console.log(`RestaurantService: Failed to get restaurant ${id} from API`);
+      // Failed to get restaurant from API
     }
 
     return null;
@@ -655,7 +650,7 @@ export class RestaurantService {
         return results;
       }
     } catch (error) {
-      console.log('RestaurantService: Search API failed');
+      // Search API failed
     }
 
     return [];
@@ -684,7 +679,6 @@ export class RestaurantService {
         );
       });
     } catch (error) {
-      console.log('RestaurantService: Failed to get recommendations');
       return [];
     }
   }

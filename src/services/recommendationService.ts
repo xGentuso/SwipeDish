@@ -58,7 +58,6 @@ export class RecommendationService {
         });
       }
 
-      console.log(`Recommendations: Generated ${limitedResults.length} recommendations in ${responseTime}ms`);
       return limitedResults;
       
     } catch (error) {

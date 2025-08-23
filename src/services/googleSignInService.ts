@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import { loadGoogleSignInModule, isGoogleSignInAvailable } from './googleSignInWrapper';
+import { logger } from './loggingService';
 
 export class GoogleSignInService {
   private static isInitialized = false;
@@ -19,9 +20,15 @@ export class GoogleSignInService {
         return;
       }
 
-      // Get web client ID from environment or use the Firebase project's web client ID
-      const webClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID || 
-                         '672777871437-bd1hkbrg306o33sdofstctnpt5723stl.apps.googleusercontent.com';
+      // Get web client ID from environment variables only
+      const webClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
+      
+      if (!webClientId) {
+        logger.warn('Google Web Client ID not configured. Set EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID environment variable.', 'GOOGLE_SIGNIN');
+        this.isInitialized = true;
+        this.isAvailable = false;
+        return;
+      }
       
       this.GoogleSignin.configure({
         webClientId,
@@ -31,7 +38,7 @@ export class GoogleSignInService {
       this.isInitialized = true;
       this.isAvailable = true;
     } catch (error) {
-      console.warn('⚠️ Google Sign-In initialization failed:', error);
+      logger.warn('Google Sign-In initialization failed', 'GOOGLE_SIGNIN', { error });
       this.isInitialized = true;
       this.isAvailable = false;
     }
@@ -58,7 +65,7 @@ export class GoogleSignInService {
         serverAuthCode: userInfo.serverAuthCode,
       };
     } catch (error: any) {
-      console.error('Google Sign-In error:', error);
+      logger.error('Google Sign-In error', 'GOOGLE_SIGNIN', { error });
       throw error;
     }
   }
@@ -73,7 +80,7 @@ export class GoogleSignInService {
       
       await this.GoogleSignin.signOut();
     } catch (error: any) {
-      console.error('Google Sign-Out error:', error);
+      logger.error('Google Sign-Out error', 'GOOGLE_SIGNIN', { error });
       throw error;
     }
   }

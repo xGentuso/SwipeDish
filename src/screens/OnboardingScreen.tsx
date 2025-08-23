@@ -1,14 +1,41 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
+import { AuthService } from '../services/authService';
+import { useAppStore } from '../store/useAppStore';
 
 interface OnboardingScreenProps {
   navigation: any;
 }
 
 export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
+  const { user, setUser } = useAppStore();
+
+  const handleGetStarted = async () => {
+    if (!user) {
+      Alert.alert('Error', 'User not found');
+      return;
+    }
+
+    try {
+      // Mark onboarding as complete
+      await AuthService.markOnboardingComplete(user.id);
+      
+      // Update local user state
+      setUser({
+        ...user,
+        hasCompletedOnboarding: true,
+      });
+      
+      // Navigate to Main screen
+      navigation.navigate('Main');
+    } catch (error) {
+      Alert.alert('Error', 'Failed to complete onboarding. Please try again.');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}> 
@@ -35,7 +62,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }
         </View>
       </View>
 
-      <TouchableOpacity style={styles.cta} onPress={() => navigation.navigate('Username')}> 
+      <TouchableOpacity style={styles.cta} onPress={handleGetStarted}> 
         <Text style={styles.ctaText}>Get Started</Text>
       </TouchableOpacity>
     </SafeAreaView>

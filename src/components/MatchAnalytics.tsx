@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -22,9 +22,13 @@ export const MatchAnalytics: React.FC<MatchAnalyticsProps> = ({
   onFilterByCuisine,
   onFilterByTime,
 }) => {
-  // Debug logging
-  console.log('🔍 MatchAnalytics: Received matches:', matches.length);
-  console.log('🔍 MatchAnalytics: Matches data:', matches);
+  useEffect(() => {
+    if (matches && matches.length > 0) {
+      // Received matches
+      // Matches data
+    }
+  }, [matches]);
+
   const getCuisineStats = () => {
     if (matches.length === 0) return [];
     

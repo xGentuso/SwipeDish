@@ -100,7 +100,6 @@ export class SwipeTrackingService {
     this.lastAction = null;
     this.consecutiveCount = 0;
 
-    console.log(`SwipeTracking: Started session ${this.currentSessionId}`);
     return this.currentSessionId;
   }
 
@@ -110,8 +109,6 @@ export class SwipeTrackingService {
 
     const endTime = new Date();
     const duration = endTime.getTime() - this.sessionStartTime.getTime();
-
-    console.log(`SwipeTracking: Ended session ${this.currentSessionId}, duration: ${duration}ms, swipes: ${this.swipeCount}`);
 
     // Reset session variables
     this.currentSessionId = null;
@@ -232,11 +229,9 @@ export class SwipeTrackingService {
       this.lastSwipeTime = now;
       this.lastAction = action;
 
-      console.log(`SwipeTracking: Tracked ${action} on ${card.title} with rich context`);
-
-    } catch (error) {
-      console.error('SwipeTracking: Failed to track swipe:', error);
-    }
+          } catch (error) {
+        // Failed to track swipe
+      }
   }
 
   // Get user's swipe patterns for AI analysis
@@ -261,7 +256,6 @@ export class SwipeTrackingService {
       })) as SwipeContext[];
 
     } catch (error) {
-      console.log('SwipeTracking: Failed to get user patterns (non-critical):', error);
       return [];
     }
   }
@@ -396,10 +390,9 @@ export class SwipeTrackingService {
     try {
       // This would update existing swipe records to mark them as recommended
       // Implementation would depend on specific requirements
-      console.log(`SwipeTracking: Marked ${cardIds.length} cards as AI recommended for user ${userId}`);
-    } catch (error) {
-      console.error('SwipeTracking: Failed to mark recommended swipes:', error);
-    }
+          } catch (error) {
+        // Failed to mark recommended swipes
+      }
   }
 
   // Get current session ID

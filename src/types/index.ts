@@ -8,6 +8,7 @@ export interface User {
   joinedRooms: string[];
   lastActive: Date;
   createdAt: Date;
+  hasCompletedOnboarding?: boolean;
 }
 
 // Room Types

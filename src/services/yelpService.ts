@@ -2,6 +2,7 @@ import { FoodCard } from '../types';
 
 import { InputValidation, ValidationError } from '../utils/inputValidation';
 import { ErrorSanitization } from '../utils/errorSanitization';
+import { logger } from './loggingService';
 import Constants from 'expo-constants';
 
 export interface YelpBusiness {
@@ -72,7 +73,7 @@ export class YelpService {
 
     
     // No valid API key found
-    console.warn('YelpService: No valid Yelp API key found. Please configure EXPO_PUBLIC_YELP_API_KEY in your .env file or yelpApiKey in app.json');
+    logger.warn('No valid Yelp API key found. Please configure EXPO_PUBLIC_YELP_API_KEY in your .env file or yelpApiKey in app.json', 'YELP_API');
     return '';
   })();
 
@@ -98,7 +99,7 @@ export class YelpService {
     // Check if we're at the rate limit
     if (this.requestCount >= this.MAX_REQUESTS_PER_MINUTE) {
       const waitTime = 60000 - timeSinceLastRequest;
-      console.warn(`Rate limit reached. Waiting ${waitTime}ms before next request.`);
+      logger.warn(`Rate limit reached. Waiting ${waitTime}ms before next request.`, 'YELP_API');
       await new Promise(resolve => setTimeout(resolve, waitTime));
       this.requestCount = 0;
     }
@@ -125,7 +126,7 @@ export class YelpService {
       return await apiCall();
     } catch (error) {
       if (retries > 0 && error instanceof Error && error.message.includes('429')) {
-        console.warn(`Rate limit hit, retrying in ${this.RATE_LIMIT_DELAY}ms... (${retries} retries left)`);
+        logger.warn(`Rate limit hit, retrying in ${this.RATE_LIMIT_DELAY}ms... (${retries} retries left)`, 'YELP_API');
         await new Promise(resolve => setTimeout(resolve, this.RATE_LIMIT_DELAY));
         return this.retryApiCall(apiCall, retries - 1);
       }
@@ -156,7 +157,7 @@ export class YelpService {
       }
 
       if (!this.API_KEY) {
-        console.warn('Yelp API key not found, using mock data');
+        logger.warn('Yelp API key not found, using mock data', 'YELP_API');
         return [];
       }
 
@@ -230,16 +231,15 @@ export class YelpService {
       
       // Handle rate limiting specifically
       if (error instanceof Error && error.message.includes('429')) {
-        console.warn('Yelp API rate limit exceeded. Checking cache for fallback results...');
+        logger.warn('Yelp API rate limit exceeded. Checking cache for fallback results...', 'YELP_API');
         
         // Try to get cached results as fallback
         const cachedResults = this.getCachedResults(latitude, longitude);
         if (cachedResults && cachedResults.length > 0) {
-          console.log(`Using ${cachedResults.length} cached restaurants due to rate limit`);
           return cachedResults;
         }
         
-        console.warn('No cached results available, returning empty array');
+        logger.warn('No cached results available, returning empty array', 'YELP_API');
         return [];
       }
       
@@ -250,7 +250,7 @@ export class YelpService {
       
       // Handle other API errors with sanitized message
       if (error instanceof Error && error.message.includes('API')) {
-        console.warn(sanitizedError);
+        logger.warn(sanitizedError, 'YELP_API');
         return [];
       }
       
@@ -264,7 +264,7 @@ export class YelpService {
   static async getRestaurantDetails(businessId: string): Promise<YelpBusiness | null> {
     try {
       if (!this.API_KEY) {
-        console.warn('Yelp API key not found');
+        logger.warn('Yelp API key not found', 'YELP_API');
         return null;
       }
 
@@ -281,7 +281,7 @@ export class YelpService {
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching restaurant details from Yelp:', error);
+      logger.error('Error fetching restaurant details from Yelp', 'YELP_API', { error });
       return null;
     }
   }
@@ -464,7 +464,6 @@ export class YelpService {
       const lonDiff = Math.abs(cache.location.longitude - longitude);
       
       if (latDiff < this.LOCATION_THRESHOLD && lonDiff < this.LOCATION_THRESHOLD) {
-        console.log(`YelpService: Using cached results for similar location (${cache.restaurants.length} restaurants)`);
         return cache.restaurants;
       }
     }
@@ -523,7 +522,7 @@ export class YelpService {
         sort_by: 'best_match',
       });
     } catch (error) {
-      console.warn('Failed to get general restaurants:', error);
+      logger.warn('Failed to get general restaurants', 'YELP_API', { error });
     }
 
     // Strategy 2: Search by rating  
@@ -533,7 +532,7 @@ export class YelpService {
         sort_by: 'rating',
       });
     } catch (error) {
-      console.warn('Failed to get rating-based restaurants:', error);
+      logger.warn('Failed to get rating-based restaurants', 'YELP_API', { error });
     }
 
     // Strategy 3: Search by review count
@@ -543,7 +542,7 @@ export class YelpService {
         sort_by: 'review_count',
       });
     } catch (error) {
-      console.warn('Failed to get review-based restaurants:', error);
+      logger.warn('Failed to get review-based restaurants', 'YELP_API', { error });
     }
 
     // Strategy 4: Search by distance
@@ -553,7 +552,7 @@ export class YelpService {
         sort_by: 'distance',
       });
     } catch (error) {
-      console.warn('Failed to get distance-based restaurants:', error);
+      logger.warn('Failed to get distance-based restaurants', 'YELP_API', { error });
     }
     
     // Merge results from parallel searches
@@ -580,11 +579,11 @@ export class YelpService {
           }
         });
       } catch (error) {
-        console.warn(`Failed to get ${cuisine} restaurants:`, error);
+        logger.warn(`Failed to get ${cuisine} restaurants`, 'YELP_API', { error });
       }
     }
 
-    console.log(`YelpService: Found ${allRestaurants.length} unique restaurants with optimized sequential strategy`);
+    
     
     // Cache the results for future use
     this.cacheResults(latitude, longitude, allRestaurants);

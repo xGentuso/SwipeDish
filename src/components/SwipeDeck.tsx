@@ -28,18 +28,9 @@ interface SwipeDeckProps {
 export const SwipeDeck: React.FC<SwipeDeckProps> = ({ cards = [], onSwipe, onRefresh, isRefreshing = false, isBackgroundRefreshing = false }) => {
   const { submitSwipe, currentCardIndex, setCurrentCardIndex, isFavorite, addToFavorites, removeFromFavorites, userId } = useAppStore();
 
-  // Debug mode for testing
-  const [debugMode, setDebugMode] = useState(false);
-
   // Enhanced tracking state
   const cardViewStartTime = useRef<number | null>(null);
   const sessionInitialized = useRef(false);
-
-  // Toggle debug mode with triple tap on counter
-  const handleDebugToggle = () => {
-    setDebugMode(!debugMode);
-    console.log(`SwipeDeck: Debug mode ${!debugMode ? 'enabled' : 'disabled'}`);
-  };
 
   // Initialize session and reset index when cards change
   useEffect(() => {
@@ -269,9 +260,7 @@ export const SwipeDeck: React.FC<SwipeDeckProps> = ({ cards = [], onSwipe, onRef
     console.log(`SwipeDeck: Current card:`, filteredCards[currentCardIndex].title);
   }
   
-  if (debugMode) {
-    console.log(`SwipeDeck Debug: Session:`, SwipeTrackingService.getSessionStats());
-  }
+
 
   if (!filteredCards || filteredCards.length === 0 || currentCardIndex >= filteredCards.length) {
     console.log(`SwipeDeck: Showing empty state. Cards: ${cards?.length || 0}, Filtered: ${filteredCards?.length || 0}, Current Index: ${currentCardIndex}, IsRefreshing: ${isRefreshing}`);
@@ -308,25 +297,16 @@ export const SwipeDeck: React.FC<SwipeDeckProps> = ({ cards = [], onSwipe, onRef
       {renderActionButtons()}
 
       {/* Card Counter */}
-      <TouchableOpacity 
-        style={styles.counterContainer} 
-        onPress={handleDebugToggle}
-        activeOpacity={0.7}
-      >
+      <View style={styles.counterContainer}>
         <Text style={styles.counterText}>
           {currentCardIndex + 1} / {filteredCards.length}
         </Text>
-        {debugMode && (
-          <Text style={[styles.counterText, { fontSize: 10, color: colors.primary }]}>
-            DEBUG
-          </Text>
-        )}
         {isBackgroundRefreshing && (
           <View style={styles.backgroundRefreshIndicator}>
             <Ionicons name="sync" size={12} color={colors.secondary} />
           </View>
         )}
-      </TouchableOpacity>
+      </View>
     </View>
   );
 };

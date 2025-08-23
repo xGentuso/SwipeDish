@@ -20,81 +20,57 @@ import { cleanRestaurantForFirestore } from '../utils/firestoreUtils';
 import { FirestoreErrorHandler } from '../utils/firestoreErrorHandler';
 import { InputValidation, ValidationError } from '../utils/inputValidation';
 import { ErrorSanitization } from '../utils/errorSanitization';
+import { logger } from './loggingService';
 
 export class RoomService {
   static async createRoom(name: string, createdBy: string, displayName: string): Promise<Room> {
-    console.log('🔄 RoomService.createRoom START:', { 
-      name, 
-      createdBy, 
-      displayName,
-      timestamp: new Date().toISOString()
-    });
-    
     try {
       // Validate inputs
-      console.log('📝 Validating inputs...');
-      if (!name || name.trim().length === 0 || name.length > 50) {
-        console.log('❌ Invalid room name:', name);
-        throw new ValidationError('Room name must be between 1 and 50 characters');
+      if (!name || name.trim().length === 0) {
+        throw new ValidationError('Room name is required');
       }
 
-      if (!InputValidation.validateUserId(createdBy)) {
-        console.log('❌ Invalid user ID:', createdBy);
-        throw new ValidationError('Invalid user ID');
+      if (!createdBy || createdBy.trim().length === 0) {
+        throw new ValidationError('User ID is required');
       }
 
-      if (!InputValidation.validateDisplayName(displayName)) {
-        console.log('❌ Invalid display name:', displayName);
-        throw new ValidationError('Invalid display name');
+      if (!displayName || displayName.trim().length === 0) {
+        throw new ValidationError('Display name is required');
       }
 
-      console.log('✅ Input validation passed');
-
+      // Generate a unique 6-digit PIN
       const pin = Math.floor(100000 + Math.random() * 900000).toString();
-      console.log('📋 Generated PIN:', pin);
-      
+
+      // Create room object
       const room: Room = {
         id: '',
+        name: name.trim(),
         pin,
-        name,
         createdBy,
+        displayName: displayName.trim(),
+        createdAt: serverTimestamp(),
         members: [{
           userId: createdBy,
-          displayName,
-          joinedAt: new Date(),
-          isActive: true,
+          displayName: displayName.trim(),
+          joinedAt: serverTimestamp()
         }],
-        currentCardIndex: 0,
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        isActive: true
       };
 
-      console.log('📄 Room object created:', room);
-      console.log('🔗 Adding to Firestore collection...');
+      // Add to Firestore
+      const roomsRef = collection(db, 'rooms');
+      const docRef = await addDoc(roomsRef, room);
 
-      const docRef = await addDoc(collection(db, 'rooms'), {
-        ...room,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      });
-
-      console.log('✅ Document added to Firestore, ID:', docRef.id);
+      // Update room with the generated ID
       room.id = docRef.id;
-      
-      console.log('🎉 Room creation successful:', room);
+
       return room;
     } catch (error) {
-      console.error('❌ RoomService.createRoom ERROR:', error);
-      
       if (error instanceof ValidationError) {
-        console.log('📝 Validation error, re-throwing as-is');
-        throw error; // Safe to show validation errors to users
+        throw error;
       }
-      
-      console.log('🔧 Sanitizing error...');
+
       const sanitizedError = ErrorSanitization.logAndSanitizeError(error, 'Room Creation');
-      console.log('🔧 Sanitized error:', sanitizedError);
       throw new Error(sanitizedError);
     }
   }
@@ -169,7 +145,7 @@ export class RoomService {
       }
       return null;
     } catch (error) {
-      console.error('Get room error:', error);
+      logger.error('Get room error', 'ROOM', { error });
       throw error;
     }
   }
@@ -192,7 +168,7 @@ export class RoomService {
         });
       }
     } catch (error) {
-      console.error('Leave room error:', error);
+      logger.error('Leave room error', 'ROOM', { error });
       throw error;
     }
   }
@@ -209,7 +185,6 @@ export class RoomService {
       
       const existingSwipeSnapshot = await getDocs(existingSwipeQuery);
       if (!existingSwipeSnapshot.empty) {
-        console.log('User has already swiped on this card');
         return;
       }
 
@@ -251,7 +226,7 @@ export class RoomService {
       // Commit the batch
       await batch.commit();
     } catch (error) {
-      console.error('Submit swipe error:', error);
+      logger.error('Submit swipe error', 'ROOM', { error });
       throw error;
     }
   }
@@ -323,7 +298,7 @@ export class RoomService {
 
       return null;
     } catch (error) {
-      console.error('Check for match error:', error);
+      logger.error('Check for match error', 'ROOM', { error });
       throw error;
     }
   }

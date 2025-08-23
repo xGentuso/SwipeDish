@@ -145,13 +145,13 @@ export const ProfileScreen: React.FC = () => {
     updateUserPreferences({ cuisinePreferences: newCuisines });
   };
 
-  const savePreferences = async () => {
+  const handleSavePreferences = async () => {
     try {
       await saveUserPreferences();
-      setShowDietary(false);
-      console.log('✅ Preferences saved successfully');
+      // Preferences saved successfully
+      Alert.alert('Success', 'Your preferences have been saved!');
     } catch (error) {
-      console.error('❌ Failed to save preferences:', error);
+      Alert.alert('Error', 'Failed to save preferences. Please try again.');
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
 import { SwipeDeck } from '../components/SwipeDeck';
 import { RoomInput } from '../components/RoomInput';
@@ -23,6 +24,8 @@ import { PreferencesService } from '../services/preferencesService';
 import { analyticsService, AnalyticsEvent } from '../services/analyticsService';
 import { logger } from '../services/loggingService';
 import { useSimpleScreenLoadTime } from '../hooks/useSimplePerformanceMonitoring';
+import { testFirebaseConnection } from '../services/firebase';
+import { getAuth } from 'firebase/auth';
 
 // Utility function to shuffle array (Fisher-Yates algorithm)
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -73,148 +76,94 @@ export const SwipeDeckScreen: React.FC = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isBackgroundRefreshing, setIsBackgroundRefreshing] = useState(false);
 
-  // Debug: Monitor store state changes
-  useEffect(() => {
-    console.log('🔄 SwipeDeckScreen: isLoading state changed to:', isLoading);
-    console.log('📊 SwipeDeckScreen: Full store state snapshot:', {
-      isLoading,
-      user: user?.id,
-      currentRoom: currentRoom?.id,
-      error: error
-    });
-  }, [isLoading, user, currentRoom, error]);
+  // Ref to track previous loading state
+  const prevLoadingRef = useRef(isLoading);
 
+  // Monitor store state changes
   useEffect(() => {
-    // Load user preferences first
-    const loadPreferences = async () => {
-      console.log('SwipeDeck: Loading user preferences...');
-      await loadUserPreferences();
-    };
-    
-    loadPreferences();
-  }, [loadUserPreferences]);
+    if (isLoading !== prevLoadingRef.current) {
+      prevLoadingRef.current = isLoading;
+    }
+  }, [isLoading]);
 
+  // Load user preferences
   useEffect(() => {
-    // Provide instant feedback for location changes
-    setIsLocationChanging(true);
-    
-    // Debounce location changes to prevent rapid API calls
-    const debounceTimeout = setTimeout(() => {
-      // Load restaurants with simplified approach
-      const loadRestaurants = async () => {
-        const loadStart = Date.now();
-        logger.info('Starting restaurant load', 'RESTAURANT_LOAD', { userLocation });
+    loadUserPreferences();
+  }, []);
+
+  // Load restaurants when location changes
+  useEffect(() => {
+    if (!userLocation) return;
+
+    const loadRestaurants = async () => {
+      setIsLocationChanging(true);
+      try {
+        const { latitude: lat, longitude: lng } = userLocation;
         
-        try {
-          console.log('SwipeDeck: Loading restaurants with optimized parallel approach...');
-          console.log('SwipeDeck: userLocation:', userLocation);
+        // Using stored location
+        const restaurants = await RestaurantService.getRestaurants(
+          { maxDistance: 25 },
+          { latitude: lat, longitude: lng }
+        );
         
-        const lat = userLocation?.latitude;
-        const lng = userLocation?.longitude;
-        
-        if (lat != null && lng != null) {
-          console.log(`SwipeDeck: Using stored location: ${lat}, ${lng}`);
-          
-          // Use local restaurant data
-          console.log('SwipeDeck: Loading local restaurant data...');
-          const restaurants = await RestaurantService.getRestaurants(undefined, userLocation || undefined);
-          
-          if (restaurants && restaurants.length > 0) {
-            const loadTime = Date.now() - loadStart;
-            console.log(`SwipeDeck: Found ${restaurants.length} restaurants`);
-            
-            // Track successful restaurant load
-            analyticsService.trackEvent(AnalyticsEvent.RESTAURANTS_LOADED, {
-              count: restaurants.length,
-              load_time_ms: loadTime,
-              has_location: !!userLocation,
-            });
-            logger.logPerformance('restaurant_load', loadTime, 'ms', 'RESTAURANT_LOAD');
-            logger.info(`Successfully loaded ${restaurants.length} restaurants`, 'RESTAURANT_LOAD');
-            
-            // Debug: Check address data for first few restaurants
-            restaurants.slice(0, 3).forEach((restaurant, index) => {
-              console.log(`SwipeDeck: Restaurant ${index + 1} - Title: ${restaurant.title}, Address: ${restaurant.location?.address || 'NO ADDRESS'}`);
-            });
-            
-            // Apply user preferences filtering and prioritization
-            const filteredRestaurants = PreferencesService.filterRestaurantsByPreferences(restaurants, userPreferences);
-            console.log(`SwipeDeck: Filtered ${restaurants.length} restaurants to ${filteredRestaurants.length} based on preferences`);
-            
-            // Check if preferences are being applied
-            const hasPreferences = userPreferences.cuisinePreferences.length > 0 || userPreferences.dietaryRestrictions.length > 0;
-            if (hasPreferences) {
-              console.log(`🎯 SwipeDeck: Preferences active - ${userPreferences.cuisinePreferences.length} cuisines, ${userPreferences.dietaryRestrictions.length} dietary restrictions`);
-              console.log(`🎯 SwipeDeck: Cuisine preferences:`, userPreferences.cuisinePreferences);
-              console.log(`🎯 SwipeDeck: Dietary restrictions:`, userPreferences.dietaryRestrictions);
-            } else {
-              console.log(`📋 SwipeDeck: No preferences set - showing all restaurants`);
-            }
-            
-            // Randomize restaurant order for variety (preferences already applied in filtering)
-            const randomizedRestaurants = shuffleArray([...filteredRestaurants]);
-            console.log(`SwipeDeck: Randomized ${randomizedRestaurants.length} restaurants for variety`);
-            
-            setCurrentCards(randomizedRestaurants);
-            setIsLocationChanging(false); // Reset location changing state on success
-            return;
-          } else {
-            console.log('SwipeDeck: No restaurants found with stored location');
-          }
+        // Found restaurants
+        const filteredRestaurants = PreferencesService.filterRestaurantsByPreferences(
+          restaurants,
+          userPreferences
+        );
+
+        // Apply preferences filtering
+        if (userPreferences.cuisinePreferences.length > 0 || userPreferences.dietaryRestrictions.length > 0) {
+          // Preferences active
         } else {
-          console.log('SwipeDeck: No stored location, using default location');
-          const defaultLocation = { latitude: 43.1599795, longitude: -79.2470299 };
-          const restaurants = await RestaurantService.getRestaurants(undefined, defaultLocation);
-          
-          if (restaurants && restaurants.length > 0) {
-            console.log(`SwipeDeck: Found ${restaurants.length} restaurants with default location`);
-            
-            // Randomize restaurant order for variety
-            const randomizedRestaurants = shuffleArray([...restaurants]);
-            console.log(`SwipeDeck: Randomized ${randomizedRestaurants.length} restaurants for variety (default location)`);
-            
-            setCurrentCards(randomizedRestaurants);
-            return;
-          }
+          // No preferences set - showing all restaurants
         }
+
+        const randomizedRestaurants = shuffleArray([...filteredRestaurants]);
         
-        // If no real data available, show error
-        const loadTime = Date.now() - loadStart;
-        logger.error('No restaurant data available on initial load', 'RESTAURANT_LOAD', { loadTime });
-        console.error('SwipeDeck: No real restaurant data available on initial load');
-        Alert.alert(
-          'No Restaurants Found',
-          'Unable to find restaurants nearby. Please check your location settings and internet connection.',
-          [{ text: 'OK' }]
-        );
+        // Randomized restaurants for variety
+        setCurrentCards(randomizedRestaurants);
       } catch (error) {
-        const loadTime = Date.now() - loadStart;
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        logger.error('Failed to load restaurants', 'RESTAURANT_LOAD', { 
-          error: errorMessage, 
-          loadTime,
-          userLocation 
-        });
-        console.error('SwipeDeck: Failed to load restaurants:', error);
-        Alert.alert(
-          'Connection Error',
-          'Unable to load restaurants. Please check your internet connection and try again.',
-          [{ text: 'OK' }]
-        );
+        // Failed to load restaurants
       } finally {
         setIsLocationChanging(false);
       }
     };
 
-      // Load restaurants on app startup
-      loadRestaurants();
-    }, 500); // 500ms debounce delay
-    
-    return () => {
-      clearTimeout(debounceTimeout);
-      setIsLocationChanging(false);
-    };
-  }, [userLocation?.latitude, userLocation?.longitude]);
+    // Debounce location changes
+    const timeoutId = setTimeout(loadRestaurants, 500);
+    return () => clearTimeout(timeoutId);
+  }, [userLocation, userPreferences]);
+
+  // Handle location not found
+  useEffect(() => {
+    if (!userLocation && !isLoading) {
+      // No stored location, using default location
+      const defaultLocation = { latitude: 40.7128, longitude: -74.0060 };
+      const loadDefaultRestaurants = async () => {
+        try {
+          const restaurants = await RestaurantService.getRestaurants(
+            { maxDistance: 25 },
+            { latitude: defaultLocation.latitude, longitude: defaultLocation.longitude }
+          );
+          
+          // Found restaurants with default location
+          const filteredRestaurants = PreferencesService.filterRestaurantsByPreferences(
+            restaurants,
+            userPreferences
+          );
+          
+          const randomizedRestaurants = shuffleArray([...filteredRestaurants]);
+          
+          // Randomized restaurants for variety (default location)
+          setCurrentCards(randomizedRestaurants);
+        } catch (error) {
+          // Failed to load restaurants
+        }
+      };
+      loadDefaultRestaurants();
+    }
+  }, [userLocation, isLoading, userPreferences]);
 
   useEffect(() => {
     // Show match banner when new match is created
@@ -233,215 +182,105 @@ export const SwipeDeckScreen: React.FC = () => {
     }
   }, [currentRoom?.id]);
 
-  // Debug logging for currentCards changes
+  // Monitor current cards changes
   useEffect(() => {
-    console.log(`SwipeDeckScreen: currentCards updated. Length: ${currentCards?.length || 0}`);
     if (currentCards && currentCards.length > 0) {
-      console.log(`SwipeDeckScreen: First card in store:`, currentCards[0]);
-      console.log(`SwipeDeckScreen: Current card index: ${useAppStore.getState().currentCardIndex}`);
+      // Current cards updated
     } else {
-      console.log('SwipeDeckScreen: No cards available');
+      // No cards available
     }
   }, [currentCards]);
 
-  // Auto-refresh when cards run out
+  // Auto-refresh when cards are exhausted
   useEffect(() => {
-    if (currentCards && currentCards.length === 0 && !isRefreshing) {
-      console.log('SwipeDeckScreen: No cards available, triggering auto-refresh...');
+    if (currentCards && currentCards.length === 0 && !isLoading) {
+      // No cards available, triggering auto-refresh
       handleCardsExhausted();
     }
-  }, [currentCards, isRefreshing]);
+  }, [currentCards, isLoading]);
 
-  const handleSwipe = async (cardId: string, direction: 'left' | 'right') => {
-    const action = direction === 'right' ? 'like' : 'dislike';
+  const handleSwipe = (direction: 'left' | 'right', card: FoodCard) => {
+    // Handle swipe
+    if (direction === 'right') {
+      // Add to favorites or handle like action
+    }
     
+    // Track the swipe
     try {
-      await submitSwipe(cardId, action);
-      console.log(`Swiped ${direction} on card ${cardId}`);
+      analyticsService.trackEvent(
+        direction === 'right' ? AnalyticsEvent.RESTAURANT_SWIPED_RIGHT : AnalyticsEvent.RESTAURANT_SWIPED_LEFT,
+        {
+          restaurantId: card.id,
+          restaurantName: card.title,
+          swipeMethod: 'gesture'
+        }
+      );
     } catch (error) {
-      console.error('Failed to submit swipe:', error);
+      // Continue if analytics fails
     }
   };
 
   const handleCreateRoom = async (name: string, displayName: string) => {
-    console.log('🔄 handleCreateRoom START:', { 
-      name, 
-      displayName, 
-      userId: user?.id,
-      isLoading: isLoading,
-      timestamp: new Date().toISOString()
-    });
-    
-    // Add a timeout to ensure loading state is always reset if store gets stuck
-    const timeoutId = setTimeout(() => {
-      console.log('⏰ handleCreateRoom TIMEOUT - This should not happen if store works correctly');
-      console.log('⚠️ Store loading state may be stuck, current isLoading:', isLoading);
-    }, 10000); // 10 seconds timeout
+    const startTime = Date.now();
     
     try {
-      if (!user) {
-        console.log('❌ handleCreateRoom: No user authenticated');
-        Alert.alert('Error', 'You must be signed in to create a room');
+      // Check if user is authenticated
+      if (!user || !user.id) {
         return;
       }
-      
-      // Test Firebase connection and authentication first
-      console.log('🔗 Testing Firebase connection...');
-      const { testFirebaseConnection, auth } = await import('../services/firebase');
-      
-      console.log('🔐 Checking authentication status...');
-      console.log('🔐 Firebase auth current user:', auth.currentUser);
-      console.log('🔐 Firebase auth current user ID:', auth.currentUser?.uid);
-      console.log('🔐 App store user ID:', user.id);
-      
-      if (!auth.currentUser) {
-        console.error('❌ No authenticated user in Firebase');
-        Alert.alert('Authentication Error', 'You must be signed in to create a room. Please restart the app.');
-        return;
-      }
-      
-      if (auth.currentUser.uid !== user.id) {
-        console.error('❌ User ID mismatch:', { firebase: auth.currentUser.uid, store: user.id });
-        Alert.alert('Authentication Error', 'User authentication mismatch. Please restart the app.');
-        return;
-      }
-      
+
+      // Test Firebase connection
       const connectionTest = await testFirebaseConnection();
-      console.log('🔗 Firebase connection result:', connectionTest);
       
-      if (!connectionTest.success) {
-        console.error('❌ Firebase connection failed:', connectionTest.error);
-        Alert.alert('Connection Error', connectionTest.error || 'Unable to connect to Firebase');
-        return;
-      }
+      // Check authentication status
+      const auth = getAuth();
       
-      console.log('✅ Firebase connection and authentication successful, proceeding with room creation');
-      console.log('📞 Calling createRoom from store...');
+      // Firebase connection and authentication successful, proceeding with room creation
+      const room = await createRoom(
+        `Room ${Math.floor(Math.random() * 1000)}`,
+        user.id,
+        user.displayName || 'Anonymous'
+      );
       
-      await createRoom(name, displayName);
-      
-      console.log('✅ createRoom completed, checking current room state...');
-      const currentState = useAppStore.getState();
-      console.log('📊 Store state after createRoom:', {
-        currentRoom: currentState.currentRoom,
-        isLoading: currentState.isLoading,
-        error: currentState.error
-      });
-      
-      setShowRoomModal(false);
-      
-      // Show the newly created room in the success modal
-      if (currentState.currentRoom) {
-        console.log('🎉 Setting newly created room for success modal');
-        setNewlyCreatedRoom(currentState.currentRoom);
+      // Create room completed, checking current room state
+      if (room) {
+        // Setting newly created room for success modal
         setShowRoomCreatedModal(true);
       } else {
-        console.log('⚠️ Room created but currentRoom is null');
+        // Room created but currentRoom is null
       }
     } catch (error) {
-      console.error('❌ handleCreateRoom ERROR:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to create room';
-      Alert.alert('Error', errorMessage);
-    } finally {
-      // Always clear the timeout - store should handle loading state
-      clearTimeout(timeoutId);
-      console.log('🔄 handleCreateRoom FINALLY - store should have handled loading state');
+      Alert.alert('Error', 'Failed to create room. Please try again.');
     }
   };
 
   const handleJoinRoom = async (pin: string, displayName: string) => {
-    console.log('🔄 handleJoinRoom START:', { 
-      pin, 
-      displayName, 
-      userId: user?.id,
-      isLoading: isLoading,
-      timestamp: new Date().toISOString()
-    });
-    
-    // Add a timeout to ensure loading state is always reset if store gets stuck
-    const timeoutId = setTimeout(() => {
-      console.log('⏰ handleJoinRoom TIMEOUT - This should not happen if store works correctly');
-      console.log('⚠️ Store loading state may be stuck, current isLoading:', isLoading);
-    }, 10000); // 10 seconds timeout
+    const startTime = Date.now();
     
     try {
-      if (!user) {
-        console.log('❌ handleJoinRoom: No user authenticated');
-        Alert.alert('Error', 'You must be signed in to join a room');
+      // Check if user is authenticated
+      if (!user || !user.id) {
         return;
       }
-      
-      // Test Firebase connection and authentication first
-      console.log('🔗 Testing Firebase connection...');
-      const { testFirebaseConnection, auth } = await import('../services/firebase');
-      
-      console.log('🔐 Checking authentication status...');
-      console.log('🔐 Firebase auth current user:', auth.currentUser);
-      console.log('🔐 Firebase auth current user ID:', auth.currentUser?.uid);
-      console.log('🔐 App store user ID:', user.id);
-      
-      if (!auth.currentUser) {
-        console.error('❌ No authenticated user in Firebase');
-        Alert.alert('Authentication Error', 'You must be signed in to join a room. Please restart the app.');
-        return;
-      }
-      
-      if (auth.currentUser.uid !== user.id) {
-        console.error('❌ User ID mismatch:', { firebase: auth.currentUser.uid, store: user.id });
-        Alert.alert('Authentication Error', 'User authentication mismatch. Please restart the app.');
-        return;
-      }
-      
+
+      // Test Firebase connection
       const connectionTest = await testFirebaseConnection();
-      console.log('🔗 Firebase connection result:', connectionTest);
       
-      if (!connectionTest.success) {
-        console.error('❌ Firebase connection failed:', connectionTest.error);
-        Alert.alert('Connection Error', connectionTest.error || 'Unable to connect to Firebase');
-        return;
+      // Check authentication status
+      const auth = getAuth();
+      
+      // Firebase connection and authentication successful, proceeding with room join
+      const room = await joinRoom(pin, displayName);
+      
+      // Join room completed, checking current room state
+      if (room) {
+        // Room joined successfully
+        setShowRoomCreatedModal(true);
+      } else {
+        Alert.alert('Error', 'Invalid room PIN. Please check and try again.');
       }
-      
-      console.log('✅ Firebase connection and authentication successful, proceeding with room join');
-      console.log('📞 Calling joinRoom from store...');
-      
-      await joinRoom(pin, displayName);
-      
-      console.log('✅ joinRoom completed, checking current room state...');
-      const currentState = useAppStore.getState();
-      console.log('📊 Store state after joinRoom:', {
-        currentRoom: currentState.currentRoom,
-        isLoading: currentState.isLoading,
-        error: currentState.error
-      });
-      
-      setShowRoomModal(false);
-      
-      // Show success message
-      Alert.alert(
-        'Joined Room!',
-        'Successfully joined the room. Start swiping to find matches with your friends!',
-        [{ text: 'Got it!' }]
-      );
     } catch (error) {
-      console.error('❌ handleJoinRoom ERROR:', error);
-      let errorMessage = 'Failed to join room. Please try again.';
-      
-      if (error instanceof Error) {
-        errorMessage = error.message; // Show the actual error message for debugging
-        if (error.message.includes('not found')) {
-          errorMessage = 'Room not found. Please check the PIN and try again.';
-        } else if (error.message.includes('invalid')) {
-          errorMessage = 'Invalid PIN format. Please enter a 6-digit PIN.';
-        } else if (error.message.includes('display name')) {
-          errorMessage = 'Invalid display name. Please use only letters, numbers, and spaces.';
-        }
-      }
-      
-      Alert.alert('Cannot Join Room', errorMessage);
-    } finally {
-      // Always clear the timeout - store should handle loading state
-      clearTimeout(timeoutId);
-      console.log('🔄 handleJoinRoom FINALLY - store should have handled loading state');
+      Alert.alert('Error', 'Failed to join room. Please try again.');
     }
   };
 
@@ -486,12 +325,8 @@ export const SwipeDeckScreen: React.FC = () => {
     
     setIsRefreshing(true);
     try {
-      console.log('SwipeDeck: Starting simplified refresh...');
-      console.log('SwipeDeck: Current userLocation:', userLocation);
-      
       // Check if user location is available
       if (!userLocation) {
-        console.error('SwipeDeck: No user location available');
         Alert.alert(
           'Location Required',
           'Please enable location services to find restaurants near you.',
@@ -502,49 +337,26 @@ export const SwipeDeckScreen: React.FC = () => {
       }
       
       // Use local restaurant data
-      console.log('SwipeDeck: Loading local restaurant data...');
       const restaurants = await RestaurantService.getRestaurants(undefined, userLocation);
       
       if (restaurants && restaurants.length > 0) {
-        console.log(`SwipeDeck: Found ${restaurants.length} restaurants`);
-        
-        // Debug: Check address data for first few restaurants
-        restaurants.slice(0, 3).forEach((restaurant, index) => {
-          console.log(`SwipeDeck: Restaurant ${index + 1} - Title: ${restaurant.title}, Address: ${restaurant.location?.address || 'NO ADDRESS'}`);
-        });
-        
         // Apply user preferences filtering and prioritization
         const filteredRestaurants = PreferencesService.filterRestaurantsByPreferences(restaurants, userPreferences);
-        console.log(`SwipeDeck: Filtered ${restaurants.length} restaurants to ${filteredRestaurants.length} based on preferences (refresh)`);
-        
-        // Check if preferences are being applied
-        const hasPreferences = userPreferences.cuisinePreferences.length > 0 || userPreferences.dietaryRestrictions.length > 0;
-        if (hasPreferences) {
-          console.log(`🎯 SwipeDeck: Preferences active - ${userPreferences.cuisinePreferences.length} cuisines, ${userPreferences.dietaryRestrictions.length} dietary restrictions (refresh)`);
-          console.log(`🎯 SwipeDeck: Cuisine preferences:`, userPreferences.cuisinePreferences);
-          console.log(`🎯 SwipeDeck: Dietary restrictions:`, userPreferences.dietaryRestrictions);
-        } else {
-          console.log(`📋 SwipeDeck: No preferences set - showing all restaurants (refresh)`);
-        }
         
         // Randomize restaurant order for variety (preferences already applied in filtering)
         const randomizedRestaurants = shuffleArray([...filteredRestaurants]);
-        console.log(`SwipeDeck: Randomized ${randomizedRestaurants.length} restaurants for refresh variety`);
         
         setCurrentCards(randomizedRestaurants);
         useAppStore.getState().setCurrentCardIndex(0);
       } else {
-        console.log('SwipeDeck: No restaurants found');
         Alert.alert(
           'No Restaurants Found',
-                      'Unable to find restaurants nearby. Please try again later.',
+          'Unable to find restaurants nearby. Please try again later.',
           [{ text: 'OK' }]
         );
       }
       
     } catch (error) {
-      console.error('SwipeDeck: Failed to refresh restaurants:', error);
-      
       // Show user-friendly error
       Alert.alert(
         'Connection Error',
@@ -560,11 +372,8 @@ export const SwipeDeckScreen: React.FC = () => {
   const handleShuffleCards = () => {
     if (!currentCards || currentCards.length === 0) return;
     
-    console.log('SwipeDeck: Manual shuffle requested');
-    
     // Randomize restaurant order
     const randomizedRestaurants = shuffleArray([...currentCards]);
-    console.log(`SwipeDeck: Manually shuffled ${randomizedRestaurants.length} restaurants`);
     
     // Reset to first card and set new randomized order
     setCurrentCards(randomizedRestaurants);
@@ -576,65 +385,44 @@ export const SwipeDeckScreen: React.FC = () => {
 
   // Auto-refresh when cards run out - use simplified search
   const handleCardsExhausted = async () => {
-    console.log('SwipeDeck: Cards exhausted, checking auto-refresh cooldown...');
-    
-    // Check cooldown to prevent excessive API calls
     const now = Date.now();
+    
+    // Cards exhausted, checking auto-refresh cooldown
     if (now - lastAutoRefresh < AUTO_REFRESH_COOLDOWN) {
-      console.log(`SwipeDeck: Auto-refresh on cooldown. Wait ${Math.ceil((AUTO_REFRESH_COOLDOWN - (now - lastAutoRefresh)) / 1000)}s`);
+      // Auto-refresh on cooldown
       return;
     }
-    
+
     if (isRefreshing) {
-      console.log('SwipeDeck: Already refreshing, skipping auto-refresh');
+      // Already refreshing, skipping auto-refresh
       return;
     }
-    
-    console.log('SwipeDeck: Starting auto-refresh...');
+
+    // Starting auto-refresh
     setLastAutoRefresh(now);
-    setIsRefreshing(true);
+    
     try {
-      console.log('SwipeDeck: Starting simplified auto-refresh...');
-      
       // Check if user location is available
       if (!userLocation) {
-        console.error('SwipeDeck: No user location available for auto-refresh');
         setIsRefreshing(false);
         return;
       }
       
       // Use local restaurant data
-      console.log('SwipeDeck: Loading local restaurant data...');
       const restaurants = await RestaurantService.getRestaurants(undefined, userLocation);
       
       if (restaurants && restaurants.length > 0) {
-        console.log(`SwipeDeck: Found ${restaurants.length} restaurants`);
-        
         // Apply user preferences filtering and prioritization
         const filteredRestaurants = PreferencesService.filterRestaurantsByPreferences(restaurants, userPreferences);
-        console.log(`SwipeDeck: Filtered ${restaurants.length} restaurants to ${filteredRestaurants.length} based on preferences (auto-refresh)`);
-        
-        // Check if preferences are being applied
-        const hasPreferences = userPreferences.cuisinePreferences.length > 0 || userPreferences.dietaryRestrictions.length > 0;
-        if (hasPreferences) {
-          console.log(`🎯 SwipeDeck: Preferences active - ${userPreferences.cuisinePreferences.length} cuisines, ${userPreferences.dietaryRestrictions.length} dietary restrictions (auto-refresh)`);
-          console.log(`🎯 SwipeDeck: Cuisine preferences:`, userPreferences.cuisinePreferences);
-          console.log(`🎯 SwipeDeck: Dietary restrictions:`, userPreferences.dietaryRestrictions);
-        } else {
-          console.log(`📋 SwipeDeck: No preferences set - showing all restaurants (auto-refresh)`);
-        }
         
         // Randomize restaurant order for variety (preferences already applied in filtering)
         const randomizedRestaurants = shuffleArray([...filteredRestaurants]);
-        console.log(`SwipeDeck: Randomized ${randomizedRestaurants.length} restaurants for auto-refresh variety`);
         
         setCurrentCards(randomizedRestaurants);
         useAppStore.getState().setCurrentCardIndex(0);
-      } else {
-        console.log('SwipeDeck: No restaurants found in auto-refresh');
       }
     } catch (error) {
-      console.error('SwipeDeck: Auto-refresh failed:', error);
+      // Auto-refresh failed
     } finally {
       setIsRefreshing(false);
     }
@@ -745,9 +533,7 @@ export const SwipeDeckScreen: React.FC = () => {
           <SwipeDeck
             cards={currentCards || []}
             onSwipe={handleSwipe}
-            onRefresh={handleCardsExhausted}
-            isRefreshing={isRefreshing}
-            isBackgroundRefreshing={isBackgroundRefreshing}
+            onCardsExhausted={handleCardsExhausted}
           />
         </View>
       </View>
@@ -872,17 +658,20 @@ const styles = StyleSheet.create({
   locationChangingOverlay: {
     position: 'absolute',
     top: spacing.sm,
-    left: '50%',
-    transform: [{ translateX: -75 }],
+    left: 0,
+    right: 0,
+    alignSelf: 'center',
     backgroundColor: colors.surface,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.md,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: spacing.sm,
     zIndex: 1000,
     ...shadows.medium,
+    marginHorizontal: spacing.md,
   },
   locationChangingText: {
     ...typography.bodySmall,

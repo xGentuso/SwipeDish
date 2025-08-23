@@ -14,6 +14,7 @@ import { auth, db } from './firebase';
 import { User } from '../types';
 import { InputValidation, ValidationError } from '../utils/inputValidation';
 import { GoogleSignInService } from './googleSignInService';
+import { logger } from './loggingService';
 
 export class AuthService {
   // Rate limiting for anonymous sign-ups
@@ -36,8 +37,8 @@ export class AuthService {
       const querySnapshot = await getDocs(usersQuery);
       return querySnapshot.empty;
     } catch (error) {
-      console.error('Username uniqueness check error:', error);
-      // In case of error, allow the username (fail open)
+      logger.error('Username uniqueness check error', 'AUTH', { error });
+      // In case of error, allow the username (fail open) but log for debugging
       return true;
     }
   }
@@ -102,6 +103,7 @@ export class AuthService {
         joinedRooms: [],
         lastActive: new Date(),
         createdAt: new Date(),
+        hasCompletedOnboarding: false,
       };
       
       await setDoc(doc(db, 'users', user.id), {
@@ -112,7 +114,7 @@ export class AuthService {
       
       return user;
     } catch (error) {
-      console.error('Anonymous sign in error:', error);
+      logger.error('Anonymous sign in error', 'AUTH', { error });
       throw error;
     }
   }
@@ -123,7 +125,7 @@ export class AuthService {
       // For now, we'll use anonymous auth
       return await this.signInAnonymously();
     } catch (error) {
-      console.error('Phone sign in error:', error);
+      logger.error('Phone sign in error', 'AUTH', { error });
       throw error;
     }
   }
@@ -148,7 +150,7 @@ export class AuthService {
         throw new Error('User not found');
       }
     } catch (error) {
-      console.error('Email sign in error:', error);
+      logger.error('Email sign in error', 'AUTH', { error });
       throw error;
     }
   }
@@ -174,14 +176,15 @@ export class AuthService {
       }
 
       const result = await createUserWithEmailAndPassword(auth, email, password);
-      const user: User = {
-        id: result.user.uid,
-        displayName: InputValidation.sanitizeString(displayName),
-        email: email.toLowerCase().trim(),
-        joinedRooms: [],
-        lastActive: new Date(),
-        createdAt: new Date(),
-      };
+              const user: User = {
+          id: result.user.uid,
+          displayName: InputValidation.sanitizeString(displayName),
+          email: email.toLowerCase().trim(),
+          joinedRooms: [],
+          lastActive: new Date(),
+          createdAt: new Date(),
+          hasCompletedOnboarding: false,
+        };
       
       await setDoc(doc(db, 'users', user.id), {
         ...user,
@@ -191,7 +194,7 @@ export class AuthService {
       
       return user;
     } catch (error) {
-      console.error('Email sign up error:', error);
+      logger.error('Email sign up error', 'AUTH', { error });
       throw error;
     }
   }
@@ -227,11 +230,12 @@ export class AuthService {
         const user: User = {
           id: result.user.uid,
           displayName: uniqueDisplayName,
-          email: result.user.email || undefined,
-          photoURL: result.user.photoURL || undefined,
+          ...(result.user.email && { email: result.user.email }),
+          ...(result.user.photoURL && { photoURL: result.user.photoURL }),
           joinedRooms: [],
           lastActive: new Date(),
           createdAt: new Date(),
+          hasCompletedOnboarding: false,
         };
         
         await setDoc(doc(db, 'users', user.id), {
@@ -243,7 +247,7 @@ export class AuthService {
         return user;
       }
     } catch (error: any) {
-      console.error('Google sign in error:', error);
+      logger.error('Google sign in error', 'AUTH', { error });
       
       // Handle specific Google Sign-In errors
       if (error.code === 'auth/account-exists-with-different-credential') {
@@ -260,7 +264,7 @@ export class AuthService {
     try {
       await signOut(auth);
     } catch (error) {
-      console.error('Sign out error:', error);
+      logger.error('Sign out error', 'AUTH', { error });
       throw error;
     }
   }
@@ -304,7 +308,7 @@ export class AuthService {
         lastActive: serverTimestamp(),
       });
     } catch (error) {
-      console.error('Update user profile error:', error);
+      logger.error('Update user profile error', 'AUTH', { error });
       throw error;
     }
   }
@@ -313,11 +317,28 @@ export class AuthService {
     try {
       const userDoc = await getDoc(doc(db, 'users', userId));
       if (userDoc.exists()) {
-        return userDoc.data() as User;
+        const userData = userDoc.data() as User;
+        // Ensure hasCompletedOnboarding has a default value for existing users
+        return {
+          ...userData,
+          hasCompletedOnboarding: userData.hasCompletedOnboarding ?? false,
+        };
       }
       return null;
     } catch (error) {
-      console.error('Get user error:', error);
+      logger.error('Get user error', 'AUTH', { error });
+      throw error;
+    }
+  }
+
+  static async markOnboardingComplete(userId: string): Promise<void> {
+    try {
+      await updateDoc(doc(db, 'users', userId), {
+        hasCompletedOnboarding: true,
+        lastActive: serverTimestamp(),
+      });
+    } catch (error) {
+      logger.error('Mark onboarding complete error', 'AUTH', { error });
       throw error;
     }
   }

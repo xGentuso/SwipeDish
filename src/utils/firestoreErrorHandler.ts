@@ -82,7 +82,6 @@ export class FirestoreErrorHandler {
         // Retry network errors with exponential backoff
         if (this.isNetworkError(error) && attempt < maxRetries) {
           const delay = Math.pow(2, attempt - 1) * 1000; // 1s, 2s, 4s
-          console.log(`${operationName} failed (attempt ${attempt}), retrying in ${delay}ms...`);
           await new Promise(resolve => setTimeout(resolve, delay));
           continue;
         }
@@ -102,13 +101,49 @@ export class FirestoreErrorHandler {
    */
   static logError(error: any, context: string): void {
     if (this.isIndexError(error)) {
-      console.log(`[${context}] Firestore indexes are being created, this is normal for new deployments`);
+      // Log index creation message
     } else {
-      console.error(`[${context}] Firestore error:`, {
-        code: error?.code,
-        message: error?.message,
-        stack: error?.stack
-      });
+      // Log Firestore error
+    }
+  }
+
+  static async retryOperation<T>(
+    operation: () => Promise<T>,
+    operationName: string,
+    maxRetries: number = 3,
+    baseDelay: number = 1000
+  ): Promise<T> {
+    let lastError: any;
+    
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await operation();
+      } catch (error: any) {
+        lastError = error;
+        
+        if (attempt === maxRetries) {
+          break;
+        }
+        
+        // Check if error is retryable
+        if (!this.isRetryableError(error)) {
+          break;
+        }
+        
+        // Calculate delay with exponential backoff
+        const delay = baseDelay * Math.pow(2, attempt - 1);
+        
+        // Wait before retrying
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+    
+    throw lastError;
+  }
+
+  static handleIndexError(error: any, context: string): void {
+    if (this.isIndexError(error)) {
+      // Log index creation message
     }
   }
 }

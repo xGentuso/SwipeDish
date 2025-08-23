@@ -92,13 +92,12 @@ export const ExploreScreen: React.FC = () => {
       setHasLocationPermission(status === 'granted');
       
       if (status === 'granted') {
-        console.log('Location permission granted');
+        // Location permission granted
       } else {
-        console.log('Location permission denied - using default location');
+        // Location permission denied - using default location
       }
     } catch (error) {
-      console.error('Error checking location permission:', error);
-      setHasLocationPermission(false);
+      // Handle location permission error
     }
   };
 
@@ -115,7 +114,7 @@ export const ExploreScreen: React.FC = () => {
       let data: FoodCard[] = [];
       
       // Use local restaurant data only
-      console.log('Using local restaurant data');
+      // Using local restaurant data
       data = await RestaurantService.getRestaurants(undefined, userLocation || undefined);
       setRestaurants(data);
 
@@ -123,8 +122,7 @@ export const ExploreScreen: React.FC = () => {
         setError('No restaurants found nearby. Try adjusting your filters or location.');
       }
     } catch (error) {
-      console.error('Failed to load restaurants:', error);
-      setError('Failed to load restaurants. Please check your connection and try again.');
+      // Handle failed to load restaurants
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -244,8 +242,6 @@ export const ExploreScreen: React.FC = () => {
   const handleSmartRecommendationPress = (card: FoodCard) => {
     // Show restaurant details or add to favorites
     setSelectedRestaurant(card);
-    console.log('Selected AI recommendation:', card.title);
-    
     // Track the interaction
     analyticsService.trackEvent(AnalyticsEvent.RECOMMENDATION_CLICKED, {
       restaurant_id: card.id,
@@ -257,15 +253,7 @@ export const ExploreScreen: React.FC = () => {
 
   // Render restaurant card with enhanced design
   const renderRestaurant = useCallback(({ item, index }: { item: FoodCard; index: number }) => {
-    // Debug logging
-    console.log('ExploreScreen: Rendering restaurant item:', item?.title, 'at index:', index);
-    
-    // Safety check
-    if (!item) {
-      console.error('ExploreScreen: No item provided to renderRestaurant at index:', index);
-      return null;
-    }
-    
+    // Rendering restaurant item
     return (
       <RestaurantCard
         restaurant={item}
@@ -280,7 +268,7 @@ export const ExploreScreen: React.FC = () => {
       }}
       onPressCard={(restaurant) => {
         // Menu functionality removed - just log the selection
-        console.log('Restaurant selected:', restaurant.title);
+        // Restaurant selected
       }}
     />
     );

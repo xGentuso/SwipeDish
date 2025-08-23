@@ -20,15 +20,12 @@ export const FavoritesScreen: React.FC = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
-    console.log('FavoritesScreen: Loading favorites...');
     loadFavorites();
-  }, [loadFavorites]);
+  }, []);
 
-  // Debug logging for favorites changes
   useEffect(() => {
-    console.log(`FavoritesScreen: Favorites updated. Count: ${favorites.length}`);
-    if (favorites.length > 0) {
-      console.log('FavoritesScreen: Current favorites:', favorites.map(f => f.title));
+    if (favorites) {
+      // Favorites updated
     }
   }, [favorites]);
 
@@ -63,7 +60,6 @@ export const FavoritesScreen: React.FC = () => {
           text: 'Clear All', 
           style: 'destructive',
           onPress: () => {
-            console.log('🧹 Clearing all favorites...');
             favorites.forEach(favorite => {
               removeFromFavorites(favorite.id);
             });

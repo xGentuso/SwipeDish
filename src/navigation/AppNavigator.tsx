@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
+import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,6 +12,7 @@ import { ProfileScreen } from '../screens/ProfileScreen';
 import { OnboardingScreen } from '../screens/OnboardingScreen';
 import { UsernameScreen } from '../screens/UsernameScreen';
 import { AuthScreen } from '../screens/AuthScreen';
+import { LaunchScreen } from '../screens/LaunchScreen';
 import { useAppStore } from '../store/useAppStore';
 import { AuthService } from '../services/authService';
 
@@ -104,7 +105,22 @@ const TabNavigator: React.FC = () => {
 };
 
 export const AppNavigator: React.FC = () => {
-  const { user, setUser } = useAppStore();
+  const { user, setUser, forceAuthScreen, setForceAuthScreen } = useAppStore();
+  const [isLaunchComplete, setIsLaunchComplete] = useState(false);
+
+  // Debug logging for navigation flow
+  useEffect(() => {
+    if (user) {
+      console.log('[NAVIGATION] User state:', {
+        id: user.id,
+        displayName: user.displayName,
+        hasCompletedOnboarding: user.hasCompletedOnboarding,
+        flow: 'Launch → Auth → Username → Onboarding → Main',
+      });
+    } else {
+      console.log('[NAVIGATION] No user - showing Auth screen');
+    }
+  }, [user]);
 
   // Memoize auth state change handler to prevent unnecessary re-subscriptions
   const handleAuthStateChange = useCallback(async (firebaseUser: any) => {
@@ -113,15 +129,24 @@ export const AppNavigator: React.FC = () => {
         const userData = await AuthService.getUser(firebaseUser.uid);
         if (userData) {
           setUser(userData);
+          setForceAuthScreen(false); // Allow user to proceed past auth screen
+          console.log('[AUTH] User authenticated:', userData.displayName);
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
+        // If we can't fetch user data, sign out the Firebase user
+        try {
+          await AuthService.signOut();
+        } catch (signOutError) {
+          console.error('Error signing out:', signOutError);
+        }
+        setUser(null);
       }
     } else {
-      // Don't automatically sign in anonymously - let user choose
       setUser(null);
+      console.log('[AUTH] No user - showing auth screen');
     }
-  }, [setUser]);
+  }, [setUser, setForceAuthScreen]);
 
   useEffect(() => {
     const unsubscribe = AuthService.onAuthStateChange(handleAuthStateChange);
@@ -133,17 +158,24 @@ export const AppNavigator: React.FC = () => {
   // Memoize stack screen options
   const stackScreenOptions = useMemo(() => ({ headerShown: false }), []);
 
+  // Show launch screen until it's complete
+  if (!isLaunchComplete) {
+    return <LaunchScreen onLaunchComplete={() => setIsLaunchComplete(true)} />;
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={stackScreenOptions}>
-        {!user ? (
+        {!user || forceAuthScreen ? (
           <Stack.Screen name="Auth" component={AuthScreen} />
         ) : !user.displayName ? (
           <Stack.Screen name="Username" component={UsernameScreen} />
         ) : (
-          <Stack.Screen name="Main" component={TabNavigator} />
+          <>
+            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+            <Stack.Screen name="Main" component={TabNavigator} />
+          </>
         )}
-        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

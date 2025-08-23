@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { User, Room, Match, FoodCard } from '../types';
 import { AuthService } from '../services/authService';
 import { RoomService } from '../services/roomService';
+import { GoogleSignInService } from '../services/googleSignInService';
 import { cleanRestaurantForFirestore } from '../utils/firestoreUtils';
 import { analyticsService, AnalyticsEvent } from '../services/analyticsService';
 import { logger } from '../services/loggingService';
@@ -14,6 +15,7 @@ interface AppState {
   userId: string | null;
   isLoading: boolean;
   error: string | null;
+  forceAuthScreen: boolean;
   // Location state
   userLocation: { latitude: number; longitude: number } | null;
   // Matches state
@@ -48,6 +50,7 @@ interface AppState {
   setUser: (user: User | null) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
+  setForceAuthScreen: (forceAuthScreen: boolean) => void;
   setCurrentRoom: (room: Room | null) => void;
   setMatches: (matches: Match[]) => void;
   setCurrentCards: (cards: FoodCard[]) => void;
@@ -98,6 +101,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   userId: null,
   isLoading: false,
   error: null,
+  forceAuthScreen: true, // Force auth screen to show initially
   currentRoom: null,
   matches: [],
   currentCards: [],
@@ -128,14 +132,11 @@ export const useAppStore = create<AppState>((set, get) => ({
   setError: (error: string | null) => {
     set({ error });
     if (error) {
-      console.error('AppStore Error:', error);
-      // Log to analytics
-      try {
-        analyticsService.trackEvent(AnalyticsEvent.APP_ERROR, { error });
-      } catch (analyticsError) {
-        console.log('Failed to log error to analytics:', analyticsError);
-      }
+      logger.logError(new Error(error), 'APP_ERROR');
     }
+  },
+  setForceAuthScreen: (forceAuthScreen: boolean) => {
+    set({ forceAuthScreen });
   },
   setCurrentRoom: (currentRoom) => set({ currentRoom }),
   setMatches: (matches) => set({ matches }),
@@ -154,9 +155,9 @@ export const useAppStore = create<AppState>((set, get) => ({
   setCurrentCardIndex: (currentCardIndex: number) => {
     const { currentCards } = get();
     
-    // Validate index bounds
-    if (currentCardIndex < 0 || currentCardIndex >= currentCards.length) {
-      console.warn(`AppStore: Invalid card index ${currentCardIndex}, max: ${currentCards.length - 1}`);
+    // Validate index bounds - only log error if we have cards but invalid index
+    if (currentCards.length > 0 && (currentCardIndex < 0 || currentCardIndex >= currentCards.length)) {
+      logger.logError(new Error(`Invalid card index ${currentCardIndex}, max: ${currentCards.length - 1}`), 'APP_ERROR');
       return;
     }
     
@@ -285,11 +286,12 @@ export const useAppStore = create<AppState>((set, get) => ({
       
       await AuthService.signOut();
       
-      // Also sign out from Google if signed in
-      const { GoogleSignin } = await import('@react-native-google-signin/google-signin');
-      const isGoogleSignedIn = await GoogleSignin.isSignedIn();
-      if (isGoogleSignedIn) {
-        await GoogleSignin.signOut();
+      // Also sign out from Google if available
+      try {
+        await GoogleSignInService.signOut();
+      } catch (googleError) {
+        // Ignore Google sign out errors in Expo Go
+        logger.info('Google sign out skipped (not available)', 'AUTH');
       }
       
       analyticsService.trackEvent(AnalyticsEvent.USER_LOGOUT);
@@ -470,7 +472,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         });
         logger.logMatchOperation('created', match.id, { cardId, restaurantName: currentCard?.title });
         
-        console.log('🎉 Match found! Everyone liked this restaurant!');
+        logger.info('🎉 Match found! Everyone liked this restaurant!', 'MATCH');
       }
 
       // Log performance
@@ -515,15 +517,11 @@ export const useAppStore = create<AppState>((set, get) => ({
     const state = get();
     const userId = state.user?.id;
     if (!userId) {
-      console.log('❌ addToFavorites: No user ID available');
       return;
     }
     
-    console.log(`🔄 addToFavorites: Adding "${restaurant.title}" (ID: ${restaurant.id})`);
-    
     // Check if already favorited
     if (state.isFavorite(restaurant.id)) {
-      console.log(`⚠️ addToFavorites: "${restaurant.title}" is already in favorites`);
       return;
     }
     
@@ -534,11 +532,8 @@ export const useAppStore = create<AppState>((set, get) => ({
       error: null
     }));
     
-    console.log(`📝 addToFavorites: Optimistic update complete. Total favorites: ${state.favorites.length + 1}`);
-    
     try {
       await RoomService.saveFavorite(userId, restaurant);
-      console.log(`✅ addToFavorites: Successfully saved "${restaurant.title}" to Firestore`);
     } catch (error) {
       // Revert optimistic update on error
       set(prevState => ({ 
@@ -546,7 +541,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         favorites: prevState.favorites.filter(f => f.id !== restaurant.id),
         error: error instanceof Error ? error.message : 'Failed to add to favorites'
       }));
-      console.error('❌ addToFavorites: Failed to save to Firestore:', error);
+      throw error;
     }
   },
   removeFromFavorites: async (restaurantId: string) => {
@@ -567,7 +562,6 @@ export const useAppStore = create<AppState>((set, get) => ({
     
     try {
       await RoomService.removeFavorite(userId, restaurantId);
-      console.log(`Successfully removed restaurant ${restaurantId} from favorites`);
     } catch (error) {
       // Revert optimistic update on error
       set(prevState => ({ 
@@ -575,7 +569,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         favorites: [...prevState.favorites, originalFavorite],
         error: error instanceof Error ? error.message : 'Failed to remove from favorites'
       }));
-      console.error('Failed to remove from favorites:', error);
+      throw error;
     }
   },
   isFavorite: (restaurantId: string) => {
@@ -585,50 +579,30 @@ export const useAppStore = create<AppState>((set, get) => ({
     const state = get();
     const userId = state.user?.id;
     if (!userId) {
-      console.log('❌ loadFavorites: No user ID available');
       return;
     }
     if (state.isLoadingFavorites) {
-      console.log('⏳ loadFavorites: Already loading favorites');
       return;
     }
     
-    console.log(`🔄 loadFavorites: Loading favorites for user ${userId}`);
-    
-    // Atomic loading state
-    set(prevState => ({ 
-      ...prevState, 
-      isLoadingFavorites: true,
-      error: null
-    }));
+    set({ isLoadingFavorites: true });
     
     try {
       const favorites = await RoomService.getFavorites(userId);
       
-      console.log(`✅ loadFavorites: Loaded ${favorites.length} favorites from Firestore`);
-      if (favorites.length > 0) {
-        console.log('📋 loadFavorites: Favorites loaded:', favorites.map(f => f.title));
-      }
-      
-      // Atomic success state
-      set(prevState => ({ 
-        ...prevState, 
+      set({ 
         favorites, 
         isLoadingFavorites: false 
-      }));
+      });
     } catch (error: any) {
       // Handle Firestore errors gracefully using centralized error handler
       const errorMessage = FirestoreErrorHandler.getUserFriendlyMessage(error, 'favorites');
       FirestoreErrorHandler.logError(error, 'loadFavorites');
       
-      console.error('❌ loadFavorites: Failed to load favorites:', error);
-      
-      // Atomic error state
-      set(prevState => ({ 
-        ...prevState, 
+      set({ 
         isLoadingFavorites: false,
         error: errorMessage
-      }));
+      });
     }
   },
   clearFavorites: () => {
@@ -681,7 +655,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           lastMatchesRoomId: state.currentRoom!.id, 
           lastMatchesLoadedAt: now
         }));
-        console.warn('Firestore index required for matches. Create it from the console link in the logs.');
+        logger.logError(new Error('Firestore index required for matches. Create it from the console link in the logs.'), 'FIRESTORE_INDEX_REQUIRED');
       } else {
         // Atomic error state update
         set(prevState => ({
@@ -689,7 +663,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           isLoadingMatches: false,
           error: error instanceof Error ? error.message : 'Failed to load matches'
         }));
-        console.error('Failed to load matches:', error);
+        logger.logError(error as Error, 'LOAD_MATCHES_FAILED');
       }
     }
   },
@@ -739,13 +713,9 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   // User Preferences actions
   updateUserPreferences: (preferences) => {
-    const state = get();
-    console.log('🔄 updateUserPreferences: Updating preferences:', preferences);
-    
-    set(prevState => ({
-      ...prevState,
+    set(state => ({
       userPreferences: {
-        ...prevState.userPreferences,
+        ...state.userPreferences,
         ...preferences
       }
     }));
@@ -761,8 +731,6 @@ export const useAppStore = create<AppState>((set, get) => ({
     const userId = state.user?.id;
     if (!userId || state.isLoadingPreferences) return;
     
-    console.log('🔄 loadUserPreferences: Loading preferences for user:', userId);
-    
     set(prevState => ({ 
       ...prevState, 
       isLoadingPreferences: true,
@@ -776,7 +744,6 @@ export const useAppStore = create<AppState>((set, get) => ({
                                    currentPreferences.dietaryRestrictions.length > 0;
       
       if (hasExistingPreferences) {
-        console.log('✅ loadUserPreferences: Using existing preferences:', currentPreferences);
         set(prevState => ({ 
           ...prevState, 
           isLoadingPreferences: false 
@@ -799,9 +766,8 @@ export const useAppStore = create<AppState>((set, get) => ({
         isLoadingPreferences: false 
       }));
       
-      console.log('✅ loadUserPreferences: Loaded default preferences (no existing preferences found)');
     } catch (error) {
-      console.error('❌ loadUserPreferences: Failed to load preferences:', error);
+      logger.logError(error as Error, 'LOAD_USER_PREFERENCES_FAILED');
       set(prevState => ({ 
         ...prevState, 
         isLoadingPreferences: false,
@@ -814,12 +780,8 @@ export const useAppStore = create<AppState>((set, get) => ({
     const state = get();
     const userId = state.user?.id;
     if (!userId) {
-      console.log('❌ saveUserPreferences: No user ID available');
       return;
     }
-    
-    console.log('🔄 saveUserPreferences: Saving preferences for user:', userId);
-    console.log('📝 saveUserPreferences: Preferences to save:', state.userPreferences);
     
     try {
       // For now, save to localStorage for persistence
@@ -830,10 +792,8 @@ export const useAppStore = create<AppState>((set, get) => ({
       // In React Native, we'll use AsyncStorage (but for now, just log)
       // await AsyncStorage.setItem(preferencesKey, preferencesData);
       
-      console.log('✅ saveUserPreferences: Preferences saved successfully to localStorage');
-      console.log('💾 saveUserPreferences: Saved data:', preferencesData);
     } catch (error) {
-      console.error('❌ saveUserPreferences: Failed to save preferences:', error);
+      logger.logError(error as Error, 'SAVE_USER_PREFERENCES_FAILED');
       set(prevState => ({ 
         ...prevState, 
         error: error instanceof Error ? error.message : 'Failed to save preferences'
@@ -842,8 +802,6 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   resetUserPreferences: () => {
-    console.log('🔄 resetUserPreferences: Resetting to default preferences');
-    
     const defaultPreferences = {
       dietaryRestrictions: [],
       cuisinePreferences: [], // Start with no preferences - user must set them
@@ -857,7 +815,6 @@ export const useAppStore = create<AppState>((set, get) => ({
       userPreferences: defaultPreferences
     }));
     
-    console.log('✅ resetUserPreferences: Preferences reset successfully');
   },
 }));
 

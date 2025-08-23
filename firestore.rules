@@ -9,10 +9,16 @@ service cloud.firestore {
     }
 
     // Users: anyone can create their own document during signup, only the owner can read/update
+    // Allow listing users for username uniqueness checks during signup
     match /users/{userId} {
       allow read: if isSignedIn();
       allow create: if request.auth != null && request.auth.uid == userId;
       allow update, delete: if isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // Allow listing users collection for username uniqueness checks
+    match /users {
+      allow list: if isSignedIn();
     }
 
     // Rooms: only members can read/write room data

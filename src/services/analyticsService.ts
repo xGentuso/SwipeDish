@@ -1,5 +1,6 @@
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
+import { logger } from './loggingService';
 
 // Production analytics events
 export enum AnalyticsEvent {
@@ -75,7 +76,7 @@ class AnalyticsService {
     this.sessionId = this.generateSessionId();
     
     if (this.isEnabled) {
-      console.log('📊 Analytics Service initialized');
+      // Analytics Service initialized
       this.trackEvent(AnalyticsEvent.APP_LAUNCHED, {
         platform: Platform.OS,
         version: Constants.expoConfig?.version || 'unknown',
@@ -98,9 +99,6 @@ class AnalyticsService {
 
   setUserId(userId: string | null): void {
     this.userId = userId;
-    if (this.isEnabled && userId) {
-      console.log(`📊 Analytics: User identified - ${userId}`);
-    }
   }
 
   trackEvent(event: AnalyticsEvent, properties: AnalyticsProperties = {}): void {
@@ -122,7 +120,7 @@ class AnalyticsService {
     
     // Log to console in development
     if (__DEV__) {
-      console.log(`📊 Analytics Event: ${event}`, properties);
+      // Track event in development mode
     }
 
     // In production, you would send to your analytics service
@@ -145,7 +143,7 @@ class AnalyticsService {
 
     const timingEvent = this.timingEvents.get(timingId);
     if (!timingEvent) {
-      console.warn(`📊 Analytics: No timing event found for ID: ${timingId}`);
+      logger.warn(`Analytics: No timing event found for ID: ${timingId}`, 'ANALYTICS');
       return;
     }
 
@@ -220,7 +218,7 @@ class AnalyticsService {
       // });
       
     } catch (error) {
-      console.error('📊 Analytics: Failed to send event', error);
+      logger.error('Analytics: Failed to send event', 'ANALYTICS', { error });
     }
   }
 
@@ -246,7 +244,6 @@ class AnalyticsService {
   clearEvents(): void {
     this.events = [];
     this.timingEvents.clear();
-    console.log('📊 Analytics: Events cleared');
   }
 }
 

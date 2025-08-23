@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged to check and fix files
+npx lint-staged
+
+# Run TypeScript type checking
+npx tsc --noEmit
+
+# Ensure tests pass before commit
+npm test -- --watchAll=false --passWithNoTests
+
+echo "✅ Pre-commit checks passed!"
