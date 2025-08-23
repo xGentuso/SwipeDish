@@ -45,6 +45,9 @@
         "messagingSenderId": "PLACEHOLDER_REMOVED_FOR_SECURITY",
         "appId": "PLACEHOLDER_REMOVED_FOR_SECURITY",
         "measurementId": "PLACEHOLDER_REMOVED_FOR_SECURITY"
+      },
+      "eas": {
+        "projectId": "44952b3b-5dff-4c88-8d94-6d389b395d6a"
       }
     },
     "plugins": [
