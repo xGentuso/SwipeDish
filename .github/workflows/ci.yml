@@ -13,7 +13,7 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x]
     
     steps:
       - name: Checkout code
@@ -55,7 +55,7 @@ jobs:
     name: Build Android
     runs-on: ubuntu-latest
     needs: test
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
     steps:
       - name: Checkout code
@@ -79,14 +79,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
         
-      - name: Build Android APK (Development)
-        if: github.ref == 'refs/heads/develop'
-        run: eas build --platform android --profile development --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          
       - name: Build Android APK (Production)
-        if: github.ref == 'refs/heads/main'
         run: eas build --platform android --profile production --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
@@ -95,7 +88,7 @@ jobs:
     name: Build iOS
     runs-on: macos-latest
     needs: test
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
     steps:
       - name: Checkout code
@@ -113,14 +106,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
         
-      - name: Build iOS (Development)
-        if: github.ref == 'refs/heads/develop'
-        run: eas build --platform ios --profile development --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          
       - name: Build iOS (Production)
-        if: github.ref == 'refs/heads/main'
         run: eas build --platform ios --profile production --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
@@ -150,29 +136,29 @@ jobs:
       - name: Deploy Firestore Rules
         run: firebase deploy --only firestore:rules,firestore:indexes --token "${{ secrets.FIREBASE_TOKEN }}" --project "${{ secrets.FIREBASE_PROJECT_ID }}"
 
-  deploy-staging:
-    name: Deploy to Staging
-    runs-on: ubuntu-latest
-    needs: [test]
-    if: github.ref == 'refs/heads/develop'
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          cache: 'npm'
-          
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
-        
-      - name: Deploy to Expo Development
-        run: npx expo publish --release-channel=staging
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+  # deploy-staging:
+  #   name: Deploy to Staging
+  #   runs-on: ubuntu-latest
+  #   needs: [test]
+  #   if: github.ref == 'refs/heads/develop'
+  #   
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #       
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '20.x'
+  #         cache: 'npm'
+  #         
+  #     - name: Install dependencies
+  #       run: npm ci --legacy-peer-deps
+  #       
+  #     - name: Deploy to Expo Development
+  #       run: npx expo publish --release-channel=staging
+  #       env:
+  #         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
   deploy-production:
     name: Deploy to Production
@@ -201,18 +187,18 @@ jobs:
   notify:
     name: Notify Team
     runs-on: ubuntu-latest
-    needs: [deploy-production, deploy-staging]
+    needs: [deploy-production]
     if: always()
     
     steps:
       - name: Notify Success
-        if: needs.deploy-production.result == 'success' || needs.deploy-staging.result == 'success'
+        if: needs.deploy-production.result == 'success'
         run: |
           echo "🎉 Deployment successful!"
           # Add Slack/Discord/email notification here
           
       - name: Notify Failure
-        if: needs.deploy-production.result == 'failure' || needs.deploy-staging.result == 'failure'
+        if: needs.deploy-production.result == 'failure'
         run: |
           echo "❌ Deployment failed!"
           # Add error notification here
