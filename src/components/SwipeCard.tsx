@@ -240,7 +240,7 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ card, isFirst, onSwipe }) 
         { translateY: translateY.value },
         { rotate: `${rotate}deg` },
         { scale: scale.value },
-      ],
+      ] as any,
       opacity: opacity.value,
     };
   });

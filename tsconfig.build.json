@@ -8,5 +8,13 @@
     "noImplicitReturns": false,
     "noUncheckedIndexedAccess": false,
     "skipLibCheck": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.test.*",
+    "**/__tests__/**",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ]
 }

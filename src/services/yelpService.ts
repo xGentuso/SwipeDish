@@ -65,7 +65,7 @@ export class YelpService {
     }
     
     // Fallback to app.json config (development)
-    const extraYelpKey = (Constants?.expoConfig?.extra as any)?.yelpApiKey || (Constants?.manifest?.extra as any)?.yelpApiKey;
+    const extraYelpKey = (Constants?.expoConfig?.extra as any)?.yelpApiKey || (Constants?.manifest as any)?.extra?.yelpApiKey;
     if (extraYelpKey && extraYelpKey !== 'YOUR_YELP_API_KEY_HERE') {
       return extraYelpKey;
     }
@@ -452,7 +452,7 @@ export class YelpService {
   private static getCachedResults(latitude: number, longitude: number): FoodCard[] | null {
     const now = Date.now();
     
-    for (const [key, cache] of this.locationCache.entries()) {
+    for (const [key, cache] of Array.from(this.locationCache.entries())) {
       // Check if cache is still valid
       if (now - cache.timestamp > this.CACHE_DURATION) {
         this.locationCache.delete(key);

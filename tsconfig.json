@@ -24,6 +24,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx",
+    "target": "es2017",
+    "downlevelIteration": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [

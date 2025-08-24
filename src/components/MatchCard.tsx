@@ -52,7 +52,8 @@ export const MatchCard: React.FC<MatchCardProps> = ({
       }),
       Animated.spring(scaleAnim, {
         toValue: 1.02,
-        duration: 200,
+        tension: 40,
+        friction: 3,
         useNativeDriver: true,
       }),
     ]).start();
