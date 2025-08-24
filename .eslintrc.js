@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   extends: [
-    '@react-native',
+    'expo',
     '@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
