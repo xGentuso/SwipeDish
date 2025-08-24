@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/77</span>
+                <span class='fraction'>0/70</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/55</span>
+                <span class='fraction'>0/60</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/26</span>
+                <span class='fraction'>0/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/76</span>
+                <span class='fraction'>0/69</span>
             </div>
         
             
@@ -323,14 +323,14 @@
 <a name='L258'></a><a href='#L258'>258</a>
 <a name='L259'></a><a href='#L259'>259</a>
 <a name='L260'></a><a href='#L260'>260</a>
-<a name='L261'></a><a href='#L261'>261</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L261'></a><a href='#L261'>261</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -583,14 +583,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import Constants from 'expo-constants';</span>
-<span class="cstat-no" title="statement not covered" >import { Platform } from 'react-native';</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export enum L</span>ogLevel {</span>
-<span class="cstat-no" title="statement not covered" >  DEBUG = 0,</span>
-<span class="cstat-no" title="statement not covered" >  INFO = 1,</span>
-<span class="cstat-no" title="statement not covered" >  WARN = 2,</span>
-<span class="cstat-no" title="statement not covered" >  ERROR = 3,</span>
+export enum LogLevel {
+  DEBUG = 0,
+  INFO = 1,
+  WARN = 2,
+  ERROR = 3,
 }
 &nbsp;
 export interface LogEntry {
@@ -611,7 +611,7 @@ class LoggingService {
   private logLevel: LogLevel;
   private isProduction: boolean;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor() {</span>
+<span class="fstat-no" title="function not covered" >  co</span>nstructor() {
 <span class="cstat-no" title="statement not covered" >    this.sessionId = this.generateSessionId();</span>
 <span class="cstat-no" title="statement not covered" >    this.isProduction = (process.env.EXPO_PUBLIC_ENVIRONMENT || 'development') === 'production';</span>
 <span class="cstat-no" title="statement not covered" >    this.logLevel = this.getLogLevel();</span>
@@ -624,11 +624,11 @@ class LoggingService {
     });
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >generateSessionId(</span>): string {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate generateSessionId(): string {
 <span class="cstat-no" title="statement not covered" >    return `log_session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;</span>
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >getLogLevel(</span>): LogLevel {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate getLogLevel(): LogLevel {
     const envLogLevel = <span class="cstat-no" title="statement not covered" >process.env.EXPO_PUBLIC_LOG_LEVEL;</span>
     
 <span class="cstat-no" title="statement not covered" >    switch (envLogLevel?.toLowerCase()) {</span>
@@ -640,16 +640,16 @@ class LoggingService {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  setUserId(</span>userId: string | undefined): void {
+<span class="fstat-no" title="function not covered" >  se</span>tUserId(userId: string | undefined): void {
 <span class="cstat-no" title="statement not covered" >    this.userId = userId;</span>
 <span class="cstat-no" title="statement not covered" >    this.info('User identified for logging', 'LOGGING', { userId });</span>
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >shouldLog(</span>level: LogLevel): boolean {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate shouldLog(level: LogLevel): boolean {
 <span class="cstat-no" title="statement not covered" >    return level &gt;= this.logLevel;</span>
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >addLog(</span>level: LogLevel, message: string, context?: string, data?: any): void {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate addLog(level: LogLevel, message: string, context?: string, data?: any): void {
     const logEntry: LogEntry = <span class="cstat-no" title="statement not covered" >{</span>
       level,
       message,
@@ -664,7 +664,7 @@ class LoggingService {
 <span class="cstat-no" title="statement not covered" >    this.logs.push(logEntry);</span>
     
     // Trim logs if exceeding max
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.logs.length &gt; this.maxLogs) {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.logs.length &gt; this.maxLogs) {</span>
 <span class="cstat-no" title="statement not covered" >      this.logs = this.logs.slice(-this.maxLogs);</span>
     }
 &nbsp;
@@ -672,12 +672,12 @@ class LoggingService {
 <span class="cstat-no" title="statement not covered" >    this.outputToConsole(logEntry);</span>
 &nbsp;
     // In production, send to logging service
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.isProduction &amp;&amp; level &gt;= LogLevel.WARN) {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.isProduction &amp;&amp; level &gt;= LogLevel.WARN) {</span>
 <span class="cstat-no" title="statement not covered" >      this.sendToLoggingService(logEntry);</span>
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >outputToConsole(</span>logEntry: LogEntry): void {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate outputToConsole(logEntry: LogEntry): void {
     const timestamp = <span class="cstat-no" title="statement not covered" >new Date(logEntry.timestamp).toISOString();</span>
     const levelStr = <span class="cstat-no" title="statement not covered" >LogLevel[logEntry.level];</span>
     const contextStr = <span class="cstat-no" title="statement not covered" >logEntry.context ? `[${logEntry.context}]` : '';</span>
@@ -702,7 +702,7 @@ class LoggingService {
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >async </span>sendToLoggingService(logEntry: LogEntry): Promise&lt;void&gt; {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate async sendToLoggingService(logEntry: LogEntry): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // In production, send to your logging service
       // Examples: CloudWatch, Datadog, LogRocket, Sentry
@@ -720,32 +720,32 @@ class LoggingService {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  debug(</span>message: string, context?: string, data?: any): void {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.shouldLog(LogLevel.DEBUG)) {</span>
+<span class="fstat-no" title="function not covered" >  de</span>bug(message: string, context?: string, data?: any): void {
+<span class="cstat-no" title="statement not covered" >    if (this.shouldLog(LogLevel.DEBUG)) {</span>
 <span class="cstat-no" title="statement not covered" >      this.addLog(LogLevel.DEBUG, message, context, data);</span>
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  info(</span>message: string, context?: string, data?: any): void {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.shouldLog(LogLevel.INFO)) {</span>
+<span class="fstat-no" title="function not covered" >  in</span>fo(message: string, context?: string, data?: any): void {
+<span class="cstat-no" title="statement not covered" >    if (this.shouldLog(LogLevel.INFO)) {</span>
 <span class="cstat-no" title="statement not covered" >      this.addLog(LogLevel.INFO, message, context, data);</span>
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  warn(</span>message: string, context?: string, data?: any): void {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.shouldLog(LogLevel.WARN)) {</span>
+<span class="fstat-no" title="function not covered" >  wa</span>rn(message: string, context?: string, data?: any): void {
+<span class="cstat-no" title="statement not covered" >    if (this.shouldLog(LogLevel.WARN)) {</span>
 <span class="cstat-no" title="statement not covered" >      this.addLog(LogLevel.WARN, message, context, data);</span>
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  error(</span>message: string, context?: string, data?: any): void {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.shouldLog(LogLevel.ERROR)) {</span>
+<span class="fstat-no" title="function not covered" >  er</span>ror(message: string, context?: string, data?: any): void {
+<span class="cstat-no" title="statement not covered" >    if (this.shouldLog(LogLevel.ERROR)) {</span>
 <span class="cstat-no" title="statement not covered" >      this.addLog(LogLevel.ERROR, message, context, data);</span>
     }
   }
 &nbsp;
   // Specialized logging methods
-<span class="fstat-no" title="function not covered" >  logApiCall(</span>method: string, url: string, status: number, duration: number, error?: string): void {
+<span class="fstat-no" title="function not covered" >  lo</span>gApiCall(method: string, url: string, status: number, duration: number, error?: string): void {
     const level = <span class="cstat-no" title="statement not covered" >status &gt;= 400 ? LogLevel.ERROR : status &gt;= 300 ? LogLevel.WARN : LogLevel.INFO;</span>
 <span class="cstat-no" title="statement not covered" >    this.addLog(level, `API ${method} ${url} - ${status} (${duration}ms)`, 'API', {</span>
       method,
@@ -756,11 +756,11 @@ class LoggingService {
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  logUserAction(</span>action: string, screen: string, data?: any): void {
+<span class="fstat-no" title="function not covered" >  lo</span>gUserAction(action: string, screen: string, data?: any): void {
 <span class="cstat-no" title="statement not covered" >    this.info(`User action: ${action}`, `USER_ACTION:${screen}`, data);</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  logPerformance(</span>metric: string, value: number, unit: string = <span class="branch-0 cbranch-no" title="branch not covered" >'ms',</span> context?: string): void {
+<span class="fstat-no" title="function not covered" >  lo</span>gPerformance(metric: string, value: number, unit: string = <span class="branch-0 cbranch-no" title="branch not covered" >'ms',</span> context?: string): void {
 <span class="cstat-no" title="statement not covered" >    this.info(`Performance: ${metric} = ${value}${unit}`, context || 'PERFORMANCE', {</span>
       metric,
       value,
@@ -768,7 +768,7 @@ class LoggingService {
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  logError(</span>error: Error, context?: string, additionalData?: any): void {
+<span class="fstat-no" title="function not covered" >  lo</span>gError(error: Error, context?: string, additionalData?: any): void {
 <span class="cstat-no" title="statement not covered" >    this.error(error.message, context || 'ERROR', {</span>
       stack: error.stack,
       name: error.name,
@@ -777,7 +777,7 @@ class LoggingService {
   }
 &nbsp;
   // Firebase specific logging
-<span class="fstat-no" title="function not covered" >  logFirebaseOperation(</span>operation: string, collection?: string, success: boolean = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span> error?: string): void {
+<span class="fstat-no" title="function not covered" >  lo</span>gFirebaseOperation(operation: string, collection?: string, success: boolean = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span> error?: string): void {
     const level = <span class="cstat-no" title="statement not covered" >success ? LogLevel.INFO : LogLevel.ERROR;</span>
 <span class="cstat-no" title="statement not covered" >    this.addLog(level, `Firebase ${operation}${collection ? ` on ${collection}` : ''}`, 'FIREBASE', {</span>
       operation,
@@ -788,38 +788,38 @@ class LoggingService {
   }
 &nbsp;
   // Room/Match specific logging
-<span class="fstat-no" title="function not covered" >  logRoomOperation(</span>operation: string, roomId?: string, data?: any): void {
+<span class="fstat-no" title="function not covered" >  lo</span>gRoomOperation(operation: string, roomId?: string, data?: any): void {
 <span class="cstat-no" title="statement not covered" >    this.info(`Room ${operation}`, 'ROOM', { roomId, ...data });</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  logMatchOperation(</span>operation: string, matchId?: string, data?: any): void {
+<span class="fstat-no" title="function not covered" >  lo</span>gMatchOperation(operation: string, matchId?: string, data?: any): void {
 <span class="cstat-no" title="statement not covered" >    this.info(`Match ${operation}`, 'MATCH', { matchId, ...data });</span>
   }
 &nbsp;
   // Get logs for debugging or crash reports
-<span class="fstat-no" title="function not covered" >  getLogs(</span>level?: LogLevel, limit: number = <span class="branch-0 cbranch-no" title="branch not covered" >100)</span>: LogEntry[] {
+<span class="fstat-no" title="function not covered" >  ge</span>tLogs(level?: LogLevel, limit: number = <span class="branch-0 cbranch-no" title="branch not covered" >100)</span>: LogEntry[] {
     let filteredLogs = <span class="cstat-no" title="statement not covered" >this.logs;</span>
     
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (level !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      filteredLogs = this.logs.filter(<span class="fstat-no" title="function not covered" >log </span>=&gt; <span class="cstat-no" title="statement not covered" >log.level &gt;= level)</span>;</span>
+<span class="cstat-no" title="statement not covered" >    if (level !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >      filteredLogs = this.logs.filter(<span class="fstat-no" title="function not covered" >lo</span>g =&gt; <span class="cstat-no" title="statement not covered" >log.level &gt;= level)</span>;</span>
     }
     
 <span class="cstat-no" title="statement not covered" >    return filteredLogs.slice(-limit);</span>
   }
 &nbsp;
   // Export logs for debugging
-<span class="fstat-no" title="function not covered" >  exportLogs(</span>): string {
+<span class="fstat-no" title="function not covered" >  ex</span>portLogs(): string {
 <span class="cstat-no" title="statement not covered" >    return JSON.stringify(this.logs, null, 2);</span>
   }
 &nbsp;
   // Clear logs
-<span class="fstat-no" title="function not covered" >  clearLogs(</span>): void {
+<span class="fstat-no" title="function not covered" >  cl</span>earLogs(): void {
 <span class="cstat-no" title="statement not covered" >    this.logs = [];</span>
 <span class="cstat-no" title="statement not covered" >    this.info('Logs cleared', 'LOGGING');</span>
   }
 &nbsp;
   // Get logging statistics
-<span class="fstat-no" title="function not covered" >  getLogStats(</span>): {
+<span class="fstat-no" title="function not covered" >  ge</span>tLogStats(): {
     totalLogs: number;
     logsByLevel: Record&lt;string, number&gt;;
     sessionId: string;
@@ -843,14 +843,14 @@ class LoggingService {
 }
 &nbsp;
 // Export singleton instance
-export const <span class="cstat-no" title="statement not covered" >logger = new LoggingService();</span></pre></td></tr></table></pre>
+export const logger = <span class="cstat-no" title="statement not covered" >new LoggingService();</span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>

@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/292</span>
+                <span class='fraction'>0/281</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/82</span>
+                <span class='fraction'>0/110</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/257</span>
+                <span class='fraction'>0/248</span>
             </div>
         
             
@@ -886,16 +886,12 @@
 <a name='L821'></a><a href='#L821'>821</a>
 <a name='L822'></a><a href='#L822'>822</a>
 <a name='L823'></a><a href='#L823'>823</a>
-<a name='L824'></a><a href='#L824'>824</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L824'></a><a href='#L824'>824</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -983,6 +979,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1674,8 +1674,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1709,16 +1709,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { create } from 'zustand';</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { create } from 'zustand';
 import { User, Room, Match, FoodCard } from '../types';
-<span class="cstat-no" title="statement not covered" >import { AuthService } from '../services/authService';</span>
-<span class="cstat-no" title="statement not covered" >import { RoomService } from '../services/roomService';</span>
-<span class="cstat-no" title="statement not covered" >import { GoogleSignInService } from '../services/googleSignInService';</span>
+import { AuthService } from '../services/authService';
+import { RoomService } from '../services/roomService';
+import { GoogleSignInService } from '../services/googleSignInService';
 import { cleanRestaurantForFirestore } from '../utils/firestoreUtils';
-<span class="cstat-no" title="statement not covered" >import { analyticsService, AnalyticsEvent } from '../services/analyticsService';</span>
-<span class="cstat-no" title="statement not covered" >import { logger } from '../services/loggingService';</span>
+import { analyticsService, AnalyticsEvent } from '../services/analyticsService';
+import { logger } from '../services/loggingService';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >import { FirestoreErrorHandler } from '../utils/firestoreErrorHandler';</span>
+import { FirestoreErrorHandler } from '../utils/firestoreErrorHandler';
 &nbsp;
 interface AppState {
   // User state
@@ -1806,7 +1806,7 @@ interface AppState {
   unsubscribeMatches?: () =&gt; void;
 }
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >useAppStore = create&lt;AppState&gt;(<span class="fstat-no" title="function not covered" >(s</span>et, get) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+export const useAppStore = <span class="cstat-no" title="statement not covered" >create&lt;AppState&gt;(<span class="fstat-no" title="function not covered" >(s</span>et, get) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
   // Initial state
   user: null,
   userId: null,
@@ -1842,7 +1842,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
   },
   setError: <span class="fstat-no" title="function not covered" >(e</span>rror: string | null) =&gt; {
 <span class="cstat-no" title="statement not covered" >    set({ error });</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (error) {</span>
+<span class="cstat-no" title="statement not covered" >    if (error) {</span>
 <span class="cstat-no" title="statement not covered" >      logger.logError(new Error(error), 'APP_ERROR');</span>
     }
   },
@@ -1853,7 +1853,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
   setMatches: <span class="fstat-no" title="function not covered" >(m</span>atches) =&gt; <span class="cstat-no" title="statement not covered" >set({ matches }),</span>
   setCurrentCards: <span class="fstat-no" title="function not covered" >(c</span>urrentCards: FoodCard[]) =&gt; {
     // Validate cards before setting
-    const validatedCards = <span class="cstat-no" title="statement not covered" >currentCards.filter(<span class="fstat-no" title="function not covered" >card </span>=&gt; </span>
+    const validatedCards = <span class="cstat-no" title="statement not covered" >currentCards.filter(<span class="fstat-no" title="function not covered" >ca</span>rd =&gt; </span>
 <span class="cstat-no" title="statement not covered" >      card &amp;&amp; card.id &amp;&amp; card.title &amp;&amp; card.imageUrl</span>
     );
     
@@ -1867,7 +1867,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     const { currentCards } = <span class="cstat-no" title="statement not covered" >get();</span>
     
     // Validate index bounds - only log error if we have cards but invalid index
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (currentCards.length &gt; 0 &amp;&amp; (currentCardIndex &lt; 0 || currentCardIndex &gt;= currentCards.length)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (currentCards.length &gt; 0 &amp;&amp; (currentCardIndex &lt; 0 || currentCardIndex &gt;= currentCards.length)) {</span>
 <span class="cstat-no" title="statement not covered" >      logger.logError(new Error(`Invalid card index ${currentCardIndex}, max: ${currentCards.length - 1}`), 'APP_ERROR');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -1879,7 +1879,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
 &nbsp;
 &nbsp;
   // Auth actions
-  signInAnonymously: <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
+  signInAnonymously: <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      logger.info('Starting anonymous sign in', 'AUTH');</span>
 <span class="cstat-no" title="statement not covered" >      set({ isLoading: true, error: null });</span>
@@ -1904,14 +1904,14 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     }
   },
 &nbsp;
-  signInWithEmail: <span class="fstat-no" title="function not covered" >async </span>(email: string, password: string) =&gt; {
+  signInWithEmail: <span class="fstat-no" title="function not covered" >as</span>ync (email: string, password: string) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      logger.info('Starting email sign in', 'AUTH');</span>
 <span class="cstat-no" title="statement not covered" >      set({ isLoading: true, error: null });</span>
       
       // Add timeout to prevent infinite loading
       const timeoutPromise = <span class="cstat-no" title="statement not covered" >new Promise(<span class="fstat-no" title="function not covered" >(_</span>, reject) =&gt; </span>
-<span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >reject(new Error('Request timeout')),</span> 30000)</span>
+<span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >reject(new Error('Request timeout')),</span> 30000)</span>
       );
       
       const user = <span class="cstat-no" title="statement not covered" >await Promise.race([</span>
@@ -1919,12 +1919,12 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
         timeoutPromise
       ]);
       
-<span class="cstat-no" title="statement not covered" >      analyticsService.setUserId(user.id);</span>
-<span class="cstat-no" title="statement not covered" >      logger.setUserId(user.id);</span>
+<span class="cstat-no" title="statement not covered" >      analyticsService.setUserId((user as any).id);</span>
+<span class="cstat-no" title="statement not covered" >      logger.setUserId((user as any).id);</span>
 <span class="cstat-no" title="statement not covered" >      analyticsService.trackEvent(AnalyticsEvent.USER_LOGIN, { method: 'email' });</span>
-<span class="cstat-no" title="statement not covered" >      logger.info('Email sign in successful', 'AUTH', { userId: user.id });</span>
+<span class="cstat-no" title="statement not covered" >      logger.info('Email sign in successful', 'AUTH', { userId: (user as any).id });</span>
       
-<span class="cstat-no" title="statement not covered" >      set({ user, isLoading: false });</span>
+<span class="cstat-no" title="statement not covered" >      set({ user: user as any, isLoading: false });</span>
     } catch (error) {
       const errorMessage = <span class="cstat-no" title="statement not covered" >error instanceof Error ? error.message : 'Email sign in failed';</span>
 <span class="cstat-no" title="statement not covered" >      logger.error('Email sign in failed', 'AUTH', { error: errorMessage });</span>
@@ -1938,19 +1938,19 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     }
   },
 &nbsp;
-  signUpWithEmail: <span class="fstat-no" title="function not covered" >async </span>(email: string, password: string, displayName: string) =&gt; {
+  signUpWithEmail: <span class="fstat-no" title="function not covered" >as</span>ync (email: string, password: string, displayName: string) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      logger.info('Starting email sign up', 'AUTH');</span>
 <span class="cstat-no" title="statement not covered" >      set({ isLoading: true, error: null });</span>
       
       const user = <span class="cstat-no" title="statement not covered" >await AuthService.signUpWithEmail(email, password, displayName);</span>
       
-<span class="cstat-no" title="statement not covered" >      analyticsService.setUserId(user.id);</span>
-<span class="cstat-no" title="statement not covered" >      logger.setUserId(user.id);</span>
+<span class="cstat-no" title="statement not covered" >      analyticsService.setUserId((user as any).id);</span>
+<span class="cstat-no" title="statement not covered" >      logger.setUserId((user as any).id);</span>
 <span class="cstat-no" title="statement not covered" >      analyticsService.trackEvent(AnalyticsEvent.USER_LOGIN, { method: 'email_signup' });</span>
-<span class="cstat-no" title="statement not covered" >      logger.info('Email sign up successful', 'AUTH', { userId: user.id });</span>
+<span class="cstat-no" title="statement not covered" >      logger.info('Email sign up successful', 'AUTH', { userId: (user as any).id });</span>
       
-<span class="cstat-no" title="statement not covered" >      set({ user, isLoading: false });</span>
+<span class="cstat-no" title="statement not covered" >      set({ user: user as any, isLoading: false });</span>
     } catch (error) {
       const errorMessage = <span class="cstat-no" title="statement not covered" >error instanceof Error ? error.message : 'Email sign up failed';</span>
 <span class="cstat-no" title="statement not covered" >      logger.error('Email sign up failed', 'AUTH', { error: errorMessage });</span>
@@ -1964,19 +1964,19 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     }
   },
 &nbsp;
-  signInWithGoogle: <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
+  signInWithGoogle: <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      logger.info('Starting Google sign in', 'AUTH');</span>
 <span class="cstat-no" title="statement not covered" >      set({ isLoading: true, error: null });</span>
       
       const user = <span class="cstat-no" title="statement not covered" >await AuthService.signInWithGoogle();</span>
       
-<span class="cstat-no" title="statement not covered" >      analyticsService.setUserId(user.id);</span>
-<span class="cstat-no" title="statement not covered" >      logger.setUserId(user.id);</span>
+<span class="cstat-no" title="statement not covered" >      analyticsService.setUserId((user as any).id);</span>
+<span class="cstat-no" title="statement not covered" >      logger.setUserId((user as any).id);</span>
 <span class="cstat-no" title="statement not covered" >      analyticsService.trackEvent(AnalyticsEvent.USER_LOGIN, { method: 'google' });</span>
-<span class="cstat-no" title="statement not covered" >      logger.info('Google sign in successful', 'AUTH', { userId: user.id });</span>
+<span class="cstat-no" title="statement not covered" >      logger.info('Google sign in successful', 'AUTH', { userId: (user as any).id });</span>
       
-<span class="cstat-no" title="statement not covered" >      set({ user, isLoading: false });</span>
+<span class="cstat-no" title="statement not covered" >      set({ user: user as any, isLoading: false });</span>
     } catch (error) {
       const errorMessage = <span class="cstat-no" title="statement not covered" >error instanceof Error ? error.message : 'Google sign in failed';</span>
 <span class="cstat-no" title="statement not covered" >      logger.error('Google sign in failed', 'AUTH', { error: errorMessage });</span>
@@ -1990,7 +1990,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     }
   },
 &nbsp;
-  signOut: <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
+  signOut: <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      logger.info('Starting sign out', 'AUTH');</span>
 <span class="cstat-no" title="statement not covered" >      set({ isLoading: true, error: null });</span>
@@ -2031,14 +2031,14 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
   },
 &nbsp;
   // Room actions
-  createRoom: <span class="fstat-no" title="function not covered" >async </span>(name: string, displayName: string) =&gt; {
+  createRoom: <span class="fstat-no" title="function not covered" >as</span>ync (name: string, displayName: string) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      logger.info('Creating room', 'ROOM', { name, displayName });</span>
 <span class="cstat-no" title="statement not covered" >      set({ isLoading: true, error: null });</span>
       
       const { user } = <span class="cstat-no" title="statement not covered" >get();</span>
       
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!user) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error('User not authenticated');</span>
       }
 &nbsp;
@@ -2064,14 +2064,14 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     }
   },
 &nbsp;
-  joinRoom: <span class="fstat-no" title="function not covered" >async </span>(pin: string, displayName: string) =&gt; {
+  joinRoom: <span class="fstat-no" title="function not covered" >as</span>ync (pin: string, displayName: string) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      logger.info('Joining room', 'ROOM', { pin, displayName });</span>
 <span class="cstat-no" title="statement not covered" >      set({ isLoading: true, error: null });</span>
       
       const { user } = <span class="cstat-no" title="statement not covered" >get();</span>
       
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!user) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error('User not authenticated');</span>
       }
 &nbsp;
@@ -2097,10 +2097,10 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     }
   },
 &nbsp;
-  leaveRoom: <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
+  leaveRoom: <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const { currentRoom, user } = <span class="cstat-no" title="statement not covered" >get();</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!currentRoom || !user) <span class="cstat-no" title="statement not covered" >return;</span></span>
+<span class="cstat-no" title="statement not covered" >      if (!currentRoom || !user) <span class="cstat-no" title="statement not covered" >return;</span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      logger.info('Leaving room', 'ROOM', { roomId: currentRoom.id });</span>
 <span class="cstat-no" title="statement not covered" >      set({ isLoading: true, error: null });</span>
@@ -2131,9 +2131,9 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     }
   },
 &nbsp;
-  submitSwipe: <span class="fstat-no" title="function not covered" >async </span>(cardId: string, action: 'like' | 'dislike' | 'superlike') =&gt; {
+  submitSwipe: <span class="fstat-no" title="function not covered" >as</span>ync (cardId: string, action: 'like' | 'dislike' | 'superlike') =&gt; {
     const { currentRoom, user, currentCardIndex, currentCards } = <span class="cstat-no" title="statement not covered" >get();</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!currentRoom || !user) <span class="cstat-no" title="statement not covered" >return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!currentRoom || !user) <span class="cstat-no" title="statement not covered" >return;</span></span>
 &nbsp;
     const currentCard = <span class="cstat-no" title="statement not covered" >currentCards[currentCardIndex];</span>
     const swipeStart = <span class="cstat-no" title="statement not covered" >Date.now();</span>
@@ -2152,14 +2152,14 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
       
 <span class="cstat-no" title="statement not covered" >      analyticsService.trackEvent(analyticsEvent, {</span>
         cardId,
-        restaurantName: currentCard?.title,
+        restaurantName: currentCard?.title || null,
         roomId: currentRoom.id,
         cardIndex: currentCardIndex,
       });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      logger.info(`Swipe ${action}`, 'SWIPE', { </span>
         cardId, 
-        restaurantName: currentCard?.title, 
+        restaurantName: currentCard?.title || null, 
         roomId: currentRoom.id 
       });
 &nbsp;
@@ -2168,9 +2168,9 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
       
       // Check for match
       const match = <span class="cstat-no" title="statement not covered" >await RoomService.checkForMatch(currentRoom.id, cardId);</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (match) {</span>
+<span class="cstat-no" title="statement not covered" >      if (match) {</span>
         // Atomic match update
-<span class="cstat-no" title="statement not covered" >        set(<span class="fstat-no" title="function not covered" >state </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >        set(<span class="fstat-no" title="function not covered" >st</span>ate =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
           matches: [match, ...state.matches],
           error: null 
         }));
@@ -2178,7 +2178,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
 <span class="cstat-no" title="statement not covered" >        analyticsService.trackEvent(AnalyticsEvent.MATCH_CREATED, {</span>
           matchId: match.id,
           cardId,
-          restaurantName: currentCard?.title,
+          restaurantName: currentCard?.title || null,
           roomId: currentRoom.id,
         });
 <span class="cstat-no" title="statement not covered" >        logger.logMatchOperation('created', match.id, { cardId, restaurantName: currentCard?.title });</span>
@@ -2212,32 +2212,32 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
   },
 &nbsp;
   // Card actions
-  nextCard: <span class="fstat-no" title="function not covered" >() =</span>&gt; {
+  nextCard: <span class="fstat-no" title="function not covered" >()</span> =&gt; {
     const { currentCardIndex, currentCards } = <span class="cstat-no" title="statement not covered" >get();</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (currentCardIndex &lt; currentCards.length - 1) {</span>
+<span class="cstat-no" title="statement not covered" >    if (currentCardIndex &lt; currentCards.length - 1) {</span>
 <span class="cstat-no" title="statement not covered" >      set({ currentCardIndex: currentCardIndex + 1 });</span>
     }
   },
 &nbsp;
-  resetCards: <span class="fstat-no" title="function not covered" >() =</span>&gt; {
+  resetCards: <span class="fstat-no" title="function not covered" >()</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >    set({ currentCardIndex: 0 });</span>
   },
 &nbsp;
   // Favorites actions
-  addToFavorites: <span class="fstat-no" title="function not covered" >async </span>(restaurant: FoodCard) =&gt; {
+  addToFavorites: <span class="fstat-no" title="function not covered" >as</span>ync (restaurant: FoodCard) =&gt; {
     const state = <span class="cstat-no" title="statement not covered" >get();</span>
     const userId = <span class="cstat-no" title="statement not covered" >state.user?.id;</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!userId) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
     
     // Check if already favorited
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (state.isFavorite(restaurant.id)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (state.isFavorite(restaurant.id)) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
     
     // Optimistic update
-<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
       ...prevState,
       favorites: [...prevState.favorites, restaurant],
       error: null
@@ -2247,7 +2247,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
 <span class="cstat-no" title="statement not covered" >      await RoomService.saveFavorite(userId, restaurant);</span>
     } catch (error) {
       // Revert optimistic update on error
-<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
         ...prevState,
         favorites: prevState.favorites.filter(<span class="fstat-no" title="function not covered" >f </span>=&gt; <span class="cstat-no" title="statement not covered" >f.id !== restaurant.id)</span>,
         error: error instanceof Error ? error.message : 'Failed to add to favorites'
@@ -2255,17 +2255,17 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
 <span class="cstat-no" title="statement not covered" >      throw error;</span>
     }
   },
-  removeFromFavorites: <span class="fstat-no" title="function not covered" >async </span>(restaurantId: string) =&gt; {
+  removeFromFavorites: <span class="fstat-no" title="function not covered" >as</span>ync (restaurantId: string) =&gt; {
     const state = <span class="cstat-no" title="statement not covered" >get();</span>
     const userId = <span class="cstat-no" title="statement not covered" >state.user?.id;</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) <span class="cstat-no" title="statement not covered" >return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!userId) <span class="cstat-no" title="statement not covered" >return;</span></span>
     
     // Store original favorite for potential revert
     const originalFavorite = <span class="cstat-no" title="statement not covered" >state.favorites.find(<span class="fstat-no" title="function not covered" >f </span>=&gt; <span class="cstat-no" title="statement not covered" >f.id === restaurantId)</span>;</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!originalFavorite) <span class="cstat-no" title="statement not covered" >return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!originalFavorite) <span class="cstat-no" title="statement not covered" >return;</span></span>
     
     // Optimistic update
-<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
       ...prevState,
       favorites: prevState.favorites.filter(<span class="fstat-no" title="function not covered" >f </span>=&gt; <span class="cstat-no" title="statement not covered" >f.id !== restaurantId)</span>,
       error: null
@@ -2275,7 +2275,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
 <span class="cstat-no" title="statement not covered" >      await RoomService.removeFavorite(userId, restaurantId);</span>
     } catch (error) {
       // Revert optimistic update on error
-<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
         ...prevState,
         favorites: [...prevState.favorites, originalFavorite],
         error: error instanceof Error ? error.message : 'Failed to remove from favorites'
@@ -2286,13 +2286,13 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
   isFavorite: <span class="fstat-no" title="function not covered" >(r</span>estaurantId: string) =&gt; {
 <span class="cstat-no" title="statement not covered" >    return get().favorites.some(<span class="fstat-no" title="function not covered" >f </span>=&gt; <span class="cstat-no" title="statement not covered" >f.id === restaurantId)</span>;</span>
   },
-  loadFavorites: <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
+  loadFavorites: <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
     const state = <span class="cstat-no" title="statement not covered" >get();</span>
     const userId = <span class="cstat-no" title="statement not covered" >state.user?.id;</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!userId) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (state.isLoadingFavorites) {</span>
+<span class="cstat-no" title="statement not covered" >    if (state.isLoadingFavorites) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
     
@@ -2316,20 +2316,20 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
       });
     }
   },
-  clearFavorites: <span class="fstat-no" title="function not covered" >() =</span>&gt; {
+  clearFavorites: <span class="fstat-no" title="function not covered" >()</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >    set({ favorites: [] });</span>
   },
 &nbsp;
   // Real-time functionality
-  loadMatches: <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
+  loadMatches: <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
     const state = <span class="cstat-no" title="statement not covered" >get();</span>
     const now = <span class="cstat-no" title="statement not covered" >Date.now();</span>
     
     // Early validation
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!state.currentRoom?.id || state.isLoadingMatches) <span class="cstat-no" title="statement not covered" >return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!state.currentRoom?.id || state.isLoadingMatches) <span class="cstat-no" title="statement not covered" >return;</span></span>
     
     // Smart throttling - avoid redundant calls
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (state.lastMatchesRoomId === state.currentRoom.id &amp;&amp; </span>
+<span class="cstat-no" title="statement not covered" >    if (state.lastMatchesRoomId === state.currentRoom.id &amp;&amp; </span>
         state.lastMatchesLoadedAt &amp;&amp; 
         now - state.lastMatchesLoadedAt &lt; 20000) {
 <span class="cstat-no" title="statement not covered" >      return;</span>
@@ -2337,7 +2337,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Atomic loading state update
-<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
         ...prevState,
         isLoadingMatches: true, 
         indexRequiredForMatches: false,
@@ -2347,7 +2347,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
       const matches = <span class="cstat-no" title="statement not covered" >await RoomService.getMatches(state.currentRoom!.id);</span>
       
       // Atomic success state update
-<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
         ...prevState,
         matches, 
         lastMatchesRoomId: state.currentRoom!.id, 
@@ -2359,7 +2359,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
       
 <span class="cstat-no" title="statement not covered" >      if (message.includes('The query requires an index')) {</span>
         // Atomic index requirement update
-<span class="cstat-no" title="statement not covered" >        set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >        set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
           ...prevState,
           indexRequiredForMatches: true, 
           isLoadingMatches: false, 
@@ -2369,7 +2369,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
 <span class="cstat-no" title="statement not covered" >        logger.logError(new Error('Firestore index required for matches. Create it from the console link in the logs.'), 'FIRESTORE_INDEX_REQUIRED');</span>
       } else {
         // Atomic error state update
-<span class="cstat-no" title="statement not covered" >        set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >        set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
           ...prevState,
           isLoadingMatches: false,
           error: error instanceof Error ? error.message : 'Failed to load matches'
@@ -2383,13 +2383,13 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     const state = <span class="cstat-no" title="statement not covered" >get();</span>
     
     // Clean up existing listener
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (state.unsubscribeRoom) {</span>
+<span class="cstat-no" title="statement not covered" >    if (state.unsubscribeRoom) {</span>
 <span class="cstat-no" title="statement not covered" >      state.unsubscribeRoom();</span>
     }
 &nbsp;
     const unsubscribe = <span class="cstat-no" title="statement not covered" >RoomService.onRoomUpdate(roomId, <span class="fstat-no" title="function not covered" >(r</span>oom) =&gt; {</span>
       // Atomic room update
-<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
         ...prevState, 
         currentRoom: room,
         error: null 
@@ -2397,25 +2397,25 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     });
 &nbsp;
     // Atomic listener registration
-<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
       ...prevState, 
       unsubscribeRoom: unsubscribe 
     }));
   },
 &nbsp;
-  stopListeningToRoomUpdates: <span class="fstat-no" title="function not covered" >() =</span>&gt; {
+  stopListeningToRoomUpdates: <span class="fstat-no" title="function not covered" >()</span> =&gt; {
     const state = <span class="cstat-no" title="statement not covered" >get();</span>
     
     // Clean up listeners
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (state.unsubscribeRoom) {</span>
+<span class="cstat-no" title="statement not covered" >    if (state.unsubscribeRoom) {</span>
 <span class="cstat-no" title="statement not covered" >      state.unsubscribeRoom();</span>
     }
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (state.unsubscribeMatches) {</span>
+<span class="cstat-no" title="statement not covered" >    if (state.unsubscribeMatches) {</span>
 <span class="cstat-no" title="statement not covered" >      state.unsubscribeMatches();</span>
     }
     
     // Atomic cleanup
-<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
       ...prevState, 
       unsubscribeRoom: undefined, 
       unsubscribeMatches: undefined 
@@ -2424,7 +2424,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
 &nbsp;
   // User Preferences actions
   updateUserPreferences: <span class="fstat-no" title="function not covered" >(p</span>references) =&gt; {
-<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >state </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >st</span>ate =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
       userPreferences: {
         ...state.userPreferences,
         ...preferences
@@ -2432,17 +2432,17 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     }));
     
     // Auto-save preferences when they're updated
-<span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      get().saveUserPreferences();</span>
     }, 100);
   },
 &nbsp;
-  loadUserPreferences: <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
+  loadUserPreferences: <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
     const state = <span class="cstat-no" title="statement not covered" >get();</span>
     const userId = <span class="cstat-no" title="statement not covered" >state.user?.id;</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId || state.isLoadingPreferences) <span class="cstat-no" title="statement not covered" >return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!userId || state.isLoadingPreferences) <span class="cstat-no" title="statement not covered" >return;</span></span>
     
-<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
       ...prevState, 
       isLoadingPreferences: true,
       error: null
@@ -2454,8 +2454,8 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
       const hasExistingPreferences = <span class="cstat-no" title="statement not covered" >currentPreferences.cuisinePreferences.length &gt; 0 || </span>
                                    currentPreferences.dietaryRestrictions.length &gt; 0;
       
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (hasExistingPreferences) {</span>
-<span class="cstat-no" title="statement not covered" >        set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >      if (hasExistingPreferences) {</span>
+<span class="cstat-no" title="statement not covered" >        set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
           ...prevState, 
           isLoadingPreferences: false 
         }));
@@ -2471,7 +2471,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
         minRating: 3.5,
       };
       
-<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
         ...prevState, 
         userPreferences: defaultPreferences,
         isLoadingPreferences: false 
@@ -2479,7 +2479,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
       
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      logger.logError(error as Error, 'LOAD_USER_PREFERENCES_FAILED');</span>
-<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
         ...prevState, 
         isLoadingPreferences: false,
         error: error instanceof Error ? error.message : 'Failed to load preferences'
@@ -2487,32 +2487,32 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
     }
   },
 &nbsp;
-  saveUserPreferences: <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
+  saveUserPreferences: <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
     const state = <span class="cstat-no" title="statement not covered" >get();</span>
     const userId = <span class="cstat-no" title="statement not covered" >state.user?.id;</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!userId) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
     
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // For now, save to localStorage for persistence
       // In the future, this would save to Firestore
-      const preferencesKey = <span class="cstat-no" title="statement not covered" >`userPreferences_${userId}`;</span>
-      const preferencesData = <span class="cstat-no" title="statement not covered" >JSON.stringify(state.userPreferences);</span>
+      // const preferencesKey = `userPreferences_${userId}`;
+      // const preferencesData = JSON.stringify(state.userPreferences);
       
       // In React Native, we'll use AsyncStorage (but for now, just log)
       // await AsyncStorage.setItem(preferencesKey, preferencesData);
       
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      logger.logError(error as Error, 'SAVE_USER_PREFERENCES_FAILED');</span>
-<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >      set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
         ...prevState, 
         error: error instanceof Error ? error.message : 'Failed to save preferences'
       }));
     }
   },
 &nbsp;
-  resetUserPreferences: <span class="fstat-no" title="function not covered" >() =</span>&gt; {
+  resetUserPreferences: <span class="fstat-no" title="function not covered" >()</span> =&gt; {
     const defaultPreferences = <span class="cstat-no" title="statement not covered" >{</span>
       dietaryRestrictions: [],
       cuisinePreferences: [], // Start with no preferences - user must set them
@@ -2521,7 +2521,7 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
       minRating: 3.5,
     };
     
-<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >prevState </span>=&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
+<span class="cstat-no" title="statement not covered" >    set(<span class="fstat-no" title="function not covered" >pr</span>evState =&gt; (<span class="cstat-no" title="statement not covered" >{ </span></span>
       ...prevState, 
       userPreferences: defaultPreferences
     }));
@@ -2530,8 +2530,8 @@ export const <span class="cstat-no" title="statement not covered" >useAppStore =
 }));
 &nbsp;
 // Add computed getters for convenience
-export const <span class="cstat-no" title="statement not covered" >useUserId = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>) =</span>&gt; <span class="cstat-no" title="statement not covered" >useAppStore(<span class="fstat-no" title="function not covered" >state </span>=&gt; <span class="cstat-no" title="statement not covered" >state.user?.id)</span>;</span></span>
-export const <span class="cstat-no" title="statement not covered" >useIsAuthenticated = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>) =</span>&gt; <span class="cstat-no" title="statement not covered" >useAppStore(<span class="fstat-no" title="function not covered" >state </span>=&gt; <span class="cstat-no" title="statement not covered" >!!state.user)</span>;</span></span>
+export const useUserId = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >useAppStore(<span class="fstat-no" title="function not covered" >st</span>ate =&gt; <span class="cstat-no" title="statement not covered" >state.user?.id)</span>;</span></span>
+export const useIsAuthenticated = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >useAppStore(<span class="fstat-no" title="function not covered" >st</span>ate =&gt; <span class="cstat-no" title="statement not covered" >!!state.user)</span>;</span></span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -2539,7 +2539,7 @@ export const <span class="cstat-no" title="statement not covered" >useIsAuthenti
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>

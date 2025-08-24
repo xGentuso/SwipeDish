@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/43</span>
+                <span class='fraction'>0/42</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/24</span>
+                <span class='fraction'>0/34</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/39</span>
+                <span class='fraction'>0/38</span>
             </div>
         
             
@@ -221,7 +221,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -364,16 +364,16 @@
  * Provides consistent error handling for Firestore operations
  */
 &nbsp;
-interface FirestoreError {
-  code: string;
-  message: string;
-}
+// interface FirestoreError {
+//   code: string;
+//   message: string;
+// }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export class F</span>irestoreErrorHandler {
+export class FirestoreErrorHandler {
   /**
    * Check if an error is a Firestore index-related error
    */
-<span class="fstat-no" title="function not covered" >  static </span>isIndexError(error: any): boolean {
+<span class="fstat-no" title="function not covered" >  st</span>atic isIndexError(error: any): boolean {
 <span class="cstat-no" title="statement not covered" >    return error?.code === 'failed-precondition' &amp;&amp; </span>
            error?.message?.includes('index');
   }
@@ -381,14 +381,14 @@ interface FirestoreError {
   /**
    * Check if an error is a Firestore permission error
    */
-<span class="fstat-no" title="function not covered" >  static </span>isPermissionError(error: any): boolean {
+<span class="fstat-no" title="function not covered" >  st</span>atic isPermissionError(error: any): boolean {
 <span class="cstat-no" title="statement not covered" >    return error?.code === 'permission-denied';</span>
   }
 &nbsp;
   /**
    * Check if an error is a network-related error
    */
-<span class="fstat-no" title="function not covered" >  static </span>isNetworkError(error: any): boolean {
+<span class="fstat-no" title="function not covered" >  st</span>atic isNetworkError(error: any): boolean {
 <span class="cstat-no" title="statement not covered" >    return error?.code === 'unavailable' || </span>
            error?.code === 'timeout' ||
            error?.message?.includes('network');
@@ -397,16 +397,16 @@ interface FirestoreError {
   /**
    * Get a user-friendly error message
    */
-<span class="fstat-no" title="function not covered" >  static </span>getUserFriendlyMessage(error: any, operation: string = <span class="branch-0 cbranch-no" title="branch not covered" >'operation')</span>: string {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.isIndexError(error)) {</span>
+<span class="fstat-no" title="function not covered" >  st</span>atic getUserFriendlyMessage(error: any, operation: string = <span class="branch-0 cbranch-no" title="branch not covered" >'operation')</span>: string {
+<span class="cstat-no" title="statement not covered" >    if (this.isIndexError(error)) {</span>
 <span class="cstat-no" title="statement not covered" >      return `Loading ${operation}... (database indexing in progress)`;</span>
     }
     
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.isPermissionError(error)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.isPermissionError(error)) {</span>
 <span class="cstat-no" title="statement not covered" >      return `Permission denied for ${operation}. Please check your account.`;</span>
     }
     
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.isNetworkError(error)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.isNetworkError(error)) {</span>
 <span class="cstat-no" title="statement not covered" >      return `Network error during ${operation}. Please check your connection.`;</span>
     }
     
@@ -417,10 +417,10 @@ interface FirestoreError {
   /**
    * Execute a Firestore operation with proper error handling
    */
-<span class="fstat-no" title="function not covered" >  static </span>async executeWithRetry&lt;T&gt;(
+<span class="fstat-no" title="function not covered" >  st</span>atic async executeWithRetry&lt;T&gt;(
     operation: () =&gt; Promise&lt;T&gt;,
     maxRetries: number = <span class="branch-0 cbranch-no" title="branch not covered" >3,</span>
-    operationName: string = <span class="branch-0 cbranch-no" title="branch not covered" >'operation'</span>
+    _operationName: string = <span class="branch-0 cbranch-no" title="branch not covered" >'operation'</span>
   ): Promise&lt;T&gt; {
     let lastError: any;
     
@@ -431,24 +431,24 @@ interface FirestoreError {
 <span class="cstat-no" title="statement not covered" >        lastError = error;</span>
         
         // Don't retry index errors (they need time to build)
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (this.isIndexError(error)) {</span>
+<span class="cstat-no" title="statement not covered" >        if (this.isIndexError(error)) {</span>
 <span class="cstat-no" title="statement not covered" >          throw error;</span>
         }
         
         // Don't retry permission errors
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (this.isPermissionError(error)) {</span>
+<span class="cstat-no" title="statement not covered" >        if (this.isPermissionError(error)) {</span>
 <span class="cstat-no" title="statement not covered" >          throw error;</span>
         }
         
         // Retry network errors with exponential backoff
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (this.isNetworkError(error) &amp;&amp; attempt &lt; maxRetries) {</span>
+<span class="cstat-no" title="statement not covered" >        if (this.isNetworkError(error) &amp;&amp; attempt &lt; maxRetries) {</span>
           const delay = <span class="cstat-no" title="statement not covered" >Math.pow(2, attempt - 1) * 1000;</span> // 1s, 2s, 4s
-<span class="cstat-no" title="statement not covered" >          await new Promise(<span class="fstat-no" title="function not covered" >resolve </span>=&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, delay))</span>;</span>
+<span class="cstat-no" title="statement not covered" >          await new Promise(<span class="fstat-no" title="function not covered" >re</span>solve =&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, delay))</span>;</span>
 <span class="cstat-no" title="statement not covered" >          continue;</span>
         }
         
         // For other errors, throw immediately
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (attempt === maxRetries) {</span>
+<span class="cstat-no" title="statement not covered" >        if (attempt === maxRetries) {</span>
 <span class="cstat-no" title="statement not covered" >          throw error;</span>
         }
       }
@@ -460,7 +460,7 @@ interface FirestoreError {
   /**
    * Log Firestore errors consistently
    */
-<span class="fstat-no" title="function not covered" >  static </span>logError(error: any, context: string): void {
+<span class="fstat-no" title="function not covered" >  st</span>atic logError(error: any, _context: string): void {
 <span class="cstat-no" title="statement not covered" >    if (this.isIndexError(error)) {</span>
       // Log index creation message
     } else {
@@ -468,9 +468,9 @@ interface FirestoreError {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async retryOperation&lt;T&gt;(
+<span class="fstat-no" title="function not covered" >  st</span>atic async retryOperation&lt;T&gt;(
     operation: () =&gt; Promise&lt;T&gt;,
-    operationName: string,
+    _operationName: string,
     maxRetries: number = <span class="branch-0 cbranch-no" title="branch not covered" >3,</span>
     baseDelay: number = <span class="branch-0 cbranch-no" title="branch not covered" >1000</span>
   ): Promise&lt;T&gt; {
@@ -482,12 +482,12 @@ interface FirestoreError {
       } catch (error: any) {
 <span class="cstat-no" title="statement not covered" >        lastError = error;</span>
         
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (attempt === maxRetries) {</span>
+<span class="cstat-no" title="statement not covered" >        if (attempt === maxRetries) {</span>
 <span class="cstat-no" title="statement not covered" >          break;</span>
         }
         
         // Check if error is retryable
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.isRetryableError(error)) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!this.isNetworkError(error)) {</span>
 <span class="cstat-no" title="statement not covered" >          break;</span>
         }
         
@@ -495,15 +495,15 @@ interface FirestoreError {
         const delay = <span class="cstat-no" title="statement not covered" >baseDelay * Math.pow(2, attempt - 1);</span>
         
         // Wait before retrying
-<span class="cstat-no" title="statement not covered" >        await new Promise(<span class="fstat-no" title="function not covered" >resolve </span>=&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, delay))</span>;</span>
+<span class="cstat-no" title="statement not covered" >        await new Promise(<span class="fstat-no" title="function not covered" >re</span>solve =&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, delay))</span>;</span>
       }
     }
     
 <span class="cstat-no" title="statement not covered" >    throw lastError;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>handleIndexError(error: any, context: string): void {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.isIndexError(error)) {</span>
+<span class="fstat-no" title="function not covered" >  st</span>atic handleIndexError(error: any, _context: string): void {
+<span class="cstat-no" title="statement not covered" >    if (this.isIndexError(error)) {</span>
       // Log index creation message
     }
   }
@@ -514,7 +514,7 @@ interface FirestoreError {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>

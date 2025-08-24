@@ -11,7 +11,7 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!(jest-)?@?react-native|@react-native-community|@react-navigation)',
   ],
-  moduleNameMapping: {
+  moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   setupFilesAfterEnv: [
@@ -32,6 +32,11 @@ module.exports = {
       statements: 0,
     },
   },
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/__tests__/',
+    'App.test.tsx',
+  ],
   testEnvironment: 'jsdom',
   modulePathIgnorePatterns: ['<rootDir>/node_modules'],
   clearMocks: true,

@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler/jestSetup';
 import '@testing-library/jest-native/extend-expect';
-import 'jest-expo/src/preset/setup';
 
 // Mock react-native modules
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
@@ -95,7 +94,7 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 // Global test variables
-global.__DEV__ = true;
+(globalThis as any).__DEV__ = true;
 
 // Silence console warnings in tests
 const originalConsoleWarn = console.warn;

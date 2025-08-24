@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/80</span>
+                <span class='fraction'>0/77</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/66</span>
+                <span class='fraction'>0/85</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/80</span>
+                <span class='fraction'>0/77</span>
             </div>
         
             
@@ -324,8 +324,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -336,7 +334,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -579,8 +579,8 @@
  */
 &nbsp;
 import { FoodCard } from '../types';
-<span class="cstat-no" title="statement not covered" >import { RestaurantService } from './restaurantService';</span>
-<span class="cstat-no" title="statement not covered" >import { analyticsService, AnalyticsEvent } from './analyticsService';</span>
+import { RestaurantService } from './restaurantService';
+import { analyticsService, AnalyticsEvent } from './analyticsService';
 &nbsp;
 export interface RecommendationOptions {
   userLocation?: { latitude: number; longitude: number };
@@ -591,7 +591,7 @@ export interface RecommendationOptions {
   priceRange?: string[];
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export class R</span>ecommendationService {
+export class RecommendationService {
   private static readonly DEFAULT_LIMIT = <span class="cstat-no" title="statement not covered" >10;</span>
   private static readonly DEFAULT_MIN_RATING = <span class="cstat-no" title="statement not covered" >4.0;</span>
   private static readonly DEFAULT_MAX_DISTANCE = <span class="cstat-no" title="statement not covered" >10;</span> // km
@@ -599,7 +599,7 @@ export interface RecommendationOptions {
   /**
    * Get recommended restaurants using simple, reliable criteria
    */
-<span class="fstat-no" title="function not covered" >  static </span>async getRecommendations(
+<span class="fstat-no" title="function not covered" >  st</span>atic async getRecommendations(
     userId?: string,
     options: RecommendationOptions = <span class="branch-0 cbranch-no" title="branch not covered" >{}</span>
   ): Promise&lt;FoodCard[]&gt; {
@@ -612,7 +612,7 @@ export interface RecommendationOptions {
         options.userLocation
       );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (allRestaurants.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >      if (allRestaurants.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >        return [];</span>
       }
 &nbsp;
@@ -624,7 +624,7 @@ export interface RecommendationOptions {
       
       // Track analytics
       const responseTime = <span class="cstat-no" title="statement not covered" >Date.now() - startTime;</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (userId) {</span>
+<span class="cstat-no" title="statement not covered" >      if (userId) {</span>
 <span class="cstat-no" title="statement not covered" >        analyticsService.trackEvent(AnalyticsEvent.RECOMMENDATIONS_GENERATED, {</span>
           user_id: userId,
           count: limitedResults.length,
@@ -655,7 +655,7 @@ export interface RecommendationOptions {
   /**
    * Score and filter restaurants based on simple, proven criteria
    */
-  private <span class="fstat-no" title="function not covered" >static </span>scoreAndFilterRestaurants(
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static scoreAndFilterRestaurants(
     restaurants: FoodCard[],
     options: RecommendationOptions
   ): FoodCard[] {
@@ -663,34 +663,34 @@ export interface RecommendationOptions {
     const maxDistance = <span class="cstat-no" title="statement not covered" >options.maxDistance || this.DEFAULT_MAX_DISTANCE;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return restaurants</span>
-      .filter(<span class="fstat-no" title="function not covered" >restaurant </span>=&gt; {
+      .filter(<span class="fstat-no" title="function not covered" >re</span>staurant =&gt; {
         // Rating filter
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.rating &amp;&amp; restaurant.rating &lt; minRating) {</span>
+<span class="cstat-no" title="statement not covered" >        if (restaurant.rating &amp;&amp; restaurant.rating &lt; minRating) {</span>
 <span class="cstat-no" title="statement not covered" >          return false;</span>
         }
 &nbsp;
         // Distance filter
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.distance &amp;&amp; restaurant.distance &gt; maxDistance) {</span>
+<span class="cstat-no" title="statement not covered" >        if (restaurant.distance &amp;&amp; restaurant.distance &gt; maxDistance) {</span>
 <span class="cstat-no" title="statement not covered" >          return false;</span>
         }
 &nbsp;
         // Cuisine preference filter
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (options.preferredCuisines &amp;&amp; options.preferredCuisines.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (!restaurant.cuisine || !options.preferredCuisines.includes(restaurant.cuisine)) {</span>
+<span class="cstat-no" title="statement not covered" >        if (options.preferredCuisines &amp;&amp; options.preferredCuisines.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >          if (!restaurant.cuisine || !options.preferredCuisines.includes(restaurant.cuisine)) {</span>
 <span class="cstat-no" title="statement not covered" >            return false;</span>
           }
         }
 &nbsp;
         // Price range filter
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (options.priceRange &amp;&amp; options.priceRange.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (!restaurant.price || !options.priceRange.includes(restaurant.price)) {</span>
+<span class="cstat-no" title="statement not covered" >        if (options.priceRange &amp;&amp; options.priceRange.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >          if (!restaurant.price || !options.priceRange.includes(restaurant.price)) {</span>
 <span class="cstat-no" title="statement not covered" >            return false;</span>
           }
         }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        return true;</span>
       })
-      .map(<span class="fstat-no" title="function not covered" >restaurant </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+      .map(<span class="fstat-no" title="function not covered" >re</span>staurant =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
         ...restaurant,
         recommendationScore: this.calculateRecommendationScore(restaurant, options),
         recommendationReason: this.getRecommendationReason(restaurant)
@@ -701,36 +701,36 @@ export interface RecommendationOptions {
   /**
    * Calculate a simple recommendation score based on multiple factors
    */
-  private <span class="fstat-no" title="function not covered" >static </span>calculateRecommendationScore(
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static calculateRecommendationScore(
     restaurant: FoodCard,
     options: RecommendationOptions
   ): number {
     let score = <span class="cstat-no" title="statement not covered" >0;</span>
 &nbsp;
     // Rating score (40% of total)
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.rating) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.rating) {</span>
 <span class="cstat-no" title="statement not covered" >      score += (restaurant.rating / 5.0) * 0.4;</span>
     }
 &nbsp;
     // Review count score (20% of total) - more reviews = more reliable
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.userRatingsTotal) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.userRatingsTotal) {</span>
       const reviewScore = <span class="cstat-no" title="statement not covered" >Math.min(restaurant.userRatingsTotal / 1000, 1.0);</span>
 <span class="cstat-no" title="statement not covered" >      score += reviewScore * 0.2;</span>
     }
 &nbsp;
     // Distance score (20% of total) - closer is better
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.distance) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.distance) {</span>
       const distanceScore = <span class="cstat-no" title="statement not covered" >Math.max(0, 1.0 - (restaurant.distance / 10));</span>
 <span class="cstat-no" title="statement not covered" >      score += distanceScore * 0.2;</span>
     }
 &nbsp;
     // Open status bonus (10% of total)
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.isOpen) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.isOpen) {</span>
 <span class="cstat-no" title="statement not covered" >      score += 0.1;</span>
     }
 &nbsp;
     // Delivery time bonus (10% of total) - faster is better
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.deliveryTime) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.deliveryTime) {</span>
       const timeScore = <span class="cstat-no" title="statement not covered" >Math.max(0, 1.0 - (restaurant.deliveryTime / 60));</span>
 <span class="cstat-no" title="statement not covered" >      score += timeScore * 0.1;</span>
     }
@@ -741,32 +741,32 @@ export interface RecommendationOptions {
   /**
    * Generate a simple explanation for why this restaurant was recommended
    */
-  private <span class="fstat-no" title="function not covered" >static </span>getRecommendationReason(restaurant: FoodCard): string {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static getRecommendationReason(restaurant: FoodCard): string {
     const reasons: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (restaurant.rating &amp;&amp; restaurant.rating &gt;= 4.5) {</span>
 <span class="cstat-no" title="statement not covered" >      reasons.push('Highly rated');</span>
-    } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.rating &amp;&amp; restaurant.rating &gt;= 4.0) {</span>
+    } else <span class="cstat-no" title="statement not covered" >if (restaurant.rating &amp;&amp; restaurant.rating &gt;= 4.0) {</span>
 <span class="cstat-no" title="statement not covered" >      reasons.push('Well rated');</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.userRatingsTotal &amp;&amp; restaurant.userRatingsTotal &gt; 500) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.userRatingsTotal &amp;&amp; restaurant.userRatingsTotal &gt; 500) {</span>
 <span class="cstat-no" title="statement not covered" >      reasons.push('Popular choice');</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.distance &amp;&amp; restaurant.distance &lt;= 2) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.distance &amp;&amp; restaurant.distance &lt;= 2) {</span>
 <span class="cstat-no" title="statement not covered" >      reasons.push('Close to you');</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.isOpen) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.isOpen) {</span>
 <span class="cstat-no" title="statement not covered" >      reasons.push('Open now');</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.deliveryTime &amp;&amp; restaurant.deliveryTime &lt;= 30) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.deliveryTime &amp;&amp; restaurant.deliveryTime &lt;= 30) {</span>
 <span class="cstat-no" title="statement not covered" >      reasons.push('Quick delivery');</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (reasons.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >    if (reasons.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      return 'Good option for you';</span>
     }
 &nbsp;
@@ -776,7 +776,7 @@ export interface RecommendationOptions {
   /**
    * Get top-rated restaurants (simple high-rating filter)
    */
-<span class="fstat-no" title="function not covered" >  static </span>async getTopRated(
+<span class="fstat-no" title="function not covered" >  st</span>atic async getTopRated(
     userLocation?: { latitude: number; longitude: number },
     limit: number = <span class="branch-0 cbranch-no" title="branch not covered" >10</span>
   ): Promise&lt;FoodCard[]&gt; {
@@ -790,7 +790,7 @@ export interface RecommendationOptions {
   /**
    * Get nearby restaurants (distance-based recommendations)
    */
-<span class="fstat-no" title="function not covered" >  static </span>async getNearby(
+<span class="fstat-no" title="function not covered" >  st</span>atic async getNearby(
     userLocation?: { latitude: number; longitude: number },
     limit: number = <span class="branch-0 cbranch-no" title="branch not covered" >10</span>
   ): Promise&lt;FoodCard[]&gt; {
@@ -804,7 +804,7 @@ export interface RecommendationOptions {
   /**
    * Get quick delivery options
    */
-<span class="fstat-no" title="function not covered" >  static </span>async getQuickDelivery(
+<span class="fstat-no" title="function not covered" >  st</span>atic async getQuickDelivery(
     userLocation?: { latitude: number; longitude: number },
     limit: number = <span class="branch-0 cbranch-no" title="branch not covered" >10</span>
   ): Promise&lt;FoodCard[]&gt; {
@@ -812,14 +812,14 @@ export interface RecommendationOptions {
       const restaurants = <span class="cstat-no" title="statement not covered" >await RestaurantService.getRestaurants(undefined, userLocation);</span>
       
 <span class="cstat-no" title="statement not covered" >      return restaurants</span>
-        .filter(<span class="fstat-no" title="function not covered" >restaurant </span>=&gt; 
+        .filter(<span class="fstat-no" title="function not covered" >re</span>staurant =&gt; 
 <span class="cstat-no" title="statement not covered" >          restaurant.deliveryTime &amp;&amp; </span>
           restaurant.deliveryTime &lt;= 30 &amp;&amp;
           restaurant.isOpen
         )
         .sort(<span class="fstat-no" title="function not covered" >(a</span>, b) =&gt; <span class="cstat-no" title="statement not covered" >(a.deliveryTime || 999) - (b.deliveryTime || 999))</span>
         .slice(0, limit)
-        .map(<span class="fstat-no" title="function not covered" >restaurant </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+        .map(<span class="fstat-no" title="function not covered" >re</span>staurant =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
           ...restaurant,
           recommendationReason: `${restaurant.deliveryTime} min delivery`
         }));
@@ -835,7 +835,7 @@ export interface RecommendationOptions {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>

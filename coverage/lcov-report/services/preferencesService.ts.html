@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/115</span>
+                <span class='fraction'>0/114</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/60</span>
+                <span class='fraction'>0/89</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/108</span>
+                <span class='fraction'>0/107</span>
             </div>
         
             
@@ -408,7 +408,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -743,7 +743,7 @@ export interface UserPreferences {
   minRating: number;
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export class P</span>referencesService {
+export class PreferencesService {
   // Available dietary restrictions
   static readonly DIETARY_RESTRICTIONS = <span class="cstat-no" title="statement not covered" >[</span>
     'Vegetarian',
@@ -791,18 +791,18 @@ export interface UserPreferences {
   /**
    * Filter and prioritize restaurants based on user preferences
    */
-<span class="fstat-no" title="function not covered" >  static </span>filterRestaurantsByPreferences(restaurants: FoodCard[], preferences: UserPreferences): FoodCard[] {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!preferences || restaurants.length === 0) {</span>
+<span class="fstat-no" title="function not covered" >  st</span>atic filterRestaurantsByPreferences(restaurants: FoodCard[], preferences: UserPreferences): FoodCard[] {
+<span class="cstat-no" title="statement not covered" >    if (!preferences || restaurants.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      return restaurants;</span>
     }
 &nbsp;
     // Strict filtering based on preferences
-    const strictlyFiltered = <span class="cstat-no" title="statement not covered" >restaurants.filter(<span class="fstat-no" title="function not covered" >restaurant </span>=&gt; </span>
+    const strictlyFiltered = <span class="cstat-no" title="statement not covered" >restaurants.filter(<span class="fstat-no" title="function not covered" >re</span>staurant =&gt; </span>
 <span class="cstat-no" title="statement not covered" >      this.isRestaurantPreferred(restaurant, preferences)</span>
     );
 &nbsp;
     // If we have enough strictly filtered results, return them
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (strictlyFiltered.length &gt;= 5) {</span>
+<span class="cstat-no" title="statement not covered" >    if (strictlyFiltered.length &gt;= 5) {</span>
 <span class="cstat-no" title="statement not covered" >      return strictlyFiltered;</span>
     }
 &nbsp;
@@ -814,8 +814,8 @@ export interface UserPreferences {
   /**
    * Prioritize restaurants based on preferences (reduces frequency of non-preferred options)
    */
-  private <span class="fstat-no" title="function not covered" >static </span>prioritizeByPreferences(restaurants: FoodCard[], preferences: UserPreferences): FoodCard[] {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!preferences || restaurants.length === 0) {</span>
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static prioritizeByPreferences(restaurants: FoodCard[], preferences: UserPreferences): FoodCard[] {
+<span class="cstat-no" title="statement not covered" >    if (!preferences || restaurants.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      return restaurants;</span>
     }
 &nbsp;
@@ -838,38 +838,38 @@ export interface UserPreferences {
   /**
    * Check if a restaurant is preferred based on user preferences
    */
-  private <span class="fstat-no" title="function not covered" >static </span>isRestaurantPreferred(
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static isRestaurantPreferred(
     restaurant: FoodCard,
     preferences: UserPreferences
   ): boolean {
     // Check cuisine preferences with improved matching
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (preferences.cuisinePreferences.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!restaurant.cuisine) {</span>
+<span class="cstat-no" title="statement not covered" >    if (preferences.cuisinePreferences.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!restaurant.cuisine) {</span>
 <span class="cstat-no" title="statement not covered" >        return false;</span>
       }
       
       // Try exact match first
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (preferences.cuisinePreferences.includes(restaurant.cuisine)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (preferences.cuisinePreferences.includes(restaurant.cuisine)) {</span>
 <span class="cstat-no" title="statement not covered" >        return true;</span>
       }
       
       // Try case-insensitive match
       const restaurantCuisineLower = <span class="cstat-no" title="statement not covered" >restaurant.cuisine.toLowerCase();</span>
-      const hasMatchingCuisine = <span class="cstat-no" title="statement not covered" >preferences.cuisinePreferences.some(<span class="fstat-no" title="function not covered" >pref </span>=&gt; </span>
+      const hasMatchingCuisine = <span class="cstat-no" title="statement not covered" >preferences.cuisinePreferences.some(<span class="fstat-no" title="function not covered" >pr</span>ef =&gt; </span>
 <span class="cstat-no" title="statement not covered" >        pref.toLowerCase() === restaurantCuisineLower</span>
       );
       
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (hasMatchingCuisine) {</span>
+<span class="cstat-no" title="statement not covered" >      if (hasMatchingCuisine) {</span>
 <span class="cstat-no" title="statement not covered" >        return true;</span>
       }
       
       // Try partial matching for cuisine types
-      const hasPartialMatch = <span class="cstat-no" title="statement not covered" >preferences.cuisinePreferences.some(<span class="fstat-no" title="function not covered" >pref </span>=&gt; {</span>
+      const hasPartialMatch = <span class="cstat-no" title="statement not covered" >preferences.cuisinePreferences.some(<span class="fstat-no" title="function not covered" >pr</span>ef =&gt; {</span>
         const prefLower = <span class="cstat-no" title="statement not covered" >pref.toLowerCase();</span>
 <span class="cstat-no" title="statement not covered" >        return restaurantCuisineLower.includes(prefLower) || prefLower.includes(restaurantCuisineLower);</span>
       });
       
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (hasPartialMatch) {</span>
+<span class="cstat-no" title="statement not covered" >      if (hasPartialMatch) {</span>
 <span class="cstat-no" title="statement not covered" >        return true;</span>
       }
       
@@ -877,8 +877,8 @@ export interface UserPreferences {
     }
 &nbsp;
     // Check price range preferences
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (preferences.priceRange.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!restaurant.price || !preferences.priceRange.includes(restaurant.price)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (preferences.priceRange.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!restaurant.price || !preferences.priceRange.includes(restaurant.price)) {</span>
 <span class="cstat-no" title="statement not covered" >        return false;</span>
       }
     }
@@ -889,7 +889,7 @@ export interface UserPreferences {
   /**
    * Shuffle array using Fisher-Yates algorithm
    */
-  private <span class="fstat-no" title="function not covered" >static </span>shuffleArray&lt;T&gt;(array: T[]): T[] {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static shuffleArray&lt;T&gt;(array: T[]): T[] {
     const shuffled = <span class="cstat-no" title="statement not covered" >[...array];</span>
 <span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >shuffled.length - 1;</span> i &gt; 0; i--) {</span>
       const j = <span class="cstat-no" title="statement not covered" >Math.floor(Math.random() * (i + 1));</span>
@@ -901,14 +901,14 @@ export interface UserPreferences {
   /**
    * Check if a restaurant meets dietary restrictions
    */
-  private <span class="fstat-no" title="function not covered" >static </span>restaurantMeetsDietaryRestrictions(
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static restaurantMeetsDietaryRestrictions(
     restaurant: FoodCard,
     dietaryRestrictions: string[]
   ): boolean {
     // For now, we'll use a simple tag-based approach
     // In the future, this could be enhanced with menu analysis
     
-    const restaurantTags = <span class="cstat-no" title="statement not covered" >restaurant.tags.map(<span class="fstat-no" title="function not covered" >tag </span>=&gt; <span class="cstat-no" title="statement not covered" >tag.toLowerCase())</span>;</span>
+    const restaurantTags = <span class="cstat-no" title="statement not covered" >restaurant.tags.map(<span class="fstat-no" title="function not covered" >ta</span>g =&gt; <span class="cstat-no" title="statement not covered" >tag.toLowerCase())</span>;</span>
     const restaurantName = <span class="cstat-no" title="statement not covered" >restaurant.title.toLowerCase();</span>
     const restaurantCuisine = <span class="cstat-no" title="statement not covered" >restaurant.cuisine?.toLowerCase() || '';</span>
 &nbsp;
@@ -916,19 +916,19 @@ export interface UserPreferences {
       const restrictionLower = <span class="cstat-no" title="statement not covered" >restriction.toLowerCase();</span>
       
       // Check if restaurant explicitly supports this dietary restriction
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurantTags.includes(restrictionLower) || </span>
+<span class="cstat-no" title="statement not covered" >      if (restaurantTags.includes(restrictionLower) || </span>
           restaurantTags.includes(restrictionLower.replace('-', '')) ||
           restaurantTags.includes(restrictionLower.replace('-', ' '))) {
 <span class="cstat-no" title="statement not covered" >        continue; </span>// Restaurant supports this restriction
       }
 &nbsp;
       // Check cuisine-specific dietary support
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (this.cuisineSupportsDietaryRestriction(restaurantCuisine, restriction)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (this.cuisineSupportsDietaryRestriction(restaurantCuisine, restriction)) {</span>
 <span class="cstat-no" title="statement not covered" >        continue; </span>// Cuisine type supports this restriction
       }
 &nbsp;
       // Check restaurant name for dietary indicators
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (this.restaurantNameIndicatesDietarySupport(restaurantName, restriction)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (this.restaurantNameIndicatesDietarySupport(restaurantName, restriction)) {</span>
 <span class="cstat-no" title="statement not covered" >        continue; </span>// Restaurant name suggests dietary support
       }
 &nbsp;
@@ -942,35 +942,35 @@ export interface UserPreferences {
   /**
    * Check if a cuisine type typically supports a dietary restriction
    */
-  private <span class="fstat-no" title="function not covered" >static </span>cuisineSupportsDietaryRestriction(cuisine: string, restriction: string): boolean {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static cuisineSupportsDietaryRestriction(cuisine: string, restriction: string): boolean {
     const restrictionLower = <span class="cstat-no" title="statement not covered" >restriction.toLowerCase();</span>
     
     // Vegetarian-friendly cuisines
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restrictionLower === 'vegetarian' || restrictionLower === 'vegan') {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictionLower === 'vegetarian' || restrictionLower === 'vegan') {</span>
       const vegetarianFriendlyCuisines = <span class="cstat-no" title="statement not covered" >['indian', 'mediterranean', 'greek', 'lebanese', 'turkish', 'thai', 'vietnamese'];</span>
 <span class="cstat-no" title="statement not covered" >      return vegetarianFriendlyCuisines.includes(cuisine);</span>
     }
 &nbsp;
     // Gluten-free friendly cuisines
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restrictionLower === 'gluten-free') {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictionLower === 'gluten-free') {</span>
       const glutenFreeFriendlyCuisines = <span class="cstat-no" title="statement not covered" >['thai', 'vietnamese', 'japanese', 'mediterranean', 'greek'];</span>
 <span class="cstat-no" title="statement not covered" >      return glutenFreeFriendlyCuisines.includes(cuisine);</span>
     }
 &nbsp;
     // Dairy-free friendly cuisines
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restrictionLower === 'dairy-free') {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictionLower === 'dairy-free') {</span>
       const dairyFreeFriendlyCuisines = <span class="cstat-no" title="statement not covered" >['thai', 'vietnamese', 'japanese', 'chinese', 'indian'];</span>
 <span class="cstat-no" title="statement not covered" >      return dairyFreeFriendlyCuisines.includes(cuisine);</span>
     }
 &nbsp;
     // Halal-friendly cuisines
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restrictionLower === 'halal') {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictionLower === 'halal') {</span>
       const halalFriendlyCuisines = <span class="cstat-no" title="statement not covered" >['middle eastern', 'lebanese', 'turkish', 'indian', 'pakistani'];</span>
 <span class="cstat-no" title="statement not covered" >      return halalFriendlyCuisines.includes(cuisine);</span>
     }
 &nbsp;
     // Kosher-friendly cuisines
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restrictionLower === 'kosher') {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictionLower === 'kosher') {</span>
       const kosherFriendlyCuisines = <span class="cstat-no" title="statement not covered" >['middle eastern', 'mediterranean', 'greek'];</span>
 <span class="cstat-no" title="statement not covered" >      return kosherFriendlyCuisines.includes(cuisine);</span>
     }
@@ -981,37 +981,37 @@ export interface UserPreferences {
   /**
    * Check if restaurant name indicates dietary support
    */
-  private <span class="fstat-no" title="function not covered" >static </span>restaurantNameIndicatesDietarySupport(restaurantName: string, restriction: string): boolean {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static restaurantNameIndicatesDietarySupport(restaurantName: string, restriction: string): boolean {
     const restrictionLower = <span class="cstat-no" title="statement not covered" >restriction.toLowerCase();</span>
     
     // Vegetarian/Vegan indicators
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restrictionLower === 'vegetarian' || restrictionLower === 'vegan') {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictionLower === 'vegetarian' || restrictionLower === 'vegan') {</span>
       const vegetarianIndicators = <span class="cstat-no" title="statement not covered" >['vegetarian', 'vegan', 'plant-based', 'green', 'organic'];</span>
-<span class="cstat-no" title="statement not covered" >      return vegetarianIndicators.some(<span class="fstat-no" title="function not covered" >indicator </span>=&gt; <span class="cstat-no" title="statement not covered" >restaurantName.includes(indicator))</span>;</span>
+<span class="cstat-no" title="statement not covered" >      return vegetarianIndicators.some(<span class="fstat-no" title="function not covered" >in</span>dicator =&gt; <span class="cstat-no" title="statement not covered" >restaurantName.includes(indicator))</span>;</span>
     }
 &nbsp;
     // Gluten-free indicators
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restrictionLower === 'gluten-free') {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictionLower === 'gluten-free') {</span>
       const glutenFreeIndicators = <span class="cstat-no" title="statement not covered" >['gluten-free', 'gluten free', 'celiac'];</span>
-<span class="cstat-no" title="statement not covered" >      return glutenFreeIndicators.some(<span class="fstat-no" title="function not covered" >indicator </span>=&gt; <span class="cstat-no" title="statement not covered" >restaurantName.includes(indicator))</span>;</span>
+<span class="cstat-no" title="statement not covered" >      return glutenFreeIndicators.some(<span class="fstat-no" title="function not covered" >in</span>dicator =&gt; <span class="cstat-no" title="statement not covered" >restaurantName.includes(indicator))</span>;</span>
     }
 &nbsp;
     // Dairy-free indicators
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restrictionLower === 'dairy-free') {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictionLower === 'dairy-free') {</span>
       const dairyFreeIndicators = <span class="cstat-no" title="statement not covered" >['dairy-free', 'dairy free', 'lactose-free'];</span>
-<span class="cstat-no" title="statement not covered" >      return dairyFreeIndicators.some(<span class="fstat-no" title="function not covered" >indicator </span>=&gt; <span class="cstat-no" title="statement not covered" >restaurantName.includes(indicator))</span>;</span>
+<span class="cstat-no" title="statement not covered" >      return dairyFreeIndicators.some(<span class="fstat-no" title="function not covered" >in</span>dicator =&gt; <span class="cstat-no" title="statement not covered" >restaurantName.includes(indicator))</span>;</span>
     }
 &nbsp;
     // Halal indicators
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restrictionLower === 'halal') {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictionLower === 'halal') {</span>
       const halalIndicators = <span class="cstat-no" title="statement not covered" >['halal', 'islamic'];</span>
-<span class="cstat-no" title="statement not covered" >      return halalIndicators.some(<span class="fstat-no" title="function not covered" >indicator </span>=&gt; <span class="cstat-no" title="statement not covered" >restaurantName.includes(indicator))</span>;</span>
+<span class="cstat-no" title="statement not covered" >      return halalIndicators.some(<span class="fstat-no" title="function not covered" >in</span>dicator =&gt; <span class="cstat-no" title="statement not covered" >restaurantName.includes(indicator))</span>;</span>
     }
 &nbsp;
     // Kosher indicators
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restrictionLower === 'kosher') {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictionLower === 'kosher') {</span>
       const kosherIndicators = <span class="cstat-no" title="statement not covered" >['kosher', 'jewish'];</span>
-<span class="cstat-no" title="statement not covered" >      return kosherIndicators.some(<span class="fstat-no" title="function not covered" >indicator </span>=&gt; <span class="cstat-no" title="statement not covered" >restaurantName.includes(indicator))</span>;</span>
+<span class="cstat-no" title="statement not covered" >      return kosherIndicators.some(<span class="fstat-no" title="function not covered" >in</span>dicator =&gt; <span class="cstat-no" title="statement not covered" >restaurantName.includes(indicator))</span>;</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return false;</span>
@@ -1020,32 +1020,32 @@ export interface UserPreferences {
   /**
    * Get preference score for a restaurant (higher = better match)
    */
-<span class="fstat-no" title="function not covered" >  static </span>getPreferenceScore(restaurant: FoodCard, preferences: UserPreferences): number {
+<span class="fstat-no" title="function not covered" >  st</span>atic getPreferenceScore(restaurant: FoodCard, preferences: UserPreferences): number {
     let score = <span class="cstat-no" title="statement not covered" >0;</span>
 &nbsp;
     // Cuisine preference score
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.cuisine &amp;&amp; preferences.cuisinePreferences.includes(restaurant.cuisine)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.cuisine &amp;&amp; preferences.cuisinePreferences.includes(restaurant.cuisine)) {</span>
 <span class="cstat-no" title="statement not covered" >      score += 10;</span>
     }
 &nbsp;
     // Price range score
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.price &amp;&amp; preferences.priceRange.includes(restaurant.price)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.price &amp;&amp; preferences.priceRange.includes(restaurant.price)) {</span>
 <span class="cstat-no" title="statement not covered" >      score += 5;</span>
     }
 &nbsp;
     // Rating score
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.rating &amp;&amp; restaurant.rating &gt;= preferences.minRating) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.rating &amp;&amp; restaurant.rating &gt;= preferences.minRating) {</span>
 <span class="cstat-no" title="statement not covered" >      score += (restaurant.rating - preferences.minRating) * 2;</span>
     }
 &nbsp;
     // Distance score (closer is better)
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (restaurant.distance &amp;&amp; restaurant.distance &lt;= preferences.maxDistance) {</span>
+<span class="cstat-no" title="statement not covered" >    if (restaurant.distance &amp;&amp; restaurant.distance &lt;= preferences.maxDistance) {</span>
 <span class="cstat-no" title="statement not covered" >      score += (preferences.maxDistance - restaurant.distance) * 0.5;</span>
     }
 &nbsp;
     // Dietary restriction bonus
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (preferences.dietaryRestrictions.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (this.restaurantMeetsDietaryRestrictions(restaurant, preferences.dietaryRestrictions)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (preferences.dietaryRestrictions.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      if (this.restaurantMeetsDietaryRestrictions(restaurant, preferences.dietaryRestrictions)) {</span>
 <span class="cstat-no" title="statement not covered" >        score += 15; </span>// High bonus for meeting dietary restrictions
       }
     }
@@ -1056,12 +1056,12 @@ export interface UserPreferences {
   /**
    * Sort restaurants by preference score
    */
-<span class="fstat-no" title="function not covered" >  static </span>sortRestaurantsByPreferences(
+<span class="fstat-no" title="function not covered" >  st</span>atic sortRestaurantsByPreferences(
     restaurants: FoodCard[],
     preferences: UserPreferences
   ): FoodCard[] {
 <span class="cstat-no" title="statement not covered" >    return restaurants</span>
-      .map(<span class="fstat-no" title="function not covered" >restaurant </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+      .map(<span class="fstat-no" title="function not covered" >re</span>staurant =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
         ...restaurant,
         recommendationScore: this.getPreferenceScore(restaurant, preferences)
       }))
@@ -1075,7 +1075,7 @@ export interface UserPreferences {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>

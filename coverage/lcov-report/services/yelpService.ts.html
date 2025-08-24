@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/195</span>
+                <span class='fraction'>0/190</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/88</span>
+                <span class='fraction'>0/125</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/186</span>
+                <span class='fraction'>0/181</span>
             </div>
         
             
@@ -696,10 +696,6 @@
 <a name='L631'></a><a href='#L631'>631</a>
 <a name='L632'></a><a href='#L632'>632</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -742,7 +738,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1327,10 +1327,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FoodCard } from '../types';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >import { InputValidation, ValidationError } from '../utils/inputValidation';</span>
-<span class="cstat-no" title="statement not covered" >import { ErrorSanitization } from '../utils/errorSanitization';</span>
-<span class="cstat-no" title="statement not covered" >import { logger } from './loggingService';</span>
-<span class="cstat-no" title="statement not covered" >import Constants from 'expo-constants';</span>
+import { InputValidation, ValidationError } from '../utils/inputValidation';
+import { ErrorSanitization } from '../utils/errorSanitization';
+import { logger } from './loggingService';
+import Constants from 'expo-constants';
 &nbsp;
 export interface YelpBusiness {
   id: string;
@@ -1373,7 +1373,7 @@ export interface YelpSearchResponse {
   };
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export class Y</span>elpService {
+export class YelpService {
   private static readonly BASE_URL = <span class="cstat-no" title="statement not covered" >'https://api.yelp.com/v3';</span>
   
   // Location-based caching
@@ -1385,15 +1385,15 @@ export interface YelpSearchResponse {
   private static readonly CACHE_DURATION = <span class="cstat-no" title="statement not covered" >5 * 60 * 1000;</span> // 5 minutes
   private static readonly LOCATION_THRESHOLD = <span class="cstat-no" title="statement not covered" >0.01;</span> // ~1km threshold for cache reuse
   
-  private static readonly API_KEY = <span class="cstat-no" title="statement not covered" >(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+  private static readonly API_KEY = <span class="cstat-no" title="statement not covered" >(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
     // Try environment variable first (production)
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (process.env.EXPO_PUBLIC_YELP_API_KEY &amp;&amp; process.env.EXPO_PUBLIC_YELP_API_KEY !== 'your_yelp_api_key_here') {</span>
+<span class="cstat-no" title="statement not covered" >    if (process.env.EXPO_PUBLIC_YELP_API_KEY &amp;&amp; process.env.EXPO_PUBLIC_YELP_API_KEY !== 'your_yelp_api_key_here') {</span>
 <span class="cstat-no" title="statement not covered" >      return process.env.EXPO_PUBLIC_YELP_API_KEY;</span>
     }
     
     // Fallback to app.json config (development)
-    const extraYelpKey = (<span class="cstat-no" title="statement not covered" >Constants?.expoConfig?.extra as any)?.yelpApiKey || (Constants?.manifest?.extra as any)?.yelpApiKey;</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (extraYelpKey &amp;&amp; extraYelpKey !== 'YOUR_YELP_API_KEY_HERE') {</span>
+    const extraYelpKey = <span class="cstat-no" title="statement not covered" >(Constants?.expoConfig?.extra as any)?.yelpApiKey || (Constants?.manifest as any)?.extra?.yelpApiKey;</span>
+<span class="cstat-no" title="statement not covered" >    if (extraYelpKey &amp;&amp; extraYelpKey !== 'YOUR_YELP_API_KEY_HERE') {</span>
 <span class="cstat-no" title="statement not covered" >      return extraYelpKey;</span>
     }
     
@@ -1414,27 +1414,27 @@ export interface YelpSearchResponse {
   /**
    * Rate limiting helper method
    */
-  private <span class="fstat-no" title="function not covered" >static </span>async enforceRateLimit(): Promise&lt;void&gt; {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static async enforceRateLimit(): Promise&lt;void&gt; {
     const now = <span class="cstat-no" title="statement not covered" >Date.now();</span>
     const timeSinceLastRequest = <span class="cstat-no" title="statement not covered" >now - this.lastRequestTime;</span>
     
     // Reset counter if a minute has passed
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (timeSinceLastRequest &gt; 60000) {</span>
+<span class="cstat-no" title="statement not covered" >    if (timeSinceLastRequest &gt; 60000) {</span>
 <span class="cstat-no" title="statement not covered" >      this.requestCount = 0;</span>
     }
     
     // Check if we're at the rate limit
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.requestCount &gt;= this.MAX_REQUESTS_PER_MINUTE) {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.requestCount &gt;= this.MAX_REQUESTS_PER_MINUTE) {</span>
       const waitTime = <span class="cstat-no" title="statement not covered" >60000 - timeSinceLastRequest;</span>
 <span class="cstat-no" title="statement not covered" >      logger.warn(`Rate limit reached. Waiting ${waitTime}ms before next request.`, 'YELP_API');</span>
-<span class="cstat-no" title="statement not covered" >      await new Promise(<span class="fstat-no" title="function not covered" >resolve </span>=&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, waitTime))</span>;</span>
+<span class="cstat-no" title="statement not covered" >      await new Promise(<span class="fstat-no" title="function not covered" >re</span>solve =&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, waitTime))</span>;</span>
 <span class="cstat-no" title="statement not covered" >      this.requestCount = 0;</span>
     }
     
     // Enforce minimum delay between requests
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (timeSinceLastRequest &lt; this.RATE_LIMIT_DELAY) {</span>
+<span class="cstat-no" title="statement not covered" >    if (timeSinceLastRequest &lt; this.RATE_LIMIT_DELAY) {</span>
       const delay = <span class="cstat-no" title="statement not covered" >this.RATE_LIMIT_DELAY - timeSinceLastRequest;</span>
-<span class="cstat-no" title="statement not covered" >      await new Promise(<span class="fstat-no" title="function not covered" >resolve </span>=&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, delay))</span>;</span>
+<span class="cstat-no" title="statement not covered" >      await new Promise(<span class="fstat-no" title="function not covered" >re</span>solve =&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, delay))</span>;</span>
     }
     
 <span class="cstat-no" title="statement not covered" >    this.lastRequestTime = Date.now();</span>
@@ -1444,7 +1444,7 @@ export interface YelpSearchResponse {
   /**
    * Retry wrapper for API calls
    */
-  private <span class="fstat-no" title="function not covered" >static </span>async retryApiCall&lt;T&gt;(
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static async retryApiCall&lt;T&gt;(
     apiCall: () =&gt; Promise&lt;T&gt;,
     retries: number = <span class="branch-0 cbranch-no" title="branch not covered" >this.MAX_RETRIES</span>
   ): Promise&lt;T&gt; {
@@ -1452,9 +1452,9 @@ export interface YelpSearchResponse {
 <span class="cstat-no" title="statement not covered" >      await this.enforceRateLimit();</span>
 <span class="cstat-no" title="statement not covered" >      return await apiCall();</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (retries &gt; 0 &amp;&amp; error instanceof Error &amp;&amp; error.message.includes('429')) {</span>
+<span class="cstat-no" title="statement not covered" >      if (retries &gt; 0 &amp;&amp; error instanceof Error &amp;&amp; error.message.includes('429')) {</span>
 <span class="cstat-no" title="statement not covered" >        logger.warn(`Rate limit hit, retrying in ${this.RATE_LIMIT_DELAY}ms... (${retries} retries left)`, 'YELP_API');</span>
-<span class="cstat-no" title="statement not covered" >        await new Promise(<span class="fstat-no" title="function not covered" >resolve </span>=&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, this.RATE_LIMIT_DELAY))</span>;</span>
+<span class="cstat-no" title="statement not covered" >        await new Promise(<span class="fstat-no" title="function not covered" >re</span>solve =&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, this.RATE_LIMIT_DELAY))</span>;</span>
 <span class="cstat-no" title="statement not covered" >        return this.retryApiCall(apiCall, retries - 1);</span>
       }
 <span class="cstat-no" title="statement not covered" >      throw error;</span>
@@ -1464,7 +1464,7 @@ export interface YelpSearchResponse {
   /**
    * Search for restaurants using Yelp Fusion API
    */
-<span class="fstat-no" title="function not covered" >  static </span>async getRestaurants(
+<span class="fstat-no" title="function not covered" >  st</span>atic async getRestaurants(
     latitude: number,
     longitude: number,
     options: {
@@ -1479,11 +1479,11 @@ export interface YelpSearchResponse {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Validate coordinates
       const validatedCoords = <span class="cstat-no" title="statement not covered" >InputValidation.validateCoordinates(latitude, longitude);</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!validatedCoords) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!validatedCoords) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid coordinates provided');</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.API_KEY) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!this.API_KEY) {</span>
 <span class="cstat-no" title="statement not covered" >        logger.warn('Yelp API key not found, using mock data', 'YELP_API');</span>
 <span class="cstat-no" title="statement not covered" >        return [];</span>
       }
@@ -1498,23 +1498,23 @@ export interface YelpSearchResponse {
       } = <span class="cstat-no" title="statement not covered" >options;</span>
 &nbsp;
       // Validate input parameters
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (radius &amp;&amp; !InputValidation.validateRadius(radius)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (radius &amp;&amp; !InputValidation.validateRadius(radius)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid radius. Must be between 1 and 40000 meters');</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (limit &amp;&amp; !InputValidation.validateLimit(limit)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (limit &amp;&amp; !InputValidation.validateLimit(limit)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid limit. Must be between 1 and 50');</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (price &amp;&amp; !InputValidation.validatePriceRange(price)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (price &amp;&amp; !InputValidation.validatePriceRange(price)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid price range. Must be comma-separated values: 1,2,3,4');</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (sort_by &amp;&amp; !InputValidation.validateSortBy(sort_by)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (sort_by &amp;&amp; !InputValidation.validateSortBy(sort_by)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid sort option');</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (term &amp;&amp; !InputValidation.validateSearchTerm(term)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (term &amp;&amp; !InputValidation.validateSearchTerm(term)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid search term');</span>
       }
 &nbsp;
@@ -1527,10 +1527,10 @@ export interface YelpSearchResponse {
         sort_by,
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (price) <span class="cstat-no" title="statement not covered" >params.append('price', price);</span></span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (term) <span class="cstat-no" title="statement not covered" >params.append('term', term);</span></span>
+<span class="cstat-no" title="statement not covered" >      if (price) <span class="cstat-no" title="statement not covered" >params.append('price', price);</span></span>
+<span class="cstat-no" title="statement not covered" >      if (term) <span class="cstat-no" title="statement not covered" >params.append('term', term);</span></span>
 &nbsp;
-      const data: YelpSearchResponse = <span class="cstat-no" title="statement not covered" >await this.retryApiCall(<span class="fstat-no" title="function not covered" >async </span>() =&gt; {</span>
+      const data: YelpSearchResponse = <span class="cstat-no" title="statement not covered" >await this.retryApiCall(<span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
         const url = <span class="cstat-no" title="statement not covered" >`${this.BASE_URL}/businesses/search?${params}`;</span>
         
         const response = <span class="cstat-no" title="statement not covered" >await fetch(url, {</span>
@@ -1540,7 +1540,7 @@ export interface YelpSearchResponse {
           },
         });
         
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!response.ok) {</span>
           const errorText = <span class="cstat-no" title="statement not covered" >await response.text();</span>
           const sanitizedError = <span class="cstat-no" title="statement not covered" >ErrorSanitization.logAndSanitizeError(</span>
             `Yelp API error: ${response.status} ${response.statusText}`,
@@ -1557,12 +1557,12 @@ export interface YelpSearchResponse {
       const sanitizedError = <span class="cstat-no" title="statement not covered" >ErrorSanitization.logAndSanitizeError(error, 'YelpService');</span>
       
       // Handle rate limiting specifically
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (error instanceof Error &amp;&amp; error.message.includes('429')) {</span>
+<span class="cstat-no" title="statement not covered" >      if (error instanceof Error &amp;&amp; error.message.includes('429')) {</span>
 <span class="cstat-no" title="statement not covered" >        logger.warn('Yelp API rate limit exceeded. Checking cache for fallback results...', 'YELP_API');</span>
         
         // Try to get cached results as fallback
         const cachedResults = <span class="cstat-no" title="statement not covered" >this.getCachedResults(latitude, longitude);</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (cachedResults &amp;&amp; cachedResults.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >        if (cachedResults &amp;&amp; cachedResults.length &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >          return cachedResults;</span>
         }
         
@@ -1571,12 +1571,12 @@ export interface YelpSearchResponse {
       }
       
       // Handle validation errors (show to user)
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (error instanceof ValidationError) {</span>
+<span class="cstat-no" title="statement not covered" >      if (error instanceof ValidationError) {</span>
 <span class="cstat-no" title="statement not covered" >        throw error; </span>// These are safe to show to users
       }
       
       // Handle other API errors with sanitized message
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (error instanceof Error &amp;&amp; error.message.includes('API')) {</span>
+<span class="cstat-no" title="statement not covered" >      if (error instanceof Error &amp;&amp; error.message.includes('API')) {</span>
 <span class="cstat-no" title="statement not covered" >        logger.warn(sanitizedError, 'YELP_API');</span>
 <span class="cstat-no" title="statement not covered" >        return [];</span>
       }
@@ -1588,9 +1588,9 @@ export interface YelpSearchResponse {
   /**
    * Get restaurant details by Yelp business ID
    */
-<span class="fstat-no" title="function not covered" >  static </span>async getRestaurantDetails(businessId: string): Promise&lt;YelpBusiness | null&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async getRestaurantDetails(businessId: string): Promise&lt;YelpBusiness | null&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.API_KEY) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!this.API_KEY) {</span>
 <span class="cstat-no" title="statement not covered" >        logger.warn('Yelp API key not found', 'YELP_API');</span>
 <span class="cstat-no" title="statement not covered" >        return null;</span>
       }
@@ -1602,7 +1602,7 @@ export interface YelpSearchResponse {
         },
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!response.ok) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(`Yelp API error: ${response.status} ${response.statusText}`);</span>
       }
 &nbsp;
@@ -1616,9 +1616,9 @@ export interface YelpSearchResponse {
   /**
    * Convert Yelp businesses to FoodCard format
    */
-<span class="fstat-no" title="function not covered" >  static </span>async convertYelpBusinessesToFoodCards(businesses: YelpBusiness[]): Promise&lt;FoodCard[]&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async convertYelpBusinessesToFoodCards(businesses: YelpBusiness[]): Promise&lt;FoodCard[]&gt; {
     const foodCards = <span class="cstat-no" title="statement not covered" >await Promise.all(</span>
-      businesses.map(<span class="fstat-no" title="function not covered" >business </span>=&gt; <span class="cstat-no" title="statement not covered" >this.convertYelpBusinessToFoodCard(business))</span>
+      businesses.map(<span class="fstat-no" title="function not covered" >bu</span>siness =&gt; <span class="cstat-no" title="statement not covered" >this.convertYelpBusinessToFoodCard(business))</span>
     );
 <span class="cstat-no" title="statement not covered" >    return foodCards;</span>
   }
@@ -1626,7 +1626,7 @@ export interface YelpSearchResponse {
   /**
    * Convert a single Yelp business to FoodCard format
    */
-  private <span class="fstat-no" title="function not covered" >static </span>async convertYelpBusinessToFoodCard(business: YelpBusiness): Promise&lt;FoodCard&gt; {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static async convertYelpBusinessToFoodCard(business: YelpBusiness): Promise&lt;FoodCard&gt; {
     // Extract cuisine from categories
     const cuisine = <span class="cstat-no" title="statement not covered" >business.categories.length &gt; 0 </span>
       ? business.categories[0].title 
@@ -1660,7 +1660,7 @@ export interface YelpSearchResponse {
       cuisine,
       distance: distanceKm,
       deliveryTime: this.estimateDeliveryTime(distanceKm, services.delivery),
-      tags: business.categories.map(<span class="fstat-no" title="function not covered" >cat </span>=&gt; <span class="cstat-no" title="statement not covered" >cat.title)</span>,
+      tags: business.categories.map(<span class="fstat-no" title="function not covered" >ca</span>t =&gt; <span class="cstat-no" title="statement not covered" >cat.title)</span>,
       location: {
         latitude: business.coordinates.latitude,
         longitude: business.coordinates.longitude,
@@ -1674,7 +1674,7 @@ export interface YelpSearchResponse {
     };
 &nbsp;
     // Only add optional fields if they exist (avoid undefined)
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (business.review_count) {</span>
+<span class="cstat-no" title="statement not covered" >    if (business.review_count) {</span>
 <span class="cstat-no" title="statement not covered" >      foodCard.userRatingsTotal = business.review_count;</span>
     }
 &nbsp;
@@ -1686,31 +1686,31 @@ export interface YelpSearchResponse {
   /**
    * Generate a description from business data
    */
-  private <span class="fstat-no" title="function not covered" >static </span>generateDescription(business: YelpBusiness): string {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static generateDescription(business: YelpBusiness): string {
     const parts: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
     
     // Add cuisine and rating info
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (business.categories.length &gt; 0) {</span>
-      const cuisines = <span class="cstat-no" title="statement not covered" >business.categories.map(<span class="fstat-no" title="function not covered" >cat </span>=&gt; <span class="cstat-no" title="statement not covered" >cat.title)</span>.slice(0, 2).join(' &amp; ');</span>
+<span class="cstat-no" title="statement not covered" >    if (business.categories.length &gt; 0) {</span>
+      const cuisines = <span class="cstat-no" title="statement not covered" >business.categories.map(<span class="fstat-no" title="function not covered" >ca</span>t =&gt; <span class="cstat-no" title="statement not covered" >cat.title)</span>.slice(0, 2).join(' &amp; ');</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(`Enjoy ${cuisines.toLowerCase()}`);</span>
     }
     
     // Add rating info
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (business.rating &amp;&amp; business.review_count) {</span>
+<span class="cstat-no" title="statement not covered" >    if (business.rating &amp;&amp; business.review_count) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(`with ${business.rating}⭐ rating from ${business.review_count} reviews`);</span>
     }
     
     // Add services info
     const services: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (business.transactions.includes('delivery')) <span class="cstat-no" title="statement not covered" >services.push('delivery');</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (business.transactions.includes('pickup')) <span class="cstat-no" title="statement not covered" >services.push('takeout');</span></span>
+<span class="cstat-no" title="statement not covered" >    if (business.transactions.includes('delivery')) <span class="cstat-no" title="statement not covered" >services.push('delivery');</span></span>
+<span class="cstat-no" title="statement not covered" >    if (business.transactions.includes('pickup')) <span class="cstat-no" title="statement not covered" >services.push('takeout');</span></span>
     
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (services.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    if (services.length &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(`Available for ${services.join(' and ')}`);</span>
     }
     
     // Add location info
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (business.location.city) {</span>
+<span class="cstat-no" title="statement not covered" >    if (business.location.city) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(`Located in ${business.location.city}`);</span>
     }
 &nbsp;
@@ -1720,8 +1720,8 @@ export interface YelpSearchResponse {
   /**
    * Estimate delivery time based on distance and availability
    */
-  private <span class="fstat-no" title="function not covered" >static </span>estimateDeliveryTime(distanceKm: number, hasDelivery: boolean): number {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!hasDelivery) <span class="cstat-no" title="statement not covered" >return 0;</span></span>
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static estimateDeliveryTime(distanceKm: number, hasDelivery: boolean): number {
+<span class="cstat-no" title="statement not covered" >    if (!hasDelivery) <span class="cstat-no" title="statement not covered" >return 0;</span></span>
     
     // Base time + distance factor
     const baseTime = <span class="cstat-no" title="statement not covered" >20;</span> // 20 minutes base
@@ -1733,7 +1733,7 @@ export interface YelpSearchResponse {
   /**
    * Search restaurants by term and location
    */
-<span class="fstat-no" title="function not covered" >  static </span>async searchRestaurants(
+<span class="fstat-no" title="function not covered" >  st</span>atic async searchRestaurants(
     latitude: number,
     longitude: number,
     radius?: number,
@@ -1753,7 +1753,7 @@ export interface YelpSearchResponse {
   /**
    * Search restaurants by query term
    */
-<span class="fstat-no" title="function not covered" >  static </span>async searchRestaurantsByQuery(
+<span class="fstat-no" title="function not covered" >  st</span>atic async searchRestaurantsByQuery(
     query: string,
     latitude: number,
     longitude: number,
@@ -1776,12 +1776,12 @@ export interface YelpSearchResponse {
   /**
    * Check if cached results exist for similar location
    */
-  private <span class="fstat-no" title="function not covered" >static </span>getCachedResults(latitude: number, longitude: number): FoodCard[] | null {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static getCachedResults(latitude: number, longitude: number): FoodCard[] | null {
     const now = <span class="cstat-no" title="statement not covered" >Date.now();</span>
     
-<span class="cstat-no" title="statement not covered" >    for (const [key, cache] of this.locationCache.entries()) {</span>
+<span class="cstat-no" title="statement not covered" >    for (const [key, cache] of Array.from(this.locationCache.entries())) {</span>
       // Check if cache is still valid
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (now - cache.timestamp &gt; this.CACHE_DURATION) {</span>
+<span class="cstat-no" title="statement not covered" >      if (now - cache.timestamp &gt; this.CACHE_DURATION) {</span>
 <span class="cstat-no" title="statement not covered" >        this.locationCache.delete(key);</span>
 <span class="cstat-no" title="statement not covered" >        continue;</span>
       }
@@ -1790,7 +1790,7 @@ export interface YelpSearchResponse {
       const latDiff = <span class="cstat-no" title="statement not covered" >Math.abs(cache.location.latitude - latitude);</span>
       const lonDiff = <span class="cstat-no" title="statement not covered" >Math.abs(cache.location.longitude - longitude);</span>
       
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (latDiff &lt; this.LOCATION_THRESHOLD &amp;&amp; lonDiff &lt; this.LOCATION_THRESHOLD) {</span>
+<span class="cstat-no" title="statement not covered" >      if (latDiff &lt; this.LOCATION_THRESHOLD &amp;&amp; lonDiff &lt; this.LOCATION_THRESHOLD) {</span>
 <span class="cstat-no" title="statement not covered" >        return cache.restaurants;</span>
       }
     }
@@ -1801,7 +1801,7 @@ export interface YelpSearchResponse {
   /**
    * Cache results for a location
    */
-  private <span class="fstat-no" title="function not covered" >static </span>cacheResults(latitude: number, longitude: number, restaurants: FoodCard[]): void {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static cacheResults(latitude: number, longitude: number, restaurants: FoodCard[]): void {
     const key = <span class="cstat-no" title="statement not covered" >`${latitude.toFixed(4)}-${longitude.toFixed(4)}`;</span>
 <span class="cstat-no" title="statement not covered" >    this.locationCache.set(key, {</span>
       restaurants,
@@ -1810,15 +1810,15 @@ export interface YelpSearchResponse {
     });
     
     // Clean up old cache entries (keep only last 5)
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.locationCache.size &gt; 5) {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.locationCache.size &gt; 5) {</span>
       const oldestKey = <span class="cstat-no" title="statement not covered" >this.locationCache.keys().next().value;</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (oldestKey) {</span>
+<span class="cstat-no" title="statement not covered" >      if (oldestKey) {</span>
 <span class="cstat-no" title="statement not covered" >        this.locationCache.delete(oldestKey);</span>
       }
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async getRestaurantsWithMaxVariety(
+<span class="fstat-no" title="function not covered" >  st</span>atic async getRestaurantsWithMaxVariety(
     latitude: number,
     longitude: number,
     options: {
@@ -1829,7 +1829,7 @@ export interface YelpSearchResponse {
   ): Promise&lt;FoodCard[]&gt; {
     // Check cache first
     const cachedResults = <span class="cstat-no" title="statement not covered" >this.getCachedResults(latitude, longitude);</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (cachedResults) {</span>
+<span class="cstat-no" title="statement not covered" >    if (cachedResults) {</span>
 <span class="cstat-no" title="statement not covered" >      return cachedResults;</span>
     }
     
@@ -1883,9 +1883,9 @@ export interface YelpSearchResponse {
     }
     
     // Merge results from parallel searches
-<span class="cstat-no" title="statement not covered" >    [generalResults, ratingResults, reviewResults, distanceResults].forEach(<span class="fstat-no" title="function not covered" >results </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      results.forEach(<span class="fstat-no" title="function not covered" >restaurant </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!seenIds.has(restaurant.id)) {</span>
+<span class="cstat-no" title="statement not covered" >    [generalResults, ratingResults, reviewResults, distanceResults].forEach(<span class="fstat-no" title="function not covered" >re</span>sults =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      results.forEach(<span class="fstat-no" title="function not covered" >re</span>staurant =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if (!seenIds.has(restaurant.id)) {</span>
 <span class="cstat-no" title="statement not covered" >          allRestaurants.push(restaurant);</span>
 <span class="cstat-no" title="statement not covered" >          seenIds.add(restaurant.id);</span>
         }
@@ -1899,8 +1899,8 @@ export interface YelpSearchResponse {
 <span class="cstat-no" title="statement not covered" >    for (const cuisine of topCuisines) {</span>
 <span class="cstat-no" title="statement not covered" >      try {</span>
         const cuisineResults = <span class="cstat-no" title="statement not covered" >await this.getRestaurantsByCuisine(cuisine, latitude, longitude, options);</span>
-<span class="cstat-no" title="statement not covered" >        cuisineResults.forEach(<span class="fstat-no" title="function not covered" >restaurant </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (!seenIds.has(restaurant.id)) {</span>
+<span class="cstat-no" title="statement not covered" >        cuisineResults.forEach(<span class="fstat-no" title="function not covered" >re</span>staurant =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          if (!seenIds.has(restaurant.id)) {</span>
 <span class="cstat-no" title="statement not covered" >            allRestaurants.push(restaurant);</span>
 <span class="cstat-no" title="statement not covered" >            seenIds.add(restaurant.id);</span>
           }
@@ -1921,7 +1921,7 @@ export interface YelpSearchResponse {
   /**
    * Filter restaurants by cuisine type
    */
-<span class="fstat-no" title="function not covered" >  static </span>async getRestaurantsByCuisine(
+<span class="fstat-no" title="function not covered" >  st</span>atic async getRestaurantsByCuisine(
     cuisine: string,
     latitude: number,
     longitude: number,
@@ -1963,7 +1963,7 @@ export interface YelpSearchResponse {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>

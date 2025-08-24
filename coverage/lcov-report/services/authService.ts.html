@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/131</span>
+                <span class='fraction'>0/124</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/43</span>
+                <span class='fraction'>0/63</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/129</span>
+                <span class='fraction'>0/122</span>
             </div>
         
             
@@ -412,7 +412,7 @@
 <a name='L347'></a><a href='#L347'>347</a>
 <a name='L348'></a><a href='#L348'>348</a>
 <a name='L349'></a><a href='#L349'>349</a>
-<a name='L350'></a><a href='#L350'>350</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L350'></a><a href='#L350'>350</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -423,14 +423,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -761,7 +761,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { </span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { 
   signInAnonymously, 
   signInWithPhoneNumber, 
   signInWithEmailAndPassword,
@@ -772,14 +772,14 @@
   onAuthStateChanged,
   User as FirebaseUser
 } from 'firebase/auth';
-<span class="cstat-no" title="statement not covered" >import { doc, setDoc, getDoc, updateDoc, serverTimestamp, query, collection, where, getDocs } from 'firebase/firestore';</span>
-<span class="cstat-no" title="statement not covered" >import { auth, db } from './firebase';</span>
+import { doc, setDoc, getDoc, updateDoc, serverTimestamp, query, collection, where, getDocs } from 'firebase/firestore';
+import { auth, db } from './firebase';
 import { User } from '../types';
-<span class="cstat-no" title="statement not covered" >import { InputValidation, ValidationError } from '../utils/inputValidation';</span>
-<span class="cstat-no" title="statement not covered" >import { GoogleSignInService } from './googleSignInService';</span>
-<span class="cstat-no" title="statement not covered" >import { logger } from './loggingService';</span>
+import { InputValidation, ValidationError } from '../utils/inputValidation';
+import { GoogleSignInService } from './googleSignInService';
+import { logger } from './loggingService';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export class A</span>uthService {
+export class AuthService {
   // Rate limiting for anonymous sign-ups
   private static anonymousSignUpCount = <span class="cstat-no" title="statement not covered" >0;</span>
   private static lastAnonymousSignUp = <span class="cstat-no" title="statement not covered" >0;</span>
@@ -791,7 +791,7 @@ import { User } from '../types';
   /**
    * Check if username is unique
    */
-<span class="fstat-no" title="function not covered" >  static </span>async isUsernameUnique(displayName: string): Promise&lt;boolean&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async isUsernameUnique(displayName: string): Promise&lt;boolean&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const usersQuery = <span class="cstat-no" title="statement not covered" >query(</span>
         collection(db, 'users'),
@@ -809,7 +809,7 @@ import { User } from '../types';
   /**
    * Generate unique username
    */
-<span class="fstat-no" title="function not covered" >  static </span>async generateUniqueUsername(baseName: string = <span class="branch-0 cbranch-no" title="branch not covered" >'User')</span>: Promise&lt;string&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async generateUniqueUsername(baseName: string = <span class="branch-0 cbranch-no" title="branch not covered" >'User')</span>: Promise&lt;string&gt; {
     let attempts = <span class="cstat-no" title="statement not covered" >0;</span>
     const maxAttempts = <span class="cstat-no" title="statement not covered" >10;</span>
 &nbsp;
@@ -817,7 +817,7 @@ import { User } from '../types';
       const randomSuffix = <span class="cstat-no" title="statement not covered" >Math.floor(1000 + Math.random() * 9000);</span>
       const username = <span class="cstat-no" title="statement not covered" >`${baseName}${randomSuffix}`;</span>
       
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (await this.isUsernameUnique(username)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (await this.isUsernameUnique(username)) {</span>
 <span class="cstat-no" title="statement not covered" >        return username;</span>
       }
 <span class="cstat-no" title="statement not covered" >      attempts++;</span>
@@ -830,16 +830,16 @@ import { User } from '../types';
   /**
    * Check rate limiting for anonymous sign-ups
    */
-  private <span class="fstat-no" title="function not covered" >static </span>checkAnonymousRateLimit(): boolean {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static checkAnonymousRateLimit(): boolean {
     const now = <span class="cstat-no" title="statement not covered" >Date.now();</span>
     
     // Reset counter if window expired
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (now - this.lastAnonymousSignUp &gt; this.RATE_LIMIT_WINDOW) {</span>
+<span class="cstat-no" title="statement not covered" >    if (now - this.lastAnonymousSignUp &gt; this.RATE_LIMIT_WINDOW) {</span>
 <span class="cstat-no" title="statement not covered" >      this.anonymousSignUpCount = 0;</span>
     }
 &nbsp;
     // Check if limit exceeded
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.anonymousSignUpCount &gt;= this.ANONYMOUS_RATE_LIMIT) {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.anonymousSignUpCount &gt;= this.ANONYMOUS_RATE_LIMIT) {</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
 &nbsp;
@@ -848,10 +848,10 @@ import { User } from '../types';
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async signInAnonymously(): Promise&lt;User&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async signInAnonymously(): Promise&lt;User&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Check rate limiting
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.checkAnonymousRateLimit()) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!this.checkAnonymousRateLimit()) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Too many anonymous sign-ups. Please try again later.');</span>
       }
 &nbsp;
@@ -882,7 +882,7 @@ import { User } from '../types';
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async signInWithPhone(phoneNumber: string, verificationCode: string): Promise&lt;User&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async signInWithPhone(phoneNumber: string, verificationCode: string): Promise&lt;User&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // This would require additional setup with Firebase Phone Auth
       // For now, we'll use anonymous auth
@@ -893,14 +893,14 @@ import { User } from '../types';
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async signInWithEmail(email: string, password: string): Promise&lt;User&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async signInWithEmail(email: string, password: string): Promise&lt;User&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Validate email format
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!InputValidation.validateEmail(email)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!InputValidation.validateEmail(email)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid email format');</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!password || password.length &lt; 6) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!password || password.length &lt; 6) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Password must be at least 6 characters');</span>
       }
 &nbsp;
@@ -918,23 +918,23 @@ import { User } from '../types';
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async signUpWithEmail(email: string, password: string, displayName: string): Promise&lt;User&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async signUpWithEmail(email: string, password: string, displayName: string): Promise&lt;User&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Validate inputs
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!InputValidation.validateEmail(email)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!InputValidation.validateEmail(email)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid email format');</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!password || password.length &lt; 6) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!password || password.length &lt; 6) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Password must be at least 6 characters');</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!InputValidation.validateDisplayName(displayName)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!InputValidation.validateDisplayName(displayName)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid display name. Only alphanumeric characters, spaces, hyphens, and underscores allowed. Max 50 characters.');</span>
       }
 &nbsp;
       // Check username uniqueness
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!(await this.isUsernameUnique(displayName))) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!(await this.isUsernameUnique(displayName))) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Display name already exists. Please choose a different one.');</span>
       }
 &nbsp;
@@ -962,7 +962,7 @@ import { User } from '../types';
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async signInWithGoogle(): Promise&lt;User&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async signInWithGoogle(): Promise&lt;User&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Use the Google Sign-In service
       const { idToken, serverAuthCode } = <span class="cstat-no" title="statement not covered" >await GoogleSignInService.signIn();</span>
@@ -1015,7 +1015,7 @@ import { User } from '../types';
       // Handle specific Google Sign-In errors
 <span class="cstat-no" title="statement not covered" >      if (error.code === 'auth/account-exists-with-different-credential') {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('An account already exists with this email. Please sign in with your existing method.');</span>
-      } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (error.code === 'auth/invalid-credential') {</span>
+      } else <span class="cstat-no" title="statement not covered" >if (error.code === 'auth/invalid-credential') {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid Google credentials. Please try again.');</span>
       }
       
@@ -1023,7 +1023,7 @@ import { User } from '../types';
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async signOut(): Promise&lt;void&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async signOut(): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      await signOut(auth);</span>
     } catch (error) {
@@ -1032,39 +1032,39 @@ import { User } from '../types';
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async updateUserProfile(userId: string, updates: Partial&lt;User&gt;): Promise&lt;void&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async updateUserProfile(userId: string, updates: Partial&lt;User&gt;): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Validate user ID
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!InputValidation.validateUserId(userId)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!InputValidation.validateUserId(userId)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new ValidationError('Invalid user ID');</span>
       }
 &nbsp;
       // Validate updates
       const sanitizedUpdates: Partial&lt;User&gt; = <span class="cstat-no" title="statement not covered" >{};</span>
       
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (updates.displayName !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!InputValidation.validateDisplayName(updates.displayName)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (updates.displayName !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!InputValidation.validateDisplayName(updates.displayName)) {</span>
 <span class="cstat-no" title="statement not covered" >          throw new ValidationError('Invalid display name');</span>
         }
         
         // Check uniqueness if display name is being changed
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!(await this.isUsernameUnique(updates.displayName))) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!(await this.isUsernameUnique(updates.displayName))) {</span>
 <span class="cstat-no" title="statement not covered" >          throw new ValidationError('Display name already exists');</span>
         }
         
 <span class="cstat-no" title="statement not covered" >        sanitizedUpdates.displayName = InputValidation.sanitizeString(updates.displayName);</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (updates.email !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!InputValidation.validateEmail(updates.email)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (updates.email !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!InputValidation.validateEmail(updates.email)) {</span>
 <span class="cstat-no" title="statement not covered" >          throw new ValidationError('Invalid email format');</span>
         }
 <span class="cstat-no" title="statement not covered" >        sanitizedUpdates.email = updates.email.toLowerCase().trim();</span>
       }
 &nbsp;
       // Copy other safe fields
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (updates.photoURL !== undefined) <span class="cstat-no" title="statement not covered" >sanitizedUpdates.photoURL = updates.photoURL;</span></span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (updates.joinedRooms !== undefined) <span class="cstat-no" title="statement not covered" >sanitizedUpdates.joinedRooms = updates.joinedRooms;</span></span>
+<span class="cstat-no" title="statement not covered" >      if (updates.photoURL !== undefined) <span class="cstat-no" title="statement not covered" >sanitizedUpdates.photoURL = updates.photoURL;</span></span>
+<span class="cstat-no" title="statement not covered" >      if (updates.joinedRooms !== undefined) <span class="cstat-no" title="statement not covered" >sanitizedUpdates.joinedRooms = updates.joinedRooms;</span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      await updateDoc(doc(db, 'users', userId), {</span>
         ...sanitizedUpdates,
@@ -1076,10 +1076,10 @@ import { User } from '../types';
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async getUser(userId: string): Promise&lt;User | null&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async getUser(userId: string): Promise&lt;User | null&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const userDoc = <span class="cstat-no" title="statement not covered" >await getDoc(doc(db, 'users', userId));</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (userDoc.exists()) {</span>
+<span class="cstat-no" title="statement not covered" >      if (userDoc.exists()) {</span>
         const userData = <span class="cstat-no" title="statement not covered" >userDoc.data() as User;</span>
         // Ensure hasCompletedOnboarding has a default value for existing users
 <span class="cstat-no" title="statement not covered" >        return {</span>
@@ -1094,7 +1094,7 @@ import { User } from '../types';
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>async markOnboardingComplete(userId: string): Promise&lt;void&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async markOnboardingComplete(userId: string): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      await updateDoc(doc(db, 'users', userId), {</span>
         hasCompletedOnboarding: true,
@@ -1106,7 +1106,7 @@ import { User } from '../types';
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static </span>onAuthStateChange(callback: (user: FirebaseUser | null) =&gt; void) {
+<span class="fstat-no" title="function not covered" >  st</span>atic onAuthStateChange(callback: (user: FirebaseUser | null) =&gt; void) {
 <span class="cstat-no" title="statement not covered" >    return onAuthStateChanged(auth, callback);</span>
   }
 }
@@ -1117,7 +1117,7 @@ import { User } from '../types';
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>

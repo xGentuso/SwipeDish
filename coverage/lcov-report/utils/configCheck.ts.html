@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/46</span>
+                <span class='fraction'>0/45</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/24</span>
+                <span class='fraction'>0/29</span>
             </div>
         
             
@@ -415,8 +415,8 @@ class ConfigValidator {
   /**
    * Validate API key format and content
    */
-  private <span class="fstat-no" title="function not covered" >static </span>validateApiKeyFormat(key: string, value: string): boolean {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!value || typeof value !== 'string') <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static validateApiKeyFormat(key: string, value: string): boolean {
+<span class="cstat-no" title="statement not covered" >    if (!value || typeof value !== 'string') <span class="cstat-no" title="statement not covered" >return false;</span></span>
     
 <span class="cstat-no" title="statement not covered" >    switch (key) {</span>
       case 'EXPO_PUBLIC_FIREBASE_API_KEY':
@@ -451,7 +451,7 @@ class ConfigValidator {
   /**
    * Check if all required environment variables are present and valid
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateConfiguration(): ConfigValidationResult {
+<span class="fstat-no" title="function not covered" >  st</span>atic validateConfiguration(): ConfigValidationResult {
     const result: ConfigValidationResult = <span class="cstat-no" title="statement not covered" >{</span>
       isValid: true,
       missingKeys: [],
@@ -466,7 +466,7 @@ class ConfigValidator {
 <span class="cstat-no" title="statement not covered" >      if (!value) {</span>
 <span class="cstat-no" title="statement not covered" >        result.missingKeys.push(key);</span>
 <span class="cstat-no" title="statement not covered" >        result.isValid = false;</span>
-      } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (!this.validateApiKeyFormat(key, value)) {</span>
+      } else <span class="cstat-no" title="statement not covered" >if (!this.validateApiKeyFormat(key, value)) {</span>
 <span class="cstat-no" title="statement not covered" >        result.invalidKeys.push(key);</span>
 <span class="cstat-no" title="statement not covered" >        result.isValid = false;</span>
       }
@@ -478,7 +478,7 @@ class ConfigValidator {
       
 <span class="cstat-no" title="statement not covered" >      if (!value) {</span>
 <span class="cstat-no" title="statement not covered" >        result.warnings.push(`Optional service ${key} not configured - some features may be unavailable`);</span>
-      } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (!this.validateApiKeyFormat(key, value)) {</span>
+      } else <span class="cstat-no" title="statement not covered" >if (!this.validateApiKeyFormat(key, value)) {</span>
 <span class="cstat-no" title="statement not covered" >        result.warnings.push(`Optional service ${key} appears to have invalid format`);</span>
       }
     }
@@ -489,16 +489,16 @@ class ConfigValidator {
   /**
    * Validate configuration and throw errors for critical issues
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateConfigurationStrict(): void {
+<span class="fstat-no" title="function not covered" >  st</span>atic validateConfigurationStrict(): void {
     const result = <span class="cstat-no" title="statement not covered" >ConfigValidator.validateConfiguration();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (result.missingKeys.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    if (result.missingKeys.length &gt; 0) {</span>
       const error = <span class="cstat-no" title="statement not covered" >`Missing required environment variables: ${result.missingKeys.join(', ')}`;</span>
 <span class="cstat-no" title="statement not covered" >      console.error('[CONFIG_VALIDATION]', error);</span>
 <span class="cstat-no" title="statement not covered" >      throw new Error(`Configuration Error: ${error}`);</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (result.invalidKeys.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    if (result.invalidKeys.length &gt; 0) {</span>
       const error = <span class="cstat-no" title="statement not covered" >`Invalid environment variables detected: ${result.invalidKeys.join(', ')}`;</span>
 <span class="cstat-no" title="statement not covered" >      console.error('[CONFIG_VALIDATION]', error);</span>
 <span class="cstat-no" title="statement not covered" >      throw new Error(`Configuration Error: ${error}`);</span>
@@ -513,7 +513,7 @@ class ConfigValidator {
   }
 }
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >checkConfiguration = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>): ServiceConfig =</span>&gt; {</span>
+export const checkConfiguration = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span>: ServiceConfig =&gt; {</span>
   const config: ServiceConfig = <span class="cstat-no" title="statement not covered" >{</span>
     firebase: {
       apiKey: !!process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
@@ -532,8 +532,8 @@ export const <span class="cstat-no" title="statement not covered" >checkConfigur
 <span class="cstat-no" title="statement not covered" >  return config;</span>
 };
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >validateConfiguration = ConfigValidator.validateConfiguration;</span>
-export const <span class="cstat-no" title="statement not covered" >validateConfigurationStrict = ConfigValidator.validateConfigurationStrict;</span>
+export const validateConfiguration = <span class="cstat-no" title="statement not covered" >ConfigValidator.validateConfiguration;</span>
+export const validateConfigurationStrict = <span class="cstat-no" title="statement not covered" >ConfigValidator.validateConfigurationStrict;</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -541,7 +541,7 @@ export const <span class="cstat-no" title="statement not covered" >validateConfi
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>

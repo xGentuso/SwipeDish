@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/39</span>
+                <span class='fraction'>0/37</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/39</span>
+                <span class='fraction'>0/47</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/30</span>
+                <span class='fraction'>0/28</span>
             </div>
         
             
@@ -203,7 +203,7 @@
 <a name='L138'></a><a href='#L138'>138</a>
 <a name='L139'></a><a href='#L139'>139</a>
 <a name='L140'></a><a href='#L140'>140</a>
-<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -338,45 +338,45 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >export class I</span>nputValidation {
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export class InputValidation {
   /**
    * Validate latitude coordinates
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateLatitude(lat: number): boolean {
+<span class="fstat-no" title="function not covered" >  st</span>atic validateLatitude(lat: number): boolean {
 <span class="cstat-no" title="statement not covered" >    return typeof lat === 'number' &amp;&amp; lat &gt;= -90 &amp;&amp; lat &lt;= 90 &amp;&amp; !isNaN(lat);</span>
   }
 &nbsp;
   /**
    * Validate longitude coordinates
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateLongitude(lng: number): boolean {
+<span class="fstat-no" title="function not covered" >  st</span>atic validateLongitude(lng: number): boolean {
 <span class="cstat-no" title="statement not covered" >    return typeof lng === 'number' &amp;&amp; lng &gt;= -180 &amp;&amp; lng &lt;= 180 &amp;&amp; !isNaN(lng);</span>
   }
 &nbsp;
   /**
    * Validate search radius (in meters)
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateRadius(radius: number): boolean {
+<span class="fstat-no" title="function not covered" >  st</span>atic validateRadius(radius: number): boolean {
 <span class="cstat-no" title="statement not covered" >    return typeof radius === 'number' &amp;&amp; radius &gt; 0 &amp;&amp; radius &lt;= 40000 &amp;&amp; !isNaN(radius);</span>
   }
 &nbsp;
   /**
    * Validate search limit (max results)
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateLimit(limit: number): boolean {
+<span class="fstat-no" title="function not covered" >  st</span>atic validateLimit(limit: number): boolean {
 <span class="cstat-no" title="statement not covered" >    return typeof limit === 'number' &amp;&amp; limit &gt; 0 &amp;&amp; limit &lt;= 50 &amp;&amp; Number.isInteger(limit);</span>
   }
 &nbsp;
   /**
    * Validate price range string (e.g., "1,2,3,4")
    */
-<span class="fstat-no" title="function not covered" >  static </span>validatePriceRange(price: string): boolean {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof price !== 'string' || price.length === 0) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="fstat-no" title="function not covered" >  st</span>atic validatePriceRange(price: string): boolean {
+<span class="cstat-no" title="statement not covered" >    if (typeof price !== 'string' || price.length === 0) <span class="cstat-no" title="statement not covered" >return false;</span></span>
     const prices = <span class="cstat-no" title="statement not covered" >price.split(',');</span>
 <span class="cstat-no" title="statement not covered" >    return prices.every(<span class="fstat-no" title="function not covered" >p </span>=&gt; <span class="cstat-no" title="statement not covered" >['1', '2', '3', '4'].includes(p.trim()))</span>;</span>
   }
@@ -384,9 +384,9 @@
   /**
    * Validate search term for XSS and length
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateSearchTerm(term: string): boolean {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof term !== 'string') <span class="cstat-no" title="statement not covered" >return false;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (term.length === 0 || term.length &gt; 100) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="fstat-no" title="function not covered" >  st</span>atic validateSearchTerm(term: string): boolean {
+<span class="cstat-no" title="statement not covered" >    if (typeof term !== 'string') <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (term.length === 0 || term.length &gt; 100) <span class="cstat-no" title="statement not covered" >return false;</span></span>
     
     // Check for potential XSS patterns
     const xssPatterns = <span class="cstat-no" title="statement not covered" >[</span>
@@ -398,22 +398,22 @@
       /&lt;embed/gi
     ];
     
-<span class="cstat-no" title="statement not covered" >    return !xssPatterns.some(<span class="fstat-no" title="function not covered" >pattern </span>=&gt; <span class="cstat-no" title="statement not covered" >pattern.test(term))</span>;</span>
+<span class="cstat-no" title="statement not covered" >    return !xssPatterns.some(<span class="fstat-no" title="function not covered" >pa</span>ttern =&gt; <span class="cstat-no" title="statement not covered" >pattern.test(term))</span>;</span>
   }
 &nbsp;
   /**
    * Validate room PIN (6 digits)
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateRoomPin(pin: string): boolean {
+<span class="fstat-no" title="function not covered" >  st</span>atic validateRoomPin(pin: string): boolean {
 <span class="cstat-no" title="statement not covered" >    return typeof pin === 'string' &amp;&amp; /^\d{6}$/.test(pin);</span>
   }
 &nbsp;
   /**
    * Validate display name
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateDisplayName(name: string): boolean {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof name !== 'string' || name.length === 0) <span class="cstat-no" title="statement not covered" >return false;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (name.length &gt; 50) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="fstat-no" title="function not covered" >  st</span>atic validateDisplayName(name: string): boolean {
+<span class="cstat-no" title="statement not covered" >    if (typeof name !== 'string' || name.length === 0) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (name.length &gt; 50) <span class="cstat-no" title="statement not covered" >return false;</span></span>
     
     // Only allow alphanumeric, spaces, hyphens, underscores
 <span class="cstat-no" title="statement not covered" >    return /^[a-zA-Z0-9\s\-_]+$/.test(name.trim());</span>
@@ -422,8 +422,8 @@
   /**
    * Validate email format
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateEmail(email: string): boolean {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof email !== 'string') <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="fstat-no" title="function not covered" >  st</span>atic validateEmail(email: string): boolean {
+<span class="cstat-no" title="statement not covered" >    if (typeof email !== 'string') <span class="cstat-no" title="statement not covered" >return false;</span></span>
     const emailRegex = <span class="cstat-no" title="statement not covered" >/^[^\s@]+@[^\s@]+\.[^\s@]+$/;</span>
 <span class="cstat-no" title="statement not covered" >    return emailRegex.test(email) &amp;&amp; email.length &lt;= 254;</span>
   }
@@ -431,15 +431,15 @@
   /**
    * Validate user ID format (Firebase UID)
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateUserId(userId: string): boolean {
+<span class="fstat-no" title="function not covered" >  st</span>atic validateUserId(userId: string): boolean {
 <span class="cstat-no" title="statement not covered" >    return typeof userId === 'string' &amp;&amp; userId.length &gt; 0 &amp;&amp; userId.length &lt;= 128;</span>
   }
 &nbsp;
   /**
    * Sanitize string input to prevent XSS
    */
-<span class="fstat-no" title="function not covered" >  static </span>sanitizeString(input: string): string {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof input !== 'string') <span class="cstat-no" title="statement not covered" >return '';</span></span>
+<span class="fstat-no" title="function not covered" >  st</span>atic sanitizeString(input: string): string {
+<span class="cstat-no" title="statement not covered" >    if (typeof input !== 'string') <span class="cstat-no" title="statement not covered" >return '';</span></span>
     
 <span class="cstat-no" title="statement not covered" >    return input</span>
       .replace(/&lt;/g, '&amp;lt;')
@@ -453,8 +453,8 @@
   /**
    * Validate and sanitize coordinates
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateCoordinates(lat: number, lng: number): { lat: number; lng: number } | null {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.validateLatitude(lat) || !this.validateLongitude(lng)) {</span>
+<span class="fstat-no" title="function not covered" >  st</span>atic validateCoordinates(lat: number, lng: number): { lat: number; lng: number } | null {
+<span class="cstat-no" title="statement not covered" >    if (!this.validateLatitude(lat) || !this.validateLongitude(lng)) {</span>
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
     
@@ -467,7 +467,7 @@
   /**
    * Validate sort by parameter
    */
-<span class="fstat-no" title="function not covered" >  static </span>validateSortBy(sortBy: string): boolean {
+<span class="fstat-no" title="function not covered" >  st</span>atic validateSortBy(sortBy: string): boolean {
     const validSortOptions = <span class="cstat-no" title="statement not covered" >['best_match', 'rating', 'review_count', 'distance'];</span>
 <span class="cstat-no" title="statement not covered" >    return validSortOptions.includes(sortBy);</span>
   }
@@ -478,8 +478,8 @@ export interface ValidationResult {
   error?: string;
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export class V</span>alidationError extends Error {
-<span class="fstat-no" title="function not covered" >  constructor(m</span>essage: string) {
+export class ValidationError extends Error {
+<span class="fstat-no" title="function not covered" >  co</span>nstructor(message: string) {
 <span class="cstat-no" title="statement not covered" >    super(message);</span>
 <span class="cstat-no" title="statement not covered" >    this.name = 'ValidationError';</span>
   }
@@ -490,7 +490,7 @@ export interface ValidationResult {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>

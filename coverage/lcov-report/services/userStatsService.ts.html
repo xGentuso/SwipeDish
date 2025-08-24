@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/75</span>
+                <span class='fraction'>0/71</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/73</span>
+                <span class='fraction'>0/69</span>
             </div>
         
             
@@ -306,9 +306,7 @@
 <a name='L241'></a><a href='#L241'>241</a>
 <a name='L242'></a><a href='#L242'>242</a>
 <a name='L243'></a><a href='#L243'>243</a>
-<a name='L244'></a><a href='#L244'>244</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L244'></a><a href='#L244'>244</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -318,7 +316,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -549,9 +549,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { collection, query, where, getDocs, getCountFromServer } from 'firebase/firestore';</span>
-<span class="cstat-no" title="statement not covered" >import { db } from './firebase';</span>
-<span class="cstat-no" title="statement not covered" >import { logger } from './loggingService';</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { collection, query, where, getDocs, getCountFromServer } from 'firebase/firestore';
+import { db } from './firebase';
+import { logger } from './loggingService';
 &nbsp;
 export interface UserStats {
   matches: number;
@@ -561,11 +561,11 @@ export interface UserStats {
   isLoading: boolean;
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export class U</span>serStatsService {
+export class UserStatsService {
   /**
    * Get comprehensive user statistics
    */
-<span class="fstat-no" title="function not covered" >  static </span>async getUserStats(userId: string): Promise&lt;UserStats&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async getUserStats(userId: string): Promise&lt;UserStats&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      logger.info('Fetching user statistics', 'USER_STATS', { userId });</span>
 &nbsp;
@@ -605,7 +605,7 @@ export interface UserStats {
   /**
    * Get count of matches for user
    */
-  private <span class="fstat-no" title="function not covered" >static </span>async getUserMatches(userId: string): Promise&lt;number&gt; {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static async getUserMatches(userId: string): Promise&lt;number&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Query matches where user is a member
       const matchesQuery = <span class="cstat-no" title="statement not covered" >query(</span>
@@ -624,20 +624,20 @@ export interface UserStats {
   /**
    * Get count of rooms user has joined
    */
-  private <span class="fstat-no" title="function not covered" >static </span>async getUserRooms(userId: string): Promise&lt;number&gt; {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static async getUserRooms(userId: string): Promise&lt;number&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // We need to fetch all rooms and filter client-side since Firestore 
       // doesn't support array-contains queries on nested object fields
       const roomsSnapshot = <span class="cstat-no" title="statement not covered" >await getDocs(collection(db, 'rooms'));</span>
       
       let count = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >      roomsSnapshot.docs.forEach(<span class="fstat-no" title="function not covered" >doc </span>=&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      roomsSnapshot.docs.forEach(<span class="fstat-no" title="function not covered" >do</span>c =&gt; {</span>
         const data = <span class="cstat-no" title="statement not covered" >doc.data();</span>
         const members = <span class="cstat-no" title="statement not covered" >data.members || [];</span>
         
         // Check if user is in the members array
         const isMember = <span class="cstat-no" title="statement not covered" >members.some(<span class="fstat-no" title="function not covered" >(m</span>ember: any) =&gt; <span class="cstat-no" title="statement not covered" >member.userId === userId)</span>;</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (isMember) {</span>
+<span class="cstat-no" title="statement not covered" >        if (isMember) {</span>
 <span class="cstat-no" title="statement not covered" >          count++;</span>
         }
       });
@@ -652,7 +652,7 @@ export interface UserStats {
   /**
    * Get count of swipes by user
    */
-  private <span class="fstat-no" title="function not covered" >static </span>async getUserSwipes(userId: string): Promise&lt;number&gt; {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static async getUserSwipes(userId: string): Promise&lt;number&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const swipesQuery = <span class="cstat-no" title="statement not covered" >query(</span>
         collection(db, 'swipes'),
@@ -670,7 +670,7 @@ export interface UserStats {
   /**
    * Get count of user's favorites
    */
-  private <span class="fstat-no" title="function not covered" >static </span>async getUserFavorites(userId: string): Promise&lt;number&gt; {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static async getUserFavorites(userId: string): Promise&lt;number&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const favoritesQuery = <span class="cstat-no" title="statement not covered" >query(</span>
         collection(db, 'favorites'),
@@ -688,7 +688,7 @@ export interface UserStats {
   /**
    * Get recent activity stats (last 30 days)
    */
-<span class="fstat-no" title="function not covered" >  static </span>async getRecentActivityStats(userId: string): Promise&lt;{
+<span class="fstat-no" title="function not covered" >  st</span>atic async getRecentActivityStats(userId: string): Promise&lt;{
     recentMatches: number;
     recentSwipes: number;
     recentRooms: number;
@@ -717,7 +717,7 @@ export interface UserStats {
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >static </span>async getRecentMatches(userId: string, since: Date): Promise&lt;number&gt; {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static async getRecentMatches(userId: string, since: Date): Promise&lt;number&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const matchesQuery = <span class="cstat-no" title="statement not covered" >query(</span>
         collection(db, 'matches'),
@@ -732,7 +732,7 @@ export interface UserStats {
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >static </span>async getRecentSwipes(userId: string, since: Date): Promise&lt;number&gt; {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static async getRecentSwipes(userId: string, since: Date): Promise&lt;number&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const swipesQuery = <span class="cstat-no" title="statement not covered" >query(</span>
         collection(db, 'swipes'),
@@ -747,19 +747,19 @@ export interface UserStats {
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >static </span>async getRecentRooms(userId: string, since: Date): Promise&lt;number&gt; {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static async getRecentRooms(userId: string, since: Date): Promise&lt;number&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Get rooms where user joined recently
       const roomsSnapshot = <span class="cstat-no" title="statement not covered" >await getDocs(collection(db, 'rooms'));</span>
       
       let count = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >      roomsSnapshot.docs.forEach(<span class="fstat-no" title="function not covered" >doc </span>=&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      roomsSnapshot.docs.forEach(<span class="fstat-no" title="function not covered" >do</span>c =&gt; {</span>
         const data = <span class="cstat-no" title="statement not covered" >doc.data();</span>
         const members = <span class="cstat-no" title="statement not covered" >data.members || [];</span>
         
         // Check if user is a member and joined recently
         const userMember = <span class="cstat-no" title="statement not covered" >members.find(<span class="fstat-no" title="function not covered" >(m</span>ember: any) =&gt; <span class="cstat-no" title="statement not covered" >member.userId === userId)</span>;</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (userMember &amp;&amp; userMember.joinedAt &amp;&amp; userMember.joinedAt.toDate() &gt;= since) {</span>
+<span class="cstat-no" title="statement not covered" >        if (userMember &amp;&amp; userMember.joinedAt &amp;&amp; userMember.joinedAt.toDate() &gt;= since) {</span>
 <span class="cstat-no" title="statement not covered" >          count++;</span>
         }
       });
@@ -773,7 +773,7 @@ export interface UserStats {
   /**
    * Get default/loading stats
    */
-<span class="fstat-no" title="function not covered" >  static </span>getLoadingStats(): UserStats {
+<span class="fstat-no" title="function not covered" >  st</span>atic getLoadingStats(): UserStats {
 <span class="cstat-no" title="statement not covered" >    return {</span>
       matches: 0,
       rooms: 0, 
@@ -786,8 +786,8 @@ export interface UserStats {
   /**
    * Format large numbers for display (e.g., 1.2k, 12.3k)
    */
-<span class="fstat-no" title="function not covered" >  static </span>formatStatNumber(num: number): string {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (num &gt;= 1000) {</span>
+<span class="fstat-no" title="function not covered" >  st</span>atic formatStatNumber(num: number): string {
+<span class="cstat-no" title="statement not covered" >    if (num &gt;= 1000) {</span>
 <span class="cstat-no" title="statement not covered" >      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';</span>
     }
 <span class="cstat-no" title="statement not covered" >    return num.toString();</span>
@@ -799,7 +799,7 @@ export interface UserStats {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>

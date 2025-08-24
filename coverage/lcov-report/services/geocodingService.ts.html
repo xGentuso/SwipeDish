@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/100</span>
+                <span class='fraction'>0/101</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/54</span>
+                <span class='fraction'>0/76</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/99</span>
+                <span class='fraction'>0/100</span>
             </div>
         
             
@@ -385,7 +385,10 @@
 <a name='L320'></a><a href='#L320'>320</a>
 <a name='L321'></a><a href='#L321'>321</a>
 <a name='L322'></a><a href='#L322'>322</a>
-<a name='L323'></a><a href='#L323'>323</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -423,6 +426,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -433,14 +444,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -461,6 +464,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -750,16 +756,16 @@ export interface NominatimResult {
   boundingbox: string[];
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export class G</span>eocodingService {
+export class GeocodingService {
   private static readonly BASE_URL = <span class="cstat-no" title="statement not covered" >'https://nominatim.openstreetmap.org';</span>
   private static readonly USER_AGENT = <span class="cstat-no" title="statement not covered" >'SwipeDish/1.0 (React Native App)';</span>
 &nbsp;
   /**
    * Convert an address string to coordinates (geocoding)
    */
-<span class="fstat-no" title="function not covered" >  static </span>async geocodeText(address: string): Promise&lt;GeocodingResult | null&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async geocodeText(address: string): Promise&lt;GeocodingResult | null&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!address || address.trim().length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!address || address.trim().length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error('Address cannot be empty');</span>
       }
 &nbsp;
@@ -772,17 +778,20 @@ export interface NominatimResult {
         },
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!response.ok) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(`Geocoding API error: ${response.status} ${response.statusText}`);</span>
       }
 &nbsp;
       const data: NominatimResult[] = <span class="cstat-no" title="statement not covered" >await response.json();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!data || data.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!data || data.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >        return null;</span>
       }
 &nbsp;
       const result = <span class="cstat-no" title="statement not covered" >data[0];</span>
+<span class="cstat-no" title="statement not covered" >      if (!result) {</span>
+<span class="cstat-no" title="statement not covered" >        return null;</span>
+      }
 <span class="cstat-no" title="statement not covered" >      return {</span>
         latitude: parseFloat(result.lat),
         longitude: parseFloat(result.lon),
@@ -798,9 +807,9 @@ export interface NominatimResult {
   /**
    * Convert coordinates to an address (reverse geocoding)
    */
-<span class="fstat-no" title="function not covered" >  static </span>async reverseGeocode(latitude: number, longitude: number): Promise&lt;GeocodingResult | null&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async reverseGeocode(latitude: number, longitude: number): Promise&lt;GeocodingResult | null&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.isValidCoordinate(latitude, longitude)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!this.isValidCoordinate(latitude, longitude)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error('Invalid coordinates provided');</span>
       }
 &nbsp;
@@ -812,13 +821,13 @@ export interface NominatimResult {
         },
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!response.ok) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(`Reverse geocoding API error: ${response.status} ${response.statusText}`);</span>
       }
 &nbsp;
       const data: NominatimResult = <span class="cstat-no" title="statement not covered" >await response.json();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!data) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!data) {</span>
 <span class="cstat-no" title="statement not covered" >        return null;</span>
       }
 &nbsp;
@@ -837,7 +846,7 @@ export interface NominatimResult {
   /**
    * Search for places by name and get coordinates
    */
-<span class="fstat-no" title="function not covered" >  static </span>async searchPlaces(
+<span class="fstat-no" title="function not covered" >  st</span>atic async searchPlaces(
     query: string,
     options: {
       countryCode?: string; // e.g., 'us', 'ca'
@@ -851,7 +860,7 @@ export interface NominatimResult {
     } = <span class="branch-0 cbranch-no" title="branch not covered" >{}</span>
   ): Promise&lt;GeocodingResult[]&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!query || query.trim().length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!query || query.trim().length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >        return [];</span>
       }
 &nbsp;
@@ -860,11 +869,11 @@ export interface NominatimResult {
       
       let url = <span class="cstat-no" title="statement not covered" >`${this.BASE_URL}/search?format=json&amp;q=${encodedQuery}&amp;limit=${limit}&amp;addressdetails=1`;</span>
       
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (countryCode) {</span>
+<span class="cstat-no" title="statement not covered" >      if (countryCode) {</span>
 <span class="cstat-no" title="statement not covered" >        url += `&amp;countrycodes=${countryCode}`;</span>
       }
       
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (viewbox) {</span>
+<span class="cstat-no" title="statement not covered" >      if (viewbox) {</span>
 <span class="cstat-no" title="statement not covered" >        url += `&amp;viewbox=${viewbox.left},${viewbox.top},${viewbox.right},${viewbox.bottom}&amp;bounded=1`;</span>
       }
 &nbsp;
@@ -874,13 +883,13 @@ export interface NominatimResult {
         },
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!response.ok) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(`Place search API error: ${response.status} ${response.statusText}`);</span>
       }
 &nbsp;
       const data: NominatimResult[] = <span class="cstat-no" title="statement not covered" >await response.json();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return data.map(<span class="fstat-no" title="function not covered" >result </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      return data.map(<span class="fstat-no" title="function not covered" >re</span>sult =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
         latitude: parseFloat(result.lat),
         longitude: parseFloat(result.lon),
         display_name: result.display_name,
@@ -895,10 +904,10 @@ export interface NominatimResult {
   /**
    * Get current location address from coordinates
    */
-<span class="fstat-no" title="function not covered" >  static </span>async getCurrentLocationAddress(latitude: number, longitude: number): Promise&lt;string&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async getCurrentLocationAddress(latitude: number, longitude: number): Promise&lt;string&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const result = <span class="cstat-no" title="statement not covered" >await this.reverseGeocode(latitude, longitude);</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!result) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!result) {</span>
 <span class="cstat-no" title="statement not covered" >        return 'Unknown location';</span>
       }
 &nbsp;
@@ -908,21 +917,21 @@ export interface NominatimResult {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      if (address.house_number &amp;&amp; address.road) {</span>
 <span class="cstat-no" title="statement not covered" >        parts.push(`${address.house_number} ${address.road}`);</span>
-      } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (address.road) {</span>
+      } else <span class="cstat-no" title="statement not covered" >if (address.road) {</span>
 <span class="cstat-no" title="statement not covered" >        parts.push(address.road);</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (address.neighbourhood) {</span>
+<span class="cstat-no" title="statement not covered" >      if (address.neighbourhood) {</span>
 <span class="cstat-no" title="statement not covered" >        parts.push(address.neighbourhood);</span>
       }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      if (address.city) {</span>
 <span class="cstat-no" title="statement not covered" >        parts.push(address.city);</span>
-      } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (address.county) {</span>
+      } else <span class="cstat-no" title="statement not covered" >if (address.county) {</span>
 <span class="cstat-no" title="statement not covered" >        parts.push(address.county);</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (address.state) {</span>
+<span class="cstat-no" title="statement not covered" >      if (address.state) {</span>
 <span class="cstat-no" title="statement not covered" >        parts.push(address.state);</span>
       }
 &nbsp;
@@ -936,31 +945,31 @@ export interface NominatimResult {
   /**
    * Format address for display
    */
-<span class="fstat-no" title="function not covered" >  static </span>formatAddress(geocodingResult: GeocodingResult): string {
+<span class="fstat-no" title="function not covered" >  st</span>atic formatAddress(geocodingResult: GeocodingResult): string {
     const address = <span class="cstat-no" title="statement not covered" >geocodingResult.address;</span>
     const parts: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
     // Street address
 <span class="cstat-no" title="statement not covered" >    if (address.house_number &amp;&amp; address.road) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(`${address.house_number} ${address.road}`);</span>
-    } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (address.road) {</span>
+    } else <span class="cstat-no" title="statement not covered" >if (address.road) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(address.road);</span>
     }
 &nbsp;
     // City and state
     const cityState: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (address.city) {</span>
+<span class="cstat-no" title="statement not covered" >    if (address.city) {</span>
 <span class="cstat-no" title="statement not covered" >      cityState.push(address.city);</span>
     }
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (address.state) {</span>
+<span class="cstat-no" title="statement not covered" >    if (address.state) {</span>
 <span class="cstat-no" title="statement not covered" >      cityState.push(address.state);</span>
     }
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (cityState.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    if (cityState.length &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(cityState.join(', '));</span>
     }
 &nbsp;
     // Postal code
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (address.postcode) {</span>
+<span class="cstat-no" title="statement not covered" >    if (address.postcode) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(address.postcode);</span>
     }
 &nbsp;
@@ -970,7 +979,7 @@ export interface NominatimResult {
   /**
    * Calculate distance between two coordinates (in kilometers)
    */
-<span class="fstat-no" title="function not covered" >  static </span>calculateDistance(
+<span class="fstat-no" title="function not covered" >  st</span>atic calculateDistance(
     lat1: number,
     lon1: number,
     lat2: number,
@@ -993,7 +1002,7 @@ export interface NominatimResult {
   /**
    * Validate coordinates
    */
-  private <span class="fstat-no" title="function not covered" >static </span>isValidCoordinate(latitude: number, longitude: number): boolean {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static isValidCoordinate(latitude: number, longitude: number): boolean {
 <span class="cstat-no" title="statement not covered" >    return (</span>
       !isNaN(latitude) &amp;&amp;
       !isNaN(longitude) &amp;&amp;
@@ -1007,14 +1016,14 @@ export interface NominatimResult {
   /**
    * Convert degrees to radians
    */
-  private <span class="fstat-no" title="function not covered" >static </span>deg2rad(deg: number): number {
+<span class="fstat-no" title="function not covered" >  pr</span>ivate static deg2rad(deg: number): number {
 <span class="cstat-no" title="statement not covered" >    return deg * (Math.PI / 180);</span>
   }
 &nbsp;
   /**
    * Check if geocoding service is available
    */
-<span class="fstat-no" title="function not covered" >  static </span>async testConnectivity(): Promise&lt;boolean&gt; {
+<span class="fstat-no" title="function not covered" >  st</span>atic async testConnectivity(): Promise&lt;boolean&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const response = <span class="cstat-no" title="statement not covered" >await fetch(`${this.BASE_URL}/status.php`, {</span>
         headers: {
@@ -1036,7 +1045,7 @@ export interface NominatimResult {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-23T22:53:04.118Z
+                at 2025-08-24T00:15:27.454Z
             </div>
         <script src="../prettify.js"></script>
         <script>
