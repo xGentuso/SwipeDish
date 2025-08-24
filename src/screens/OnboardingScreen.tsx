@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
 import { AuthService } from '../services/authService';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store';
 
 interface OnboardingScreenProps {
   navigation: any;

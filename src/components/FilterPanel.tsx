@@ -152,7 +152,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
       />
       <Text style={[
         styles.toggleFilterText,
-        filters[key] && { color: colors.text },
+        filters[key] ? { color: colors.text } : null,
       ]}>
         {label}
       </Text>

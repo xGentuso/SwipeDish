@@ -23,6 +23,7 @@ import { RestaurantService } from '../services/restaurantService';
 
 import { MapModal } from '../components/MapModal';
 import { DirectionsChoiceModal } from '../components/DirectionsChoiceModal';
+import { validateLocation } from '../constants/mapConfig';
 
 import { RestaurantCard } from '../components/RestaurantCardNew';
 import { FilterPanel, FilterState } from '../components/FilterPanel';
@@ -31,7 +32,7 @@ import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ProgressiveLoadingSpinner } from '../components/ProgressiveLoadingSpinner';
 import { EmptyState } from '../components/EmptyState';
 import { SimpleRecommendations } from '../components/SimpleRecommendations';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store';
 import { analyticsService, AnalyticsEvent } from '../services/analyticsService';
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -412,7 +413,11 @@ export const ExploreScreen: React.FC = () => {
       {selectedRestaurant && (
         <MapModal
           visible={showMapModal}
-          location={selectedRestaurant.location!}
+          location={validateLocation(selectedRestaurant.location || {
+            latitude: 0,
+            longitude: 0,
+            address: selectedRestaurant.title
+          })}
           title={selectedRestaurant.title}
           onClose={() => {
             setShowMapModal(false);
@@ -425,7 +430,11 @@ export const ExploreScreen: React.FC = () => {
       {directionsRestaurant && (
         <DirectionsChoiceModal
           visible={showDirectionsModal}
-          location={directionsRestaurant.location!}
+          location={validateLocation(directionsRestaurant.location || {
+            latitude: 0,
+            longitude: 0,
+            address: directionsRestaurant.title
+          })}
           title={directionsRestaurant.title}
           onClose={() => {
             setShowDirectionsModal(false);

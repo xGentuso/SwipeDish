@@ -2,7 +2,7 @@
 export interface User {
   id: string;
   displayName: string;
-  email?: string;
+  email?: string | null;
   phone?: string;
   photoURL?: string;
   joinedRooms: string[];

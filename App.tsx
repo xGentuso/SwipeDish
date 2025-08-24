@@ -6,7 +6,7 @@ import { AppState, AppStateStatus, Platform } from 'react-native';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { ErrorBoundary } from './src/components/ErrorBoundary';
 import { colors } from './src/constants/styles';
-import { useAppStore } from './src/store/useAppStore';
+import { useAppStore } from './src/store';
 import * as Location from 'expo-location';
 import { analyticsService, AnalyticsEvent } from './src/services/analyticsService';
 import { logger } from './src/services/loggingService';

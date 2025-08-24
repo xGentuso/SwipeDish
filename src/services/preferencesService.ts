@@ -1,4 +1,6 @@
 import { FoodCard } from '../types';
+import { db } from './firebase';
+import { doc, getDoc, setDoc, collection } from 'firebase/firestore';
 
 export interface UserPreferences {
   dietaryRestrictions: string[];
@@ -52,6 +54,36 @@ export class PreferencesService {
 
   // Available price ranges
   static readonly PRICE_RANGES = ['$', '$$', '$$$', '$$$$'];
+
+  /**
+   * Get user preferences from Firestore
+   */
+  static async getUserPreferences(userId: string): Promise<UserPreferences | null> {
+    try {
+      const docRef = doc(db, 'userPreferences', userId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data() as UserPreferences;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error getting user preferences:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Save user preferences to Firestore
+   */
+  static async saveUserPreferences(userId: string, preferences: UserPreferences): Promise<void> {
+    try {
+      const docRef = doc(db, 'userPreferences', userId);
+      await setDoc(docRef, preferences);
+    } catch (error) {
+      console.error('Error saving user preferences:', error);
+      throw error;
+    }
+  }
 
   /**
    * Filter and prioritize restaurants based on user preferences

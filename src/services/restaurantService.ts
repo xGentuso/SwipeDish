@@ -71,6 +71,13 @@ const fallbackRestaurants: FoodCard[] = [
     distance: 1.0,
     deliveryTime: 18,
     tags: ['Tacos', 'Mexican', 'Street Food'],
+    userRatingsTotal: 234,
+    isOpen: true,
+    location: {
+      address: '789 Fiesta Street',
+      latitude: 43.1749795,
+      longitude: -79.2420299
+    },
     services: { delivery: true, takeout: true, dineIn: false },
     externalLinks: {
       menu: 'https://tacofiesta.com/menu',
@@ -90,6 +97,13 @@ const fallbackRestaurants: FoodCard[] = [
     distance: 1.5,
     deliveryTime: 35,
     tags: ['Thai', 'Spicy', 'Asian'],
+    userRatingsTotal: 187,
+    isOpen: true,
+    location: {
+      address: '456 Thai Street',
+      latitude: 43.1849795,
+      longitude: -79.2520299
+    },
     services: { delivery: true, takeout: true, dineIn: true },
     externalLinks: {
       menu: 'https://thaispice.com/menu',
@@ -110,6 +124,13 @@ const fallbackRestaurants: FoodCard[] = [
     distance: 0.5,
     deliveryTime: 20,
     tags: ['Burgers', 'American', 'Casual'],
+    userRatingsTotal: 156,
+    isOpen: true,
+    location: {
+      address: '321 Burger Avenue',
+      latitude: 43.1649795,
+      longitude: -79.2320299
+    },
     services: { delivery: true, takeout: true, dineIn: true },
     externalLinks: {
       menu: 'https://burgerjoint.com/menu',
@@ -248,298 +269,15 @@ const fallbackRestaurants: FoodCard[] = [
       menu: 'https://bbqsmokehouse.com/menu',
       delivery: 'https://postmates.com/bbq-smokehouse'
     }
-  },
-  {
-    id: 'vegan_garden',
-    type: 'restaurant',
-    title: 'Vegan Garden',
-    subtitle: 'Plant-Based Delights',
-    description: '100% plant-based cuisine with creative vegan dishes and fresh organic ingredients.',
-    imageUrl: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800',
-    rating: 4.6,
-    price: '$$',
-    cuisine: 'Vegan',
-    distance: 1.7,
-    deliveryTime: 25,
-    tags: ['Vegan', 'Plant-Based', 'Organic'],
-    userRatingsTotal: 134,
-    isOpen: true,
-    location: {
-      address: '321 Garden Lane',
-      latitude: 43.2299795,
-      longitude: -79.3070299
-    },
-    services: { delivery: true, takeout: true, dineIn: true },
-    externalLinks: {
-      menu: 'https://vegangarden.com/menu',
-      delivery: 'https://ubereats.com/vegan-garden'
-    }
-  },
-  {
-    id: 'seafood_harbor',
-    type: 'restaurant',
-    title: 'Seafood Harbor',
-    subtitle: 'Fresh Catch Daily',
-    description: 'Fresh seafood from local waters. Oysters, lobster, and daily catch specials.',
-    imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=800',
-    rating: 4.8,
-    price: '$$$',
-    cuisine: 'Seafood',
-    distance: 3.2,
-    deliveryTime: 38,
-    tags: ['Seafood', 'Fresh', 'Oysters'],
-    userRatingsTotal: 112,
-    isOpen: true,
-    location: {
-      address: '789 Harbor Drive',
-      latitude: 43.2399795,
-      longitude: -79.3170299
-    },
-    services: { delivery: false, takeout: true, dineIn: true },
-    externalLinks: {
-      menu: 'https://seafoodharbor.com/menu',
-      reservation: 'https://opentable.com/seafood-harbor'
-    }
-  },
-  {
-    id: 'korean_bbq_house',
-    type: 'restaurant',
-    title: 'Korean BBQ House',
-    subtitle: 'Interactive Dining',
-    description: 'Authentic Korean BBQ with table-side grilling. Premium meats and traditional sides.',
-    imageUrl: 'https://images.unsplash.com/photo-1553621042-f6e147245754?w=800',
-    rating: 4.5,
-    price: '$$$',
-    cuisine: 'Korean',
-    distance: 2.0,
-    deliveryTime: 30,
-    tags: ['Korean', 'BBQ', 'Interactive'],
-    userRatingsTotal: 145,
-    isOpen: true,
-    location: {
-      address: '654 BBQ Street',
-      latitude: 43.2499795,
-      longitude: -79.3270299
-    },
-    services: { delivery: true, takeout: true, dineIn: true },
-    externalLinks: {
-      menu: 'https://koreanbbqhouse.com/menu',
-      delivery: 'https://doordash.com/korean-bbq-house',
-      reservation: 'https://opentable.com/korean-bbq-house'
-    }
-  },
-  {
-    id: 'greek_islands',
-    type: 'restaurant',
-    title: 'Greek Islands',
-    subtitle: 'Aegean Flavors',
-    description: 'Traditional Greek cuisine with moussaka, souvlaki, and fresh Mediterranean flavors.',
-    imageUrl: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800',
-    rating: 4.3,
-    price: '$$',
-    cuisine: 'Greek',
-    distance: 1.9,
-    deliveryTime: 27,
-    tags: ['Greek', 'Mediterranean', 'Traditional'],
-    userRatingsTotal: 167,
-    isOpen: true,
-    location: {
-      address: '987 Greek Way',
-      latitude: 43.2599795,
-      longitude: -79.3370299
-    },
-    services: { delivery: true, takeout: true, dineIn: true },
-    externalLinks: {
-      menu: 'https://greekislands.com/menu',
-      delivery: 'https://grubhub.com/greek-islands'
-    }
-  },
-  {
-    id: 'ramen_master',
-    type: 'restaurant',
-    title: 'Ramen Master',
-    subtitle: 'Artisan Noodles',
-    description: 'Handcrafted ramen with rich broths and premium toppings. Traditional and fusion styles.',
-    imageUrl: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800',
-    rating: 4.7,
-    price: '$$',
-    cuisine: 'Japanese',
-    distance: 1.4,
-    deliveryTime: 24,
-    tags: ['Ramen', 'Japanese', 'Noodles'],
-    userRatingsTotal: 198,
-    isOpen: true,
-    location: {
-      address: '321 Ramen Street',
-      latitude: 43.2699795,
-      longitude: -79.3470299
-    },
-    services: { delivery: true, takeout: true, dineIn: true },
-    externalLinks: {
-      menu: 'https://ramenmaster.com/menu',
-      delivery: 'https://ubereats.com/ramen-master'
-    }
-  },
-  {
-    id: 'turkish_kebab',
-    type: 'restaurant',
-    title: 'Turkish Kebab',
-    subtitle: 'Street Food Delights',
-    description: 'Authentic Turkish kebabs, pide, and street food favorites. Fresh-baked bread daily.',
-    imageUrl: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800',
-    rating: 4.2,
-    price: '$',
-    cuisine: 'Turkish',
-    distance: 0.9,
-    deliveryTime: 18,
-    tags: ['Turkish', 'Kebab', 'Street Food'],
-    userRatingsTotal: 223,
-    isOpen: true,
-    location: {
-      address: '654 Kebab Lane',
-      latitude: 43.2799795,
-      longitude: -79.3570299
-    },
-    services: { delivery: true, takeout: true, dineIn: false },
-    externalLinks: {
-      menu: 'https://turkishkebab.com/menu',
-      delivery: 'https://postmates.com/turkish-kebab'
-    }
-  },
-  {
-    id: 'middle_eastern_grill',
-    type: 'restaurant',
-    title: 'Middle Eastern Grill',
-    subtitle: 'Levantine Cuisine',
-    description: 'Traditional Middle Eastern dishes with shawarma, falafel, and mezze platters.',
-    imageUrl: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800',
-    rating: 4.4,
-    price: '$$',
-    cuisine: 'Middle Eastern',
-    distance: 2.3,
-    deliveryTime: 29,
-    tags: ['Middle Eastern', 'Shawarma', 'Falafel'],
-    userRatingsTotal: 156,
-    isOpen: true,
-    location: {
-      address: '789 Middle East Way',
-      latitude: 43.2899795,
-      longitude: -79.3670299
-    },
-    services: { delivery: true, takeout: true, dineIn: true },
-    externalLinks: {
-      menu: 'https://middleeasterngrill.com/menu',
-      delivery: 'https://doordash.com/middle-eastern-grill'
-    }
-  },
-  {
-    id: 'artisan_bakery',
-    type: 'restaurant',
-    title: 'Artisan Bakery',
-    subtitle: 'Fresh Baked Daily',
-    description: 'Handcrafted breads, pastries, and sandwiches. Sourdough and croissants made fresh daily.',
-    imageUrl: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800',
-    rating: 4.6,
-    price: '$',
-    cuisine: 'Bakery',
-    distance: 0.7,
-    deliveryTime: 15,
-    tags: ['Bakery', 'Artisan', 'Fresh Baked'],
-    userRatingsTotal: 289,
-    isOpen: true,
-    location: {
-      address: '456 Bakery Street',
-      latitude: 43.2999795,
-      longitude: -79.3770299
-    },
-    services: { delivery: true, takeout: true, dineIn: true },
-    externalLinks: {
-      menu: 'https://artisanbakery.com/menu',
-      delivery: 'https://grubhub.com/artisan-bakery'
-    }
-  },
-  {
-    id: 'coffee_roasters',
-    type: 'restaurant',
-    title: 'Coffee Roasters',
-    subtitle: 'Specialty Coffee',
-    description: 'Single-origin coffee, pour-over, and artisanal espresso drinks. Freshly roasted beans.',
-    imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800',
-    rating: 4.5,
-    price: '$',
-    cuisine: 'Cafe',
-    distance: 0.6,
-    deliveryTime: 12,
-    tags: ['Coffee', 'Cafe', 'Artisanal'],
-    userRatingsTotal: 334,
-    isOpen: true,
-    location: {
-      address: '123 Coffee Lane',
-      latitude: 43.3099795,
-      longitude: -79.3870299
-    },
-    services: { delivery: true, takeout: true, dineIn: true },
-    externalLinks: {
-      menu: 'https://coffeeroasters.com/menu',
-      delivery: 'https://ubereats.com/coffee-roasters'
-    }
-  },
-  {
-    id: 'dessert_paradise',
-    type: 'restaurant',
-    title: 'Dessert Paradise',
-    subtitle: 'Sweet Creations',
-    description: 'Artisanal desserts, custom cakes, and gourmet ice cream. Perfect for celebrations.',
-    imageUrl: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800',
-    rating: 4.8,
-    price: '$$',
-    cuisine: 'Dessert',
-    distance: 1.1,
-    deliveryTime: 20,
-    tags: ['Dessert', 'Cakes', 'Ice Cream'],
-    userRatingsTotal: 178,
-    isOpen: true,
-    location: {
-      address: '789 Dessert Way',
-      latitude: 43.3199795,
-      longitude: -79.3970299
-    },
-    services: { delivery: true, takeout: true, dineIn: true },
-    externalLinks: {
-      menu: 'https://dessertparadise.com/menu',
-      delivery: 'https://postmates.com/dessert-paradise'
-    }
-  },
-  {
-    id: 'juice_bar',
-    type: 'restaurant',
-    title: 'Fresh Juice Bar',
-    subtitle: 'Healthy Beverages',
-    description: 'Fresh-pressed juices, smoothies, and wellness shots. Organic ingredients and superfoods.',
-    imageUrl: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=800',
-    rating: 4.3,
-    price: '$',
-    cuisine: 'Beverages',
-    distance: 0.8,
-    deliveryTime: 16,
-    tags: ['Juice', 'Smoothies', 'Healthy'],
-    userRatingsTotal: 201,
-    isOpen: true,
-    location: {
-      address: '321 Juice Street',
-      latitude: 43.3299795,
-      longitude: -79.4070299
-    },
-    services: { delivery: true, takeout: true, dineIn: false },
-    externalLinks: {
-      menu: 'https://freshjuicebar.com/menu',
-      delivery: 'https://grubhub.com/fresh-juice-bar'
-    }
   }
 ];
 
+interface CachedFoodCard extends FoodCard {
+  timestamp: number;
+}
+
 export class RestaurantService {
-  private static apiCache = new Map<string, FoodCard>();
+  private static apiCache = new Map<string, CachedFoodCard>();
   private static cacheExpiry = 30 * 60 * 1000; // 30 minutes
 
   /**
@@ -621,8 +359,9 @@ export class RestaurantService {
   static async getRestaurantById(id: string): Promise<FoodCard | null> {
     // Check cache first
     const cached = this.apiCache.get(id);
-    if (cached && Date.now() - (cached as any).timestamp < this.cacheExpiry) {
-      return cached;
+    if (cached && Date.now() - cached.timestamp < this.cacheExpiry) {
+      const { timestamp, ...foodCard } = cached;
+      return foodCard;
     }
 
     try {
@@ -631,7 +370,7 @@ export class RestaurantService {
       const restaurant = restaurants[0];
       if (restaurant) {
         // Cache the result
-        this.apiCache.set(id, { ...restaurant, timestamp: Date.now() } as any);
+        this.apiCache.set(id, { ...restaurant, timestamp: Date.now() });
         return restaurant;
       }
     } catch (error) {
@@ -740,4 +479,3 @@ export class RestaurantService {
     return ['$', '$$', '$$$', '$$$$'];
   }
 }
-

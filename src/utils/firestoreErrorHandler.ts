@@ -54,6 +54,13 @@ export class FirestoreErrorHandler {
   }
 
   /**
+   * Get error message (alias for getUserFriendlyMessage for backward compatibility)
+   */
+  static getErrorMessage(error: any, operation: string = 'operation'): string {
+    return this.getUserFriendlyMessage(error, operation);
+  }
+
+  /**
    * Execute a Firestore operation with proper error handling
    */
   static async executeWithRetry<T>(

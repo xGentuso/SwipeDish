@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
+import { PREVIEW_MAP_CONFIG, getDefaultRegion, validateLocation, STANDARD_MARKER_CONFIG } from '../constants/mapConfig';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -34,33 +35,18 @@ export const MapPreview: React.FC<MapPreviewProps> = ({
   width = SCREEN_WIDTH - spacing.md * 2,
 }) => {
   // Validate location data and provide fallbacks
-  const isValidLocation = location && 
-    typeof location.latitude === 'number' && 
-    typeof location.longitude === 'number' &&
-    !isNaN(location.latitude) && 
-    !isNaN(location.longitude) &&
-    location.latitude >= -90 && location.latitude <= 90 &&
-    location.longitude >= -180 && location.longitude <= 180;
-
-  const defaultLocation = { 
-    latitude: 43.1599795, 
-    longitude: -79.2470299,
-    address: 'Location not available'
-  }; // Hamilton, ON
-  const safeLocation = isValidLocation ? location : defaultLocation;
+  const safeLocation = validateLocation(location);
 
   const [region, setRegion] = useState({
-    latitude: safeLocation.latitude,
-    longitude: safeLocation.longitude,
-    latitudeDelta: 0.005,
+    ...getDefaultRegion(safeLocation),
+    latitudeDelta: 0.005, // Tighter zoom for preview
     longitudeDelta: 0.005,
   });
 
   useEffect(() => {
     setRegion({
-      latitude: safeLocation.latitude,
-      longitude: safeLocation.longitude,
-      latitudeDelta: 0.005,
+      ...getDefaultRegion(safeLocation),
+      latitudeDelta: 0.005, // Tighter zoom for preview
       longitudeDelta: 0.005,
     });
   }, [safeLocation]);
@@ -73,14 +59,8 @@ export const MapPreview: React.FC<MapPreviewProps> = ({
     >
       <MapView
         style={styles.map}
-        provider={PROVIDER_GOOGLE}
+        {...PREVIEW_MAP_CONFIG}
         region={region}
-        scrollEnabled={false}
-        zoomEnabled={false}
-        rotateEnabled={false}
-        pitchEnabled={false}
-        toolbarEnabled={false}
-        mapType="standard"
       >
         <Marker
           coordinate={{
@@ -88,6 +68,7 @@ export const MapPreview: React.FC<MapPreviewProps> = ({
             longitude: safeLocation.longitude,
           }}
           title={title || 'Restaurant'}
+          {...STANDARD_MARKER_CONFIG}
         />
       </MapView>
       

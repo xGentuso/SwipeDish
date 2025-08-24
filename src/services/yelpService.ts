@@ -65,7 +65,7 @@ export class YelpService {
     }
     
     // Fallback to app.json config (development)
-    const extraYelpKey = (Constants?.expoConfig?.extra as any)?.yelpApiKey || (Constants?.manifest as any)?.extra?.yelpApiKey;
+    const extraYelpKey = Constants?.expoConfig?.extra?.yelpApiKey || Constants?.manifest?.extra?.yelpApiKey;
     if (extraYelpKey && extraYelpKey !== 'YOUR_YELP_API_KEY_HERE') {
       return extraYelpKey;
     }

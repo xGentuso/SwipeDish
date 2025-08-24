@@ -12,7 +12,7 @@ import * as Haptics from 'expo-haptics';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
 import { SwipeCard } from './SwipeCard';
 import { FoodCard } from '../types';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store';
 import { SwipeTrackingService } from '../services/swipeTrackingService';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');

@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
 import { GeocodingService } from '../services/geocodingService';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store';
 import { AuthService } from '../services/authService';
 import { PreferencesService } from '../services/preferencesService';
 import { UserStatsService, UserStats } from '../services/userStatsService';

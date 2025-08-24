@@ -21,7 +21,7 @@ const getFirebaseConfig = () => {
   };
 
   // Fallback to app.json config (for development) - only if environment variables are not set
-  const extraFirebase = (Constants?.expoConfig?.extra as any)?.firebase || (Constants?.manifest?.extra as any)?.firebase;
+  const extraFirebase = Constants?.expoConfig?.extra?.firebase || Constants?.manifest?.extra?.firebase;
   if (extraFirebase && !config.apiKey) {
     // Only use app.json config if it doesn't contain placeholder values
     const isValidConfig = extraFirebase.apiKey && 

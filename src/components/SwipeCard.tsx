@@ -12,6 +12,7 @@ import * as Haptics from 'expo-haptics';
 import { MapsService } from '../services/mapsService';
 import { MapModal } from './MapModal';
 import { DirectionsChoiceModal } from './DirectionsChoiceModal';
+import { validateLocation } from '../constants/mapConfig';
 
 import Animated, {
   useSharedValue,
@@ -31,7 +32,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
 import { FoodCard } from '../types';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store';
 import { useSwipePerformanceMonitoring } from '../hooks/useSwipePerformanceMonitoring';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -62,6 +63,23 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ card, isFirst, onSwipe }) 
   const { isFavorite, addToFavorites, removeFromFavorites } = useAppStore();
   const { startGestureTracking, endGestureTracking } = useSwipePerformanceMonitoring();
 
+  // Enhanced location debugging and safety
+  const originalLocation = card.location;
+  const hasValidLocation = originalLocation && 
+    typeof originalLocation.latitude === 'number' && 
+    typeof originalLocation.longitude === 'number' &&
+    !isNaN(originalLocation.latitude) && 
+    !isNaN(originalLocation.longitude) &&
+    originalLocation.latitude !== 0 && 
+    originalLocation.longitude !== 0;
+
+  console.log(`SwipeCard [${card.title}]: Location debug:`, {
+    hasLocation: !!originalLocation,
+    isValid: hasValidLocation,
+    originalLocation,
+    cardId: card.id
+  });
+
   // Safe card data with defaults
   const safeCard = {
     id: card.id,
@@ -76,7 +94,7 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ card, isFirst, onSwipe }) 
     isOpen: card.isOpen ?? true,
     userRatingsTotal: typeof card.userRatingsTotal === 'number' ? card.userRatingsTotal : 0,
     tags: Array.isArray(card.tags) ? card.tags.filter(tag => tag && typeof tag === 'string') : [],
-    location: card.location || { latitude: 0, longitude: 0, address: 'Unknown location' },
+    location: hasValidLocation ? originalLocation : { latitude: 0, longitude: 0, address: card.title || 'Unknown location' },
     services: card.services || { takeout: false, delivery: false, dineIn: true, pickup: false },
     externalLinks: card.externalLinks || {},
     // menu: card.menu,
@@ -85,7 +103,9 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ card, isFirst, onSwipe }) 
   // Debug logging
   useEffect(() => {
     console.log(`SwipeCard: Rendered for ${safeCard.title}, isFirst: ${isFirst}`);
-  }, [safeCard.title, isFirst]);
+    console.log(`SwipeCard: Original card location:`, card.location);
+    console.log(`SwipeCard: SafeCard location:`, safeCard.location);
+  }, [safeCard.title, isFirst, card.location, safeCard.location]);
 
   // Additional debug logging for gesture handler
   useEffect(() => {
@@ -449,11 +469,11 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ card, isFirst, onSwipe }) 
       {/* Map Modal */}
       <MapModal
         visible={showMapModal}
-        location={safeCard.location || { 
-          latitude: 43.1599795, 
-          longitude: -79.2470299, 
+        location={validateLocation(safeCard.location || { 
+          latitude: 0, 
+          longitude: 0, 
           address: safeCard.title 
-        }}
+        })}
         title={safeCard.title}
         onClose={() => setShowMapModal(false)}
       />
@@ -461,11 +481,11 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ card, isFirst, onSwipe }) 
       {/* Directions Choice Modal */}
       <DirectionsChoiceModal
         visible={showDirectionsModal}
-        location={safeCard.location || { 
-          latitude: 43.1599795, 
-          longitude: -79.2470299, 
+        location={validateLocation(safeCard.location || { 
+          latitude: 0, 
+          longitude: 0, 
           address: safeCard.title 
-        }}
+        })}
         title={safeCard.title}
         onClose={() => setShowDirectionsModal(false)}
       />

@@ -13,7 +13,7 @@ import { OnboardingScreen } from '../screens/OnboardingScreen';
 import { UsernameScreen } from '../screens/UsernameScreen';
 import { AuthScreen } from '../screens/AuthScreen';
 import { LaunchScreen } from '../screens/LaunchScreen';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store';
 import { AuthService } from '../services/authService';
 
 const Tab = createBottomTabNavigator();

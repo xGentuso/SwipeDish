@@ -11,9 +11,10 @@ import {
   Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
+import { MODAL_MAP_CONFIG, getDefaultRegion, validateLocation, STANDARD_MARKER_CONFIG } from '../constants/mapConfig';
 import { MapsService } from '../services/mapsService';
 import { DirectionsChoiceModal } from './DirectionsChoiceModal';
 import { MapErrorBoundary } from './MapErrorBoundary';
@@ -43,36 +44,13 @@ export const MapModal: React.FC<MapModalProps> = ({
   const [screenData, setScreenData] = useState(Dimensions.get('window'));
   
   // Validate location data and provide fallbacks
-  const isValidLocation = location && 
-    typeof location.latitude === 'number' && 
-    typeof location.longitude === 'number' &&
-    !isNaN(location.latitude) && 
-    !isNaN(location.longitude) &&
-    location.latitude >= -90 && location.latitude <= 90 &&
-    location.longitude >= -180 && location.longitude <= 180;
-
-  const defaultLocation = { 
-    latitude: 43.1599795, 
-    longitude: -79.2470299,
-    address: 'Location not available'
-  }; // Hamilton, ON
-  const safeLocation = isValidLocation ? location : defaultLocation;
+  const safeLocation = validateLocation(location);
   
-  const [region, setRegion] = useState({
-    latitude: safeLocation.latitude,
-    longitude: safeLocation.longitude,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  });
+  const [region, setRegion] = useState(getDefaultRegion(safeLocation));
 
   useEffect(() => {
     if (visible && safeLocation) {
-      setRegion({
-        latitude: safeLocation.latitude,
-        longitude: safeLocation.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      });
+      setRegion(getDefaultRegion(safeLocation));
     }
   }, [visible, safeLocation]);
 
@@ -127,7 +105,6 @@ export const MapModal: React.FC<MapModalProps> = ({
               {safeLocation.address && (
                 <Text style={styles.subtitle} numberOfLines={1} ellipsizeMode="tail">
                   {safeLocation.address}
-                  {!isValidLocation && ' (Approximate location)'}
                 </Text>
               )}
             </View>
@@ -160,22 +137,8 @@ export const MapModal: React.FC<MapModalProps> = ({
           <MapErrorBoundary>
             <MapView
               style={styles.map}
-              provider={PROVIDER_GOOGLE}
+              {...MODAL_MAP_CONFIG}
               region={region}
-              showsUserLocation={true}
-              showsMyLocationButton={true}
-              showsCompass={true}
-              showsScale={true}
-              showsTraffic={false} // Disable to improve performance
-              showsBuildings={true}
-              loadingEnabled={true}
-              loadingIndicatorColor={colors.primary}
-              loadingBackgroundColor={colors.surface}
-              mapType="standard"
-              zoomEnabled={true}
-              scrollEnabled={true}
-              rotateEnabled={true}
-              pitchEnabled={true}
             >
               <Marker
                 coordinate={{
@@ -184,7 +147,7 @@ export const MapModal: React.FC<MapModalProps> = ({
                 }}
                 title={title || 'Restaurant'}
                 description={safeLocation.address}
-                pinColor={colors.primary}
+                {...STANDARD_MARKER_CONFIG}
               />
             </MapView>
           </MapErrorBoundary>

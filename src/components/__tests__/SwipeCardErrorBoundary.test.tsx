@@ -138,8 +138,8 @@ describe('SwipeCardErrorBoundary', () => {
   });
 
   it('should show error details in development mode', () => {
-    const originalDEV = global.__DEV__;
-    global.__DEV__ = true;
+    const originalDEV = (global as any).__DEV__;
+    (global as any).__DEV__ = true;
 
     const { getByText } = render(
       <SwipeCardErrorBoundary>
@@ -150,12 +150,12 @@ describe('SwipeCardErrorBoundary', () => {
     expect(getByText('Error Details (Dev Mode):')).toBeTruthy();
     expect(getByText(/Test error for error boundary/)).toBeTruthy();
 
-    global.__DEV__ = originalDEV;
+    (global as any).__DEV__ = originalDEV;
   });
 
   it('should hide error details in production mode', () => {
-    const originalDEV = global.__DEV__;
-    global.__DEV__ = false;
+    const originalDEV = (global as any).__DEV__;
+    (global as any).__DEV__ = false;
 
     const { queryByText } = render(
       <SwipeCardErrorBoundary>
@@ -166,7 +166,7 @@ describe('SwipeCardErrorBoundary', () => {
     expect(queryByText('Error Details (Dev Mode):')).toBeFalsy();
     expect(queryByText(/Test error for error boundary/)).toBeFalsy();
 
-    global.__DEV__ = originalDEV;
+    (global as any).__DEV__ = originalDEV;
   });
 
   it('should work without onRetry callback', () => {

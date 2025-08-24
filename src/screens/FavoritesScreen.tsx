@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
 import { FoodCard } from '../types';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store';
 
 export const FavoritesScreen: React.FC = () => {
   const { favorites, isLoadingFavorites, loadFavorites, removeFromFavorites } = useAppStore();

@@ -14,7 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
 import { FoodCard } from '../types';
 import { RecommendationService } from '../services/recommendationService';
-import { useAppStore, useUserId } from '../store/useAppStore';
+import { useAppStore, useUserId } from '../store';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 

@@ -17,7 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
 import { Match, FoodCard } from '../types';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store';
 import { RestaurantService } from '../services/restaurantService';
 import { MapsService } from '../services/mapsService';
 

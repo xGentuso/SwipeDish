@@ -14,7 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store';
 import { InputValidation, ValidationError } from '../utils/inputValidation';
 import { GoogleSignInService } from '../services/googleSignInService';
 

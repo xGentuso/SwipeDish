@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store';
 import { AuthService } from '../services/authService';
 
 interface UsernameScreenProps {

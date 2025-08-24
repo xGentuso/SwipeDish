@@ -17,9 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "suppressExcessPropertyErrors": true,
-    "noStrictGenericChecks": true
+
   },
   "include": [
     "src/**/*.ts",

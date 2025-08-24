@@ -7,9 +7,10 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, borderRadius, shadows } from '../constants/styles';
+import { EMBEDDED_MAP_CONFIG, getDefaultRegion, validateLocation, STANDARD_MARKER_CONFIG } from '../constants/mapConfig';
 import { MapsService } from '../services/mapsService';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -36,35 +37,12 @@ export const EmbeddedMap: React.FC<EmbeddedMapProps> = ({
   height = 300,
 }) => {
   // Validate location data and provide fallbacks
-  const isValidLocation = location && 
-    typeof location.latitude === 'number' && 
-    typeof location.longitude === 'number' &&
-    !isNaN(location.latitude) && 
-    !isNaN(location.longitude) &&
-    location.latitude >= -90 && location.latitude <= 90 &&
-    location.longitude >= -180 && location.longitude <= 180;
+  const safeLocation = validateLocation(location);
 
-  const defaultLocation = { 
-    latitude: 43.1599795, 
-    longitude: -79.2470299,
-    address: 'Location not available'
-  }; // Hamilton, ON
-  const safeLocation = isValidLocation ? location : defaultLocation;
-
-  const [region, setRegion] = useState({
-    latitude: safeLocation.latitude,
-    longitude: safeLocation.longitude,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  });
+  const [region, setRegion] = useState(getDefaultRegion(safeLocation));
 
   useEffect(() => {
-    setRegion({
-      latitude: safeLocation.latitude,
-      longitude: safeLocation.longitude,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
-    });
+    setRegion(getDefaultRegion(safeLocation));
   }, [safeLocation]);
 
   const handleDirections = async () => {
@@ -119,12 +97,8 @@ export const EmbeddedMap: React.FC<EmbeddedMapProps> = ({
       <View style={styles.mapContainer}>
         <MapView
           style={styles.map}
-          provider={PROVIDER_GOOGLE}
+          {...EMBEDDED_MAP_CONFIG}
           region={region}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          showsCompass={true}
-          showsScale={true}
         >
           <Marker
             coordinate={{
@@ -133,6 +107,7 @@ export const EmbeddedMap: React.FC<EmbeddedMapProps> = ({
             }}
             title={title || 'Restaurant'}
             description={safeLocation.address}
+            {...STANDARD_MARKER_CONFIG}
           />
         </MapView>
       </View>

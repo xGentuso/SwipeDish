@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -17,8 +17,9 @@ import { SwipeDeck } from '../components/SwipeDeck';
 import { RoomInput } from '../components/RoomInput';
 import { MatchBanner } from '../components/MatchBanner';
 import { RoomCreatedModal } from '../components/RoomCreatedModal';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 import { FoodCard, Room } from '../types';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore, useCardsStore } from '../store';
 import { RestaurantService } from '../services/restaurantService';
 import { PreferencesService } from '../services/preferencesService';
 import { analyticsService, AnalyticsEvent } from '../services/analyticsService';
@@ -27,7 +28,7 @@ import { useSimpleScreenLoadTime } from '../hooks/useSimplePerformanceMonitoring
 import { testFirebaseConnection } from '../services/firebase';
 import { getAuth } from 'firebase/auth';
 
-// Utility function to shuffle array (Fisher-Yates algorithm)
+// Utility function to shuffle array (Fisher-Yates algorithm) - moved outside component
 const shuffleArray = <T,>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -199,7 +200,10 @@ export const SwipeDeckScreen: React.FC = () => {
     }
   }, [currentCards, isLoading]);
 
-  const handleSwipe = (direction: 'left' | 'right', card: FoodCard) => {
+  const handleSwipe = useCallback((cardId: string, direction: 'left' | 'right') => {
+    const card = currentCards?.find(c => c.id === cardId);
+    if (!card) return;
+    
     // Handle swipe
     if (direction === 'right') {
       // Add to favorites or handle like action
@@ -218,7 +222,7 @@ export const SwipeDeckScreen: React.FC = () => {
     } catch (error) {
       // Continue if analytics fails
     }
-  };
+  }, [currentCards]);
 
   const handleCreateRoom = async (name: string, displayName: string) => {
     const startTime = Date.now();
@@ -238,7 +242,6 @@ export const SwipeDeckScreen: React.FC = () => {
       // Firebase connection and authentication successful, proceeding with room creation
       const room = await createRoom(
         `Room ${Math.floor(Math.random() * 1000)}`,
-        user.id,
         user.displayName || 'Anonymous'
       );
       
@@ -347,7 +350,7 @@ export const SwipeDeckScreen: React.FC = () => {
         const randomizedRestaurants = shuffleArray([...filteredRestaurants]);
         
         setCurrentCards(randomizedRestaurants);
-        useAppStore.getState().setCurrentCardIndex(0);
+        useCardsStore.getState().setCurrentCardIndex(0);
       } else {
         Alert.alert(
           'No Restaurants Found',
@@ -419,7 +422,7 @@ export const SwipeDeckScreen: React.FC = () => {
         const randomizedRestaurants = shuffleArray([...filteredRestaurants]);
         
         setCurrentCards(randomizedRestaurants);
-        useAppStore.getState().setCurrentCardIndex(0);
+        useCardsStore.getState().setCurrentCardIndex(0);
       }
     } catch (error) {
       // Auto-refresh failed
@@ -530,11 +533,12 @@ export const SwipeDeckScreen: React.FC = () => {
           </View>
         )}
         <View style={styles.swipeDeckContainer}>
-          <SwipeDeck
-            cards={currentCards || []}
-            onSwipe={handleSwipe}
-            onCardsExhausted={handleCardsExhausted}
-          />
+          <ErrorBoundary>
+            <SwipeDeck
+              cards={currentCards || []}
+              onSwipe={handleSwipe}
+            />
+          </ErrorBoundary>
         </View>
       </View>
 
